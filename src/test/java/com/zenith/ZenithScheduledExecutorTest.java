@@ -15,7 +15,7 @@ public class ZenithScheduledExecutorTest {
     public void testDefaultExceptionHandler() {
         AtomicBoolean defaultHandlerCalled = new AtomicBoolean(false);
         try (var executor = new ZenithScheduledExecutor(4, new ThreadFactoryBuilder()
-            .setNameFormat("ZenithProxy Scheduled Executor - #%d")
+            .setNameFormat("gangsproxy Scheduled Executor - #%d")
             .setUncaughtExceptionHandler((thread, e) -> {
                 defaultHandlerCalled.set(true);
             })

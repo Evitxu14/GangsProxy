@@ -4,6 +4,7 @@ import ar.com.hjg.pngj.PngReader;
 import ch.qos.logback.classic.LoggerContext;
 import com.zenith.cache.CacheResetType;
 import com.zenith.discord.ChatRelayEventListener;
+import com.zenith.discord.DiscordRPC;
 import com.zenith.discord.Embed;
 import com.zenith.discord.NotificationEventListener;
 import com.zenith.event.client.*;
@@ -100,6 +101,7 @@ public class Proxy {
     private TcpConnectionManager tcpManager;
     private FileLock fileLock;
     private final long startTime = System.currentTimeMillis();
+    private final DiscordRPC discordRPC = new DiscordRPC();
 
     public static void main(String... args) {
         Locale.setDefault(Locale.ENGLISH);
@@ -134,22 +136,22 @@ public class Proxy {
     }
 
     public void start() {
-        DEFAULT_LOG.info("Starting ZenithProxy-{}", VERSION);
+        DEFAULT_LOG.info("Starting Gang'sProxy-{}", VERSION);
         var exeReleaseVersion = getExecutableReleaseVersion();
         if (exeReleaseVersion == null) {
-            DEFAULT_LOG.warn("Detected unofficial ZenithProxy development build!");
+            DEFAULT_LOG.warn("Detected unofficial gangsproxy development build!");
         } else if (!LAUNCH_CONFIG.version.split("\\+")[0].equals(exeReleaseVersion.split("\\+")[0])) {
-            DEFAULT_LOG.warn("launch_config.json version: {} and embedded ZenithProxy version: {} do not match!", LAUNCH_CONFIG.version, exeReleaseVersion);
+            DEFAULT_LOG.warn("launch_config.json version: {} and embedded gangsproxy version: {} do not match!", LAUNCH_CONFIG.version, exeReleaseVersion);
             if (inDevEnv() && !ImageInfo.inImageRuntimeCode()) {
                 var correctedVersion = exeReleaseVersion.split("\\+")[0] + "+java." + exeReleaseVersion.split("\\+")[1];
                 LAUNCH_CONFIG.version = correctedVersion;
                 LAUNCH_CONFIG.local_version = correctedVersion;
                 saveLaunchConfig();
-                DEFAULT_LOG.warn("Updated version to match embedded ZenithProxy version: {}", exeReleaseVersion);
+                DEFAULT_LOG.warn("Updated version to match embedded gangsproxy version: {}", exeReleaseVersion);
             } else if (LAUNCH_CONFIG.auto_update && !inDevEnv()) {
                 DEFAULT_LOG.warn("AutoUpdater is enabled but will break!");
             }
-            DEFAULT_LOG.warn("Use the official launcher: https://github.com/rfresh2/ZenithProxy/releases/tag/launcher-v3");
+            DEFAULT_LOG.warn("Use the official launcher: https://github.com/Evitxu14/GangsProxy/releases/tag/launcher-v3");
         }
         initEventHandlers();
         try {
@@ -182,6 +184,7 @@ public class Proxy {
             }
             loadServerIcon();
             startServer();
+            discordRPC.start();
             EXECUTOR.execute(DISCORD::updateBotInfo);
             EXECUTOR.execute(DISCORD::updateBotAvatar);
             CACHE.reset(CacheResetType.FULL);
@@ -209,14 +212,14 @@ public class Proxy {
                 autoUpdater.start();
                 DEFAULT_LOG.info("Started AutoUpdater");
             }
-            DEFAULT_LOG.info("ZenithProxy started!");
+            DEFAULT_LOG.info("gangsproxy started!");
             if (LAUNCH_CONFIG.release_channel.endsWith(".pre")) {
                 DISCORD.sendEmbedMessage(
                     Embed.builder()
-                        .title("ZenithProxy Prerelease")
+                        .title("gangsproxy Prerelease")
                         .description(
                             """
-                            You are currently using a ZenithProxy prerelease
+                            You are currently using a gangsproxy prerelease
 
                             Prereleases include experiments that may contain bugs and are not always updated with fixes
 
@@ -269,7 +272,7 @@ public class Proxy {
                 var isTmux = System.getenv("TMUX") != null;
                 var isScreen = Optional.ofNullable(System.getenv("TERM")).filter("screen"::equals).isPresent();
                 var helpText = """
-                   Close other ZenithProxy instances open in the current directory: `%s`
+                   Close other gangsproxy instances open in the current directory: `%s`
                    """.formatted(lockFile.getAbsoluteFile().getParent());
                 if (isTmux || isScreen) {
                     var multiplexerName = isTmux ? "tmux" : "screen";
@@ -283,7 +286,7 @@ public class Proxy {
                         """.formatted(multiplexerName, multiplexerName, cheatSheet, multiplexerName);
                 }
                 DISCORD.sendEmbedMessage(Embed.builder()
-                    .title("Error: Multiple ZenithProxy Instances Open")
+                    .title("Error: Multiple gangsproxy Instances Open")
                     .description(helpText)
                     .errorColor());
                 Wait.wait(5);
@@ -302,15 +305,15 @@ public class Proxy {
         EXECUTOR.schedule(() -> {
             if (server == null || !server.isListening()) {
                 var errorMessage = """
-                    The ZenithProxy MC server was unable to start correctly.
+                    The gangsproxy MC server was unable to start correctly.
 
-                    Most likely you have two or more ZenithProxy instance running on the same configured port: %s.
+                    Most likely you have two or more gangsproxy instance running on the same configured port: %s.
 
                     Shut down duplicate instances, or change the configured port: `serverConnection port <port>`
                     """.formatted(CONFIG.server.bind.port);
                 DISCORD.sendEmbedMessage(
                     Embed.builder()
-                        .title("ZenithProxy Server Error")
+                        .title("gangsproxy Server Error")
                         .description(errorMessage)
                         .errorColor());
             }
@@ -336,7 +339,7 @@ public class Proxy {
                         """
                         Unable to ping the configured `proxyIP`: {}
 
-                        If you are actually able to connect to ZenithProxy you can disable this test: `connectionTest testOnStart off`
+                        If you are actually able to connect to gangsproxy you can disable this test: `connectionTest testOnStart off`
 
                         This test is most likely failing due to a firewall needing to be disabled.
 
@@ -387,6 +390,7 @@ public class Proxy {
                 stopServer();
                 if (nonNull(tcpManager)) tcpManager.close();
                 saveConfig();
+                discordRPC.stop();
                 if (CONFIG.database.enabled) DATABASE.stop();
                 DISCORD.stop(true);
             }).get(10L, TimeUnit.SECONDS);
@@ -644,7 +648,7 @@ public class Proxy {
                     if (mre.getResponse().getStatusCode() == 404) {
                         AUTH_LOG.error("""
                           [Help]
-                          Log into the account with the vanilla MC launcher and join a server. Then try again with ZenithProxy.
+                          Log into the account with the vanilla MC launcher and join a server. Then try again with gangsproxy.
 
                           Another possible cause is your microsoft account needs to have a password set. Meaning are using email codes to log in instead of passwords.
                           """);

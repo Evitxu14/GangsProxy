@@ -30,7 +30,7 @@ public class ServerCommand extends Command {
         return CommandUsage.builder()
             .name("server")
             .category(CommandCategory.MANAGE)
-            .description("Change the MC server ZenithProxy connects to.")
+            .description("Change the MC server gangsproxy connects to.")
             .usageLines(
                 "<IP>",
                 "<IP> <port>"

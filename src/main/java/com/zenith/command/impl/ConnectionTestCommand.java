@@ -51,7 +51,7 @@ public class ConnectionTestCommand extends Command {
             .executes(c -> {
                 if (!CONFIG.server.enabled) {
                     c.getSource().getEmbed()
-                        .title("ZenithProxy Server Is Disabled")
+                        .title("gangsproxy Server Is Disabled")
                         .errorColor()
                         .description("""
                             Not running connection test.
@@ -62,12 +62,12 @@ public class ConnectionTestCommand extends Command {
                 }
                 if (Proxy.getInstance().getServer() == null || !Proxy.getInstance().getServer().isListening()) {
                     c.getSource().getEmbed()
-                        .title("ZenithProxy Server Not Listening")
+                        .title("gangsproxy Server Not Listening")
                         .errorColor()
                         .description("""
                             Not running connection test.
                             
-                            The ZenithProxy server is not listening for connections
+                            The gangsproxy server is not listening for connections
                             """);
                     return;
                 }
@@ -92,7 +92,7 @@ public class ConnectionTestCommand extends Command {
                             """
                             The `proxyIP` you have configured is currently set to `localhost`.
                             
-                            This means you are either hosting ZenithProxy on your home PC or you have not set the public IP yet.
+                            This means you are either hosting gangsproxy on your home PC or you have not set the public IP yet.
                             
                             To configure the `proxyIP` use the `help serverConnection` command.
                             """);

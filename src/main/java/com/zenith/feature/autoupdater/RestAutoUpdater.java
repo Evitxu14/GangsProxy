@@ -19,7 +19,7 @@ public class RestAutoUpdater extends AutoUpdater {
     private final String baseUrl;
 
     public RestAutoUpdater() {
-        this.baseUrl = LAUNCH_CONFIG.repo_owner.equals("rfresh2") && LAUNCH_CONFIG.repo_name.equals("ZenithProxy")
+        this.baseUrl = LAUNCH_CONFIG.repo_owner.equals("rfresh2") && LAUNCH_CONFIG.repo_name.equals("Gang'sProxy")
             ? "https://github.2b2t.vc"
             : "https://api.github.com";
         this.httpClient = HttpClient.newBuilder()
@@ -46,7 +46,7 @@ public class RestAutoUpdater extends AutoUpdater {
     public void updateCheck() {
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(baseUrl + "/repos/" + LAUNCH_CONFIG.repo_owner + "/" + LAUNCH_CONFIG.repo_name + "/releases?per_page=100"))
-            .headers("User-Agent", "ZenithProxy/" + VERSION)
+            .headers("User-Agent", "gangsproxy/" + VERSION)
             .headers("Accept", "application/vnd.github+json")
             .headers("X-GitHub-Api-Version", "2022-11-28")
             .timeout(Duration.ofSeconds(5))

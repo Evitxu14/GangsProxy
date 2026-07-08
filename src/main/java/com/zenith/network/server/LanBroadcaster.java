@@ -42,7 +42,7 @@ public class LanBroadcaster {
             } catch (final Throwable e) {
                 // fall through
             }
-            var bytes = ("[MOTD] ZenithProxy - " + CONFIG.authentication.username + "[/MOTD][AD]" + CONFIG.server.bind.port + "[/AD]").getBytes();
+            var bytes = ("[MOTD] gangsproxy - " + CONFIG.authentication.username + "[/MOTD][AD]" + CONFIG.server.bind.port + "[/AD]").getBytes();
             return new DatagramPacket(bytes, bytes.length, broadcastAddressSupplier.get(), 4445);
         }, 10, TimeUnit.SECONDS);
     }

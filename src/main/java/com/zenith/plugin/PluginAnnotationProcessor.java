@@ -95,7 +95,7 @@ public class PluginAnnotationProcessor extends AbstractProcessor {
             );
             try {
                 FileObject object = environment.getFiler()
-                    .createResource(StandardLocation.CLASS_OUTPUT, "", "zenithproxy.plugin.json");
+                    .createResource(StandardLocation.CLASS_OUTPUT, "", "gangsproxy.plugin.json");
                 var pp = new DefaultPrettyPrinter();
                 pp.indentArraysWith(DefaultIndenter.SYSTEM_LINEFEED_INSTANCE);
                 var objectMapper = JsonMapper.builder()

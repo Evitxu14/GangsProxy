@@ -16,7 +16,7 @@ public class ConnectCommand extends Command {
             .name("connect")
             .category(CommandCategory.CORE)
             .description("""
-             Connects ZenithProxy to the destination MC server
+             Connects gangsproxy to the destination MC server
              """)
             .aliases("c")
             .build();

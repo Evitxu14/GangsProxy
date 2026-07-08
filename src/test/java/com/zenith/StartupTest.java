@@ -28,7 +28,7 @@ public class StartupTest {
 
         try {
             var response = MCPing.INSTANCE.ping("localhost", Proxy.getInstance().getServer().getPort(), 5000, false);
-            assertEquals("ZenithProxy", response.version().name());
+            assertEquals("Gang'sProxy", response.version().name());
         } catch (Exception e) {
             fail("Failed to ping local Zenith mc server", e);
         }

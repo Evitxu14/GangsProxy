@@ -204,7 +204,7 @@ public class NotificationEventListener {
                             embed.description("""
                       You have likely been kicked for reaching the 2b2t non-prio account IP limit.
                       Consider configuring a connection proxy with the `clientConnection` command.
-                      Or migrate ZenithProxy instances to multiple hosts/IP's.
+                      Or migrate gangsproxy instances to multiple hosts/IP's.
                       """);
                         } else if (event.wasInQueue() && event.queuePosition() <= 1) {
                             embed.description("""
@@ -230,7 +230,7 @@ public class NotificationEventListener {
                         ) {
                             String msg = "You have possibly been kicked by 2b2t's AntiAFK plugin";
                             if (!MODULE.get(AntiAFK.class).isEnabled()) {
-                                msg += "\n\nConsider enabling ZenithProxy's AntiAFK module: `antiAFK on`";
+                                msg += "\n\nConsider enabling gangsproxy's AntiAFK module: `antiAFK on`";
                             }
                             embed.description(msg);
                         }
@@ -352,13 +352,13 @@ public class NotificationEventListener {
         if (!clientProtocolVersion.equalTo(playerProtocolVersion)) {
             var desc = """
                  **Client MC Version**: %s
-                 **ZenithProxy Client MC Version**: %s
+                 **gangsproxy Client MC Version**: %s
 
-                 It is recommended to use the same MC version as the ZenithProxy client.
+                 It is recommended to use the same MC version as the gangsproxy client.
 
                  Otherwise you may experience issues with 2b2t's anti-cheat, which changes its checks based on client MC version.
 
-                 Or configure ZenithProxy's client ViaVersion (reconnect after changing):
+                 Or configure gangsproxy's client ViaVersion (reconnect after changing):
                  `via zenithToServer version %s`
                  """.formatted(playerProtocolVersion.getName(), clientProtocolVersion.getName(), playerProtocolVersion.getName());
             if (CONFIG.client.viaversion.disableOn2b2t) {
@@ -684,7 +684,7 @@ public class NotificationEventListener {
         [Help]
         Try waiting and connecting again.
 
-        If that fails, log into the account with the vanilla MC launcher and join a server. Then try again with ZenithProxy.
+        If that fails, log into the account with the vanilla MC launcher and join a server. Then try again with gangsproxy.
 
         Another possible cause is your microsoft account needing to have a password (re)set. Usually only possible if you are using email codes to log in instead of passwords.
         """;

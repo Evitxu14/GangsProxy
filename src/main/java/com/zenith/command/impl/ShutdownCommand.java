@@ -15,7 +15,7 @@ public class ShutdownCommand extends Command {
             .name("shutdown")
             .category(CommandCategory.MANAGE)
             .description("""
-                Shuts down ZenithProxy, without letting the launcher restart it.
+                Shuts down Gang'sProxy, without letting the launcher restart it.
                 """)
             .aliases("exit")
             .build();

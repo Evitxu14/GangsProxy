@@ -11,13 +11,13 @@
 # The site_name is shown in the page header and the browser window title
 #
 # Read more: https://zensical.org/docs/setup/basics/#site_name
-site_name = "ZenithProxy"
+site_name = "gangsproxy"
 
 # The site_description is included in the HTML head and should contain a
 # meaningful description of the site content for use by search engines.
 #
 # Read more: https://zensical.org/docs/setup/basics/#site_description
-site_description = "ZenithProxy Documentation Wiki - 2b2t Minecraft Proxy / Bot"
+site_description = "gangsproxy Documentation Wiki - 2b2t Minecraft Proxy / Bot"
 
 # The site_author attribute. This is used in the HTML head element.
 #
@@ -30,7 +30,7 @@ site_author = "rfresh2"
 site_url = "https://wiki.2b2t.vc/"
 
 docs_dir = "wiki"
-repo_url = "https://github.com/rfresh2/ZenithProxy"
+repo_url = "https://github.com/Evitxu14/GangsProxy"
 edit_uri = "edit/1.21.4/docs/wiki"
 
 # The copyright notice appears in the page footer and can contain an HTML

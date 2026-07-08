@@ -21,7 +21,7 @@ public class CommandConfigCommand extends Command {
             .name("commandConfig")
             .category(CommandCategory.MANAGE)
             .description("""
-            Configures ZenithProxy command prefixes and settings.
+            Configures gangsproxy command prefixes and settings.
             """)
             .usageLines(
                 "discord prefix <string>",

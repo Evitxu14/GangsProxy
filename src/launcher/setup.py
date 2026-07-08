@@ -17,7 +17,7 @@ from log import info, error, critical_error, exception
 def setup_execute(config: LaunchConfig):
     if validate_linux_system(config):  # otherwise we will always select java
         while True:
-            info("Select a ZenithProxy platform: (1/2)")
+            info("Select a GangsProxy platform: (1/2)")
             info("More info: https://wiki.2b2t.vc/Setup/#release-channels")
             info("1. java")
             info("2. linux (Recommended)")
@@ -66,7 +66,7 @@ def setup_execute(config: LaunchConfig):
     config.version = "0.0.0"
     config.local_version = "0.0.0"
     config.repo_owner = "rfresh2"
-    config.repo_name = "ZenithProxy"
+    config.repo_name = "GangsProxy"
     config.write_launch_config()
     info("launch_config.json written successfully!")
     info("")
@@ -84,7 +84,7 @@ def setup_execute(config: LaunchConfig):
         info("")
 
     while True:
-        info("Select the type of environment you are running ZenithProxy on.")
+        info("Select the type of environment you are running GangsProxy on.")
         info("1. PC or other computer in your home")
         info("2. VPS or server outside your home")
         i1 = input("> ")
@@ -104,7 +104,7 @@ def setup_execute(config: LaunchConfig):
     info("")
 
     while True:
-        info("Select the port ZenithProxy will be hosted on.")
+        info("Select the port GangsProxy will be hosted on.")
         info("If you are unsure, press enter to select a random port.")
         port = input("> ")
         if port == "":
@@ -174,7 +174,7 @@ def setup_execute(config: LaunchConfig):
             discord_verify_verbose = True # verbose on second attempt
         info("")
         while True:
-            info("Enter a Discord channel ID to manage ZenithProxy in:")
+            info("Enter a Discord channel ID to manage GangsProxy in:")
             discord_channel_id = input("> ")
             try:
                 discord_channel_id = int(discord_channel_id)
@@ -305,7 +305,7 @@ def rescue_invalid_system(config: LaunchConfig):
 def verify_discord_bot_token(token, verbose=False):
     headers = {
         "Authorization": "Bot " + token,
-        "User-Agent": "DiscordBot (https://github.com/rfresh2/ZenithProxy, 1.0)"
+        "User-Agent": "DiscordBot (https://github.com/rfresh2/GangsProxy, 1.0)"
     }
     try:
         response = requests.get("https://discord.com/api/applications/@me", headers=headers, timeout=10)
@@ -331,7 +331,7 @@ def verify_discord_bot_token(token, verbose=False):
 def verify_discord_channel(token, channel_id):
     headers = {
         "Authorization": "Bot " + token,
-        "User-Agent": "DiscordBot (https://github.com/rfresh2/ZenithProxy, 1.0)"
+        "User-Agent": "DiscordBot (https://github.com/rfresh2/GangsProxy, 1.0)"
     }
     try:
         response = requests.get("https://discord.com/api/channels/" + channel_id, headers=headers, timeout=10)
@@ -347,7 +347,7 @@ def verify_discord_channel(token, channel_id):
 def get_discord_guild(token, guild_id):
     headers = {
         "Authorization": "Bot " + token,
-        "User-Agent": "DiscordBot (https://github.com/rfresh2/ZenithProxy, 1.0)"
+        "User-Agent": "DiscordBot (https://github.com/rfresh2/GangsProxy, 1.0)"
     }
     try:
         response = requests.get("https://discord.com/api/guilds/" + guild_id, headers=headers, timeout=10)
@@ -364,7 +364,7 @@ def get_discord_guild(token, guild_id):
 def verify_discord_role(token, guild_id, role_id):
     headers = {
         "Authorization": "Bot " + token,
-        "User-Agent": "DiscordBot (https://github.com/rfresh2/ZenithProxy, 1.0)"
+        "User-Agent": "DiscordBot (https://github.com/rfresh2/GangsProxy, 1.0)"
     }
     try:
         response = requests.get(f"https://discord.com/api/guilds/{guild_id}/roles", headers=headers, timeout=10)
@@ -388,14 +388,14 @@ def setup_unattended(config):
     # check if launch_config.json exists
     if read_launch_config_file() is None:
         info("Creating unattended launch_config.json")
-        mc_version = os.getenv("ZENITH_MC_VERSION", "1.21.4")
+        mc_version = os.getenv("GANGS_MC_VERSION", "1.21.4")
         mc_ver_pattern = re.compile(r"(\d+)\.(\d+)\.(\d+)$")
         if not mc_ver_pattern.match(mc_version):
-            critical_error(f"Invalid ZENITH_MC_VERSION: {mc_version}. Must be formatted like: '1.21.4'")
-        if os.getenv("ZENITH_PLATFORM") is not None:
-            platform = os.getenv("ZENITH_PLATFORM").lower()
+            critical_error(f"Invalid GANGS_MC_VERSION: {mc_version}. Must be formatted like: '1.21.4'")
+        if os.getenv("GANGS_PLATFORM") is not None:
+            platform = os.getenv("GANGS_PLATFORM").lower()
             if platform not in ["java", "linux"]:
-                critical_error("Invalid ZENITH_PLATFORM. Must be one of: java, linux")
+                critical_error("Invalid GANGS_PLATFORM. Must be one of: java, linux")
             config.release_channel = platform + "." + mc_version
             if platform == "linux":
                 if not validate_linux_system(config):
@@ -405,7 +405,7 @@ def setup_unattended(config):
                 if java_exec is None:
                     critical_error("Java not found and auto install failed")
             else:
-                critical_error("Invalid ZENITH_PLATFORM. Must be one of: java, linux")
+                critical_error("Invalid GANGS_PLATFORM. Must be one of: java, linux")
         else:
             config.release_channel = "java." + mc_version
             if validate_linux_system(config):
@@ -420,37 +420,37 @@ def setup_unattended(config):
         info("Creating unattended config.json")
         config = {}
         # some env vars have default values
-        port = os.getenv("ZENITH_PORT", 25565)
-        ip = os.getenv("ZENITH_IP", "localhost")
-        discord_disabled_env = os.getenv("ZENITH_DISCORD_DISABLED")
+        port = os.getenv("GANGS_PORT", 25565)
+        ip = os.getenv("GANGS_IP", "localhost")
+        discord_disabled_env = os.getenv("GANGS_DISCORD_DISABLED")
 
         # idk how exactly you plan to do anything after this but ok
         discord_bot = discord_disabled_env is None or discord_disabled_env.lower() in ['false', '0', 'no']
         if discord_bot:
-            discord_bot_token = os.getenv("ZENITH_DISCORD_TOKEN")
+            discord_bot_token = os.getenv("GANGS_DISCORD_TOKEN")
             if discord_bot_token is None:
-                critical_error("ZENITH_DISCORD_TOKEN env variable must be set in unattended mode")
+                critical_error("GANGS_DISCORD_TOKEN env variable must be set in unattended mode")
             if not verify_discord_bot_token(discord_bot_token, verbose=True):
                 critical_error("Invalid Discord bot token")
-            discord_channel_id = os.getenv("ZENITH_DISCORD_CHANNEL_ID")
+            discord_channel_id = os.getenv("GANGS_DISCORD_CHANNEL_ID")
             if discord_channel_id is None:
-                critical_error("ZENITH_DISCORD_CHANNEL_ID env variable must be set in unattended mode")
+                critical_error("GANGS_DISCORD_CHANNEL_ID env variable must be set in unattended mode")
             discord_channel_id = int(discord_channel_id)
             if discord_channel_id < 1000000000 or discord_channel_id > 9999999999999999999:
                 critical_error("Invalid Discord channel ID")
-            discord_admin_role_id = os.getenv("ZENITH_DISCORD_ROLE_ID")
+            discord_admin_role_id = os.getenv("GANGS_DISCORD_ROLE_ID")
             if discord_admin_role_id is None:
-                critical_error("ZENITH_DISCORD_ROLE_ID env variable must be set in unattended mode")
+                critical_error("GANGS_DISCORD_ROLE_ID env variable must be set in unattended mode")
             discord_admin_role_id = int(discord_admin_role_id)
             if discord_admin_role_id < 1000000000 or discord_admin_role_id > 9999999999999999999:
                 critical_error("Invalid Discord role ID")
-            if os.getenv("ZENITH_DISCORD_CHAT_RELAY_CHANNEL") is None:
+            if os.getenv("GANGS_DISCORD_CHAT_RELAY_CHANNEL") is None:
                 chat_relay = False
             else:
                 chat_relay = True
-                discord_chat_relay_channel = os.getenv("ZENITH_DISCORD_CHAT_RELAY_CHANNEL")
+                discord_chat_relay_channel = os.getenv("GANGS_DISCORD_CHAT_RELAY_CHANNEL")
                 if discord_chat_relay_channel is None:
-                    critical_error("ZENITH_DISCORD_CHAT_RELAY_CHANNEL env variable must be set in unattended mode")
+                    critical_error("GANGS_DISCORD_CHAT_RELAY_CHANNEL env variable must be set in unattended mode")
                 discord_chat_relay_channel = int(discord_chat_relay_channel)
                 if discord_chat_relay_channel < 1000000000 or discord_chat_relay_channel > 9999999999999999999:
                     critical_error("Invalid Discord chat relay channel ID")

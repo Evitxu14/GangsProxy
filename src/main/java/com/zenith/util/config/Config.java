@@ -331,7 +331,7 @@ public final class Config {
                 public boolean leaveAlert = true;
                 public boolean logoutAlert = true;
                 public boolean enterWhisper = false;
-                public String enterWhisperMessage = "Hello, I am using ZenithProxy! I have alerted my owner that you are here!";
+                public String enterWhisperMessage = "Hello, I am using Gang'sProxy! I have alerted my owner that you are here!";
                 public int enterWhisperCooldownSeconds = 30;
                 public boolean enterWhisperWhilePlayerConnected = false;
                 public boolean replayRecording = false;
@@ -368,7 +368,7 @@ public final class Config {
                 public boolean prefixChats = false;
                 public String prefix = ">";
                 public boolean suffixChats = false;
-                public String suffix = "| Sent from my ZenithProxy";
+                public String suffix = "| Sent from my gangsproxy";
                 public boolean randomSuffix = false;
             }
 
@@ -582,9 +582,9 @@ public final class Config {
                 public boolean randomOrder = false;
                 public boolean appendRandom = false;
                 public final ArrayList<String> messages = Lists.newArrayList(
-                    "ZenithProxy on top!",
-                    "I just skipped queue thanks to ZenithProxy!",
-                    "Download ZenithProxy on GitHub today! It's free!"
+                    "gangsproxy on top!",
+                    "I just skipped queue thanks to Gang'sProxy!",
+                    "Download gangsproxy on GitHub today! It's free!"
                 );
             }
 

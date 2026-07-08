@@ -14,7 +14,7 @@ import zipfile
 
 print("################################################")
 print("WARNING: This launcher version is deprecated and may no longer work in the future.")
-print("Please update to Launcher V3: https://github.com/rfresh2/ZenithProxy/releases/tags/launcher-v3")
+print("Please update to Launcher V3: https://github.com/rfresh2/GangsProxy/releases/tags/launcher-v3")
 print("################################################")
 
 auto_update = True
@@ -23,7 +23,7 @@ release_channel = "java.1.20.1"
 version = "0.0.0"
 local_version = "0.0.0"
 repo_owner = "rfresh2"
-repo_name = "ZenithProxy"
+repo_name = "GangsProxy"
 launch_dir = "launcher/"
 custom_jvm_args = None
 system = platform.system()
@@ -159,7 +159,7 @@ def valid_release_channel(channel):
 
 
 def get_github_api_base_url():
-    if repo_owner == "rfresh2" and repo_name == "ZenithProxy":
+    if repo_owner == "rfresh2" and repo_name == "GangsProxy":
         return "github.2b2t.vc"
     else:
         return "api.github.com"
@@ -167,7 +167,7 @@ def get_github_api_base_url():
 
 def get_github_base_headers():
     return {
-        "User-Agent": "ZenithProxy/" + version,
+        "User-Agent": "GangsProxy/" + version,
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
         "Connection": "close"
@@ -353,21 +353,21 @@ def rest_get_assets(asset_name, executable_name, release_and_version):
 
 
 def java_update_check():
-    rest_update_check("ZenithProxy.jar", "ZenithProxy.jar")
+    rest_update_check("GangsProxy.jar", "GangsProxy.jar")
 
 
 def java_get_version(target_version):
     print("Getting version: " + target_version)
-    rest_get_version("ZenithProxy.jar", "ZenithProxy.jar", target_version)
+    rest_get_version("GangsProxy.jar", "GangsProxy.jar", target_version)
 
 
 def linux_native_update_check():
-    rest_update_check("ZenithProxy.zip", "ZenithProxy")
+    rest_update_check("GangsProxy.zip", "GangsProxy")
 
 
 def linux_native_get_version(target_version):
     print("Getting version: " + target_version)
-    rest_get_version("ZenithProxy.zip", "ZenithProxy", target_version)
+    rest_get_version("GangsProxy.zip", "GangsProxy", target_version)
 
 
 def get_java_version():
@@ -511,18 +511,18 @@ if release_channel == "git":
         jvm_args = default_java_args
     if system == 'Windows':
         toolchain_command = ".\\build\\java_toolchain.bat"
-        jar_command = "-jar build\\libs\\ZenithProxy.jar"
+        jar_command = "-jar build\\libs\\GangsProxy.jar"
     else:
         toolchain_command = "./build/java_toolchain"
-        jar_command = "-jar build/libs/ZenithProxy.jar"
+        jar_command = "-jar build/libs/GangsProxy.jar"
     run_script = f"{toolchain_command} {jvm_args} {jar_command}"
     try:
         subprocess.run(run_script, shell=True, check=True)
     except subprocess.CalledProcessError as e:
         print("Error launching application:", e)
 elif release_channel.startswith("java"):
-    if not os.path.isfile(launch_dir + "ZenithProxy.jar"):
-        critical_error("ZenithProxy.jar not found")
+    if not os.path.isfile(launch_dir + "GangsProxy.jar"):
+        critical_error("GangsProxy.jar not found")
     toolchain_command = ""
     jar_command = ""
     if custom_jvm_args is not None and custom_jvm_args != "":
@@ -531,10 +531,10 @@ elif release_channel.startswith("java"):
         jvm_args = default_java_args
     if system == 'Windows':
         toolchain_command = "call java"
-        jar_command = "-jar " + launch_dir.replace("/", "\\") + "ZenithProxy.jar"
+        jar_command = "-jar " + launch_dir.replace("/", "\\") + "GangsProxy.jar"
     else:
         toolchain_command = "java"
-        jar_command = "-jar " + launch_dir + "ZenithProxy.jar"
+        jar_command = "-jar " + launch_dir + "GangsProxy.jar"
     run_script = f"{toolchain_command} {jvm_args} {jar_command}"
     try:
         subprocess.run(run_script, shell=True, check=True)
@@ -543,13 +543,13 @@ elif release_channel.startswith("java"):
 elif release_channel.startswith("linux"):
     if system != "Linux":
         critical_error("Linux release channel is not supported on current system: " + system)
-    if not os.path.isfile(launch_dir + "ZenithProxy"):
-        critical_error("ZenithProxy executable not found")
+    if not os.path.isfile(launch_dir + "GangsProxy"):
+        critical_error("GangsProxy executable not found")
     if custom_jvm_args is not None and custom_jvm_args != "":
         jvm_args = custom_jvm_args
     else:
         jvm_args = default_linux_args
-    run_script = f"./{launch_dir}ZenithProxy {jvm_args}"
+    run_script = f"./{launch_dir}GangsProxy {jvm_args}"
     try:
         subprocess.run(run_script, shell=True, check=True)
     except subprocess.CalledProcessError as e:

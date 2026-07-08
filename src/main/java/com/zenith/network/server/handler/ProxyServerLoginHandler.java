@@ -124,11 +124,11 @@ public class ProxyServerLoginHandler {
             Proxy.getInstance().getServerIcon()
         ));
         connection.send(new ClientboundServerLinksPacket(asList(
-            new ServerLink(ServerLinkType.WEBSITE, null, "https://github.com/rfresh2/ZenithProxy"),
+            new ServerLink(ServerLinkType.WEBSITE, null, "https://github.com/Evitxu14/GangsProxy"),
             new ServerLink(ServerLinkType.SUPPORT, null, "https://discord.gg/nJZrSaRKtb")
         )));
         connection.send(new ClientboundCustomReportDetailsPacket(Maps.of(
-            "ZenithProxy Support", "https://discord.gg/nJZrSaRKtb"
+            "gangsproxy Support", "https://discord.gg/nJZrSaRKtb"
         )));
         connection.setConfigured(true);
     }

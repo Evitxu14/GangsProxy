@@ -57,9 +57,9 @@ In the discord server settings:
 
 ![](./_assets/img/discord-setup/DiscordSetup6.png)
 
-4: (Optional) Create another channel for ZenithProxy's chat relay (live chat)
+4: (Optional) Create another channel for GangsProxy's chat relay (live chat)
 
-## Configure ZenithProxy
+## Configure GangsProxy
 
 At first launch, the launcher will ask you to configure the token/role/channel ID's
 

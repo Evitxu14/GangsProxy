@@ -1,8 +1,8 @@
 # Hosting Providers
 
-ZenithProxy can run on any computer, including your own. But many choose to rent a computer in a datacenter (called a VPS or dedicated server)
+GangsProxy can run on any computer, including your own. But many choose to rent a computer in a datacenter (called a VPS or dedicated server)
 
-These are some companies that offer hosting services (none are affiliated with ZenithProxy)
+These are some companies that offer hosting services (none are affiliated with GangsProxy)
 
 ## Managed Providers
 
@@ -10,7 +10,7 @@ These are some companies that offer hosting services (none are affiliated with Z
 
 https://proxy.zenith.hosting
 
-One-click instance creation with a web interface for setting up and managing ZenithProxy instances. No VPS or Linux knowledge required.
+One-click instance creation with a web interface for setting up and managing GangsProxy instances. No VPS or Linux knowledge required.
 
 ## Providers with Free Tiers/Trials
 

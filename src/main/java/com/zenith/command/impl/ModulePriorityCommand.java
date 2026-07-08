@@ -27,7 +27,7 @@ public class ModulePriorityCommand extends Command {
             .name("modulePriority")
             .category(CommandCategory.MODULE)
             .description("""
-                Configures the priority of ZenithProxy modules.
+                Configures the priority of gangsproxy modules.
 
                 A higher priority means the module's actions (like rotations, clicks, etc.) will take precedence over modules with lower priorities.
 

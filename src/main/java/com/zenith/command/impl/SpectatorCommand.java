@@ -37,7 +37,7 @@ public class SpectatorCommand extends Command {
             
             Spectator entities control what entity is used to represent spectators in-game.
             
-            Full commands allow spectators access to all standard ZenithProxy commands like `connect`, `disconnect`, etc.
+            Full commands allow spectators access to all standard gangsproxy commands like `connect`, `disconnect`, etc.
             If this is disabled, spectators only have access to a limited set of core commands.
             """)
             .usageLines(

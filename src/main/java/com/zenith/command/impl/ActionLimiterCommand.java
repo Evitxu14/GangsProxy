@@ -34,7 +34,7 @@ public class ActionLimiterCommand extends Command {
             .description("""
                 Limits player actions and movements.
                 
-                Players who login with the same account as the one used by ZenithProxy will be immune to these restrictions.
+                Players who login with the same account as the one used by gangsproxy will be immune to these restrictions.
                 
                 If the movement limits are reached by a player, they will be disconnected while the proxy account will stay logged in.
                 

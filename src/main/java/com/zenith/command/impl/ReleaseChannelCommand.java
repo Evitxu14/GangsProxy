@@ -130,7 +130,7 @@ public class ReleaseChannelCommand extends Command {
                 .description("""
                     You cannot change release channels while AutoUpdate is disabled.
 
-                    ZenithProxy will be unable to restart.
+                    gangsproxy will be unable to restart.
 
                     `autoUpdate on` then try again.
 
@@ -152,7 +152,7 @@ public class ReleaseChannelCommand extends Command {
         if (pre) LAUNCH_CONFIG.release_channel += ".pre";
         c.getSource().getEmbed()
             .title("Release Channel Updated!")
-            .addField("Info", "Please restart ZenithProxy for changes to take effect.\nOr apply now: `update`", false)
+            .addField("Info", "Please restart gangsproxy for changes to take effect.\nOr apply now: `update`", false)
             .primaryColor();
         saveLaunchConfig();
     }

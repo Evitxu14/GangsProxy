@@ -34,7 +34,7 @@ public class TerminalManager {
             TERMINAL_LOG.info("Starting Interactive Terminal...");
             this.lineReader = LineReaderBuilder.builder()
                 .terminal(terminal)
-                .appName("ZenithProxy")
+                .appName("Gang'sProxy")
                 .option(LineReader.Option.DISABLE_EVENT_EXPANSION, true)
                 .option(LineReader.Option.CASE_INSENSITIVE, true)
                 .option(LineReader.Option.INSERT_TAB, false)
@@ -47,7 +47,7 @@ public class TerminalManager {
                 new TerminalAutoCompletionWidget(lineReader);
             }
             TerminalConsoleAppender.setReader(lineReader);
-            var terminalThread = new Thread(this::readTerminal, "ZenithProxy Terminal");
+            var terminalThread = new Thread(this::readTerminal, "gangsproxy Terminal");
             terminalThread.setDaemon(true);
             terminal.handle(Terminal.Signal.INT, signal -> terminalThread.interrupt());
             terminalThread.start();

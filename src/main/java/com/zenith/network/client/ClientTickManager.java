@@ -33,7 +33,7 @@ public class ClientTickManager {
             of(ClientDisconnectEvent.class, this::handleDisconnectEvent)
         );
         tickManagerThread = Thread.ofPlatform()
-            .name("ZenithProxy Client Tick Manager")
+            .name("gangsproxy Client Tick Manager")
             .daemon(true)
             .uncaughtExceptionHandler((t, e) -> CLIENT_LOG.error("ClientTickManager Error", e))
             .start(this::tickManagerLoop);

@@ -32,7 +32,7 @@ public class ServerSwitcherCommand extends Command {
             .description("""
             Switch the connected player to an alternate MC server.
 
-            Can be used to switch between multiple ZenithProxy instances quickly.
+            Can be used to switch between multiple gangsproxy instances quickly.
 
             Servers being switched to must have transfers enabled and be on an MC version >=1.20.6
             """)

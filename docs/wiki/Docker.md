@@ -1,1 +1,1 @@
-See https://github.com/rfresh2/ZenithProxyDocker for instructions, Docker compose, and prebuilt container image.
+See https://github.com/Evitxu14/GangsProxyDocker for instructions, Docker compose, and prebuilt container image.

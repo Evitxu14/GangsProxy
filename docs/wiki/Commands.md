@@ -1,4 +1,4 @@
-# ZenithProxy Commands Documentation
+# GangsProxy Commands Documentation
 
 ## Command Prefixes
 
@@ -18,7 +18,7 @@ N/A (e.g. `help`)
 
 ### connect
 
-Connects ZenithProxy to the destination MC server
+Connects GangsProxy to the destination MC server
 
 **Aliases:** `c`
 
@@ -29,7 +29,7 @@ Connects ZenithProxy to the destination MC server
 
 ### disconnect
 
-Disconnects ZenithProxy from the destination MC server
+Disconnects GangsProxy from the destination MC server
 
 **Aliases:** `dc`
 
@@ -40,7 +40,7 @@ Disconnects ZenithProxy from the destination MC server
 
 ### help
 
-ZenithProxy command list
+GangsProxy command list
 
 **Aliases:** `h`
 
@@ -69,7 +69,7 @@ Spectator entities control what entity is used to represent spectators in-game.
 
 
 
-Full commands allow spectators access to all standard ZenithProxy commands like `connect`, `disconnect`, etc.
+Full commands allow spectators access to all standard GangsProxy commands like `connect`, `disconnect`, etc.
 
 If this is disabled, spectators only have access to a limited set of core commands.
 
@@ -102,7 +102,7 @@ If this is disabled, spectators only have access to a limited set of core comman
 
 ### status
 
-Prints the current status of ZenithProxy, the in-game player, and modules.
+Prints the current status of GangsProxy, the in-game player, and modules.
 
 **Aliases:** `s`
 
@@ -115,7 +115,7 @@ Prints the current status of ZenithProxy, the in-game player, and modules.
 
 ### update
 
-Restarts and updates ZenithProxy if `autoUpdate` is enabled
+Restarts and updates GangsProxy if `autoUpdate` is enabled
 
 **Aliases:** `restart` / `reboot`
 
@@ -293,7 +293,7 @@ Ignore regex will filter out messages, see here for help writing regex: https://
 
 ### chatSchema
 
-Configure how ZenithProxy parses public chats and whispers.
+Configure how GangsProxy parses public chats and whispers.
 
 
 
@@ -342,7 +342,7 @@ Server address is without port, e.g. `2b2t.org` or `192.168.0.5`
 
 ### clientConnection
 
-Manages the connection configuration from ZenithProxy to the destination MC server.
+Manages the connection configuration from GangsProxy to the destination MC server.
 
 **Usage**
 
@@ -377,7 +377,7 @@ Manages the connection configuration from ZenithProxy to the destination MC serv
 
 ### commandConfig
 
-Configures ZenithProxy command prefixes and settings.
+Configures GangsProxy command prefixes and settings.
 
 **Usage**
 
@@ -402,7 +402,7 @@ Configures the database module used by https://api.2b2t.vc
 
 
 
-This is disabled by default - no ZenithProxy users contribute or collect data
+This is disabled by default - no GangsProxy users contribute or collect data
 
 **Aliases:** `db`
 
@@ -545,7 +545,7 @@ Friends change behavior for various modules like VisualRange, KillAura, and Auto
 
 ### jvmArgs
 
-Configures ZenithProxy's JVM arguments used by the launcher.
+Configures GangsProxy's JVM arguments used by the launcher.
 
 
 
@@ -569,7 +569,7 @@ You should only need to increase this if the server view distance is > 15.
 
 
 
-Be warned, changing this setting can cause ZenithProxy to be unable to restart. You will need to manually
+Be warned, changing this setting can cause GangsProxy to be unable to restart. You will need to manually
 
 edit the `launch_config.json` to fix this if that happens.
 
@@ -601,7 +601,7 @@ Kicks all players or a specific player. Only usable by account owners.
 
 
 
-Configures the ZenithProxy plugin manager.
+Configures the GangsProxy plugin manager.
 
 
 
@@ -658,7 +658,7 @@ The release channel is a combination of a platform (java or linux) and a Minecra
 
 ### server
 
-Change the MC server ZenithProxy connects to.
+Change the MC server GangsProxy connects to.
 
 **Usage**
 
@@ -677,7 +677,7 @@ The `proxyIP` is the IP players should connect to. This is purely informational.
 
 
 
-The `port` argument changes the port the ZenithProxy MC server listens on
+The `port` argument changes the port the GangsProxy MC server listens on
 
 
 
@@ -685,7 +685,7 @@ The `port` argument changes the port the ZenithProxy MC server listens on
 
 
 
-The `ping` arguments configure the server list ping response ZenithProxy sends to players.
+The `ping` arguments configure the server list ping response GangsProxy sends to players.
 
 `onlinePlayers` = MC profiles of players
 
@@ -738,7 +738,7 @@ The `timeout` arguments configures how long until players are kicked due no pack
 
 ### shutdown
 
-Shuts down ZenithProxy, without letting the launcher restart it.
+Shuts down GangsProxy, without letting the launcher restart it.
 
 **Aliases:** `exit`
 
@@ -782,7 +782,7 @@ Toggles spectators between player and entity cameras. Only usable by spectators
 
 ### terminal
 
-Configures the ZenithProxy interactive terminal.
+Configures the GangsProxy interactive terminal.
 
 
 
@@ -1213,7 +1213,7 @@ Limits player actions and movements.
 
 
 
-Players who login with the same account as the one used by ZenithProxy will be immune to these restrictions.
+Players who login with the same account as the one used by GangsProxy will be immune to these restrictions.
 
 
 
@@ -1268,7 +1268,7 @@ Other limits do not disconnect players and instead cancel the actions.
 
 ### activeHours
 
-Set times for ZenithProxy to automatically connect at.
+Set times for GangsProxy to automatically connect at.
 
 
 
@@ -1887,7 +1887,7 @@ Aggressive mobs are mobs that are actively targeting and attacking the player.
 
 ### modulePriority
 
-Configures the priority of ZenithProxy modules.
+Configures the priority of GangsProxy modules.
 
 
 
@@ -2167,7 +2167,7 @@ Switch the connected player to an alternate MC server.
 
 
 
-Can be used to switch between multiple ZenithProxy instances quickly.
+Can be used to switch between multiple GangsProxy instances quickly.
 
 
 
@@ -2411,9 +2411,9 @@ Configure the integrated ViaVersion module.
 
 
 
-`zenithToServer` -> ZenithProxy connecting to the MC server
+`zenithToServer` -> GangsProxy connecting to the MC server
 
-`playerToZenith` -> players connecting to ZenithProxy
+`playerToZenith` -> players connecting to GangsProxy
 
 **Usage**
 

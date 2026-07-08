@@ -23,17 +23,17 @@ public class LicenseCommand extends Command {
         return command("license").executes(c -> {
             c.getSource()
                 .getEmbed()
-                .title("ZenithProxy License Info")
+                .title("gangsproxy License Info")
                 .description("""
-                    ZenithProxy is licensed under [the GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.en.html).
+                    gangsproxy is licensed under [the GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.en.html).
                     
-                    This means that you are free to use, modify, and distribute ZenithProxy (including hosting as a free or paid service) as long as:
+                    This means that you are free to use, modify, and distribute gangsproxy (including hosting as a free or paid service) as long as:
                     1. You make the source code available to users
-                    2. Any modifications you make to ZenithProxy are licensed under the AGPL
+                    2. Any modifications you make to gangsproxy are licensed under the AGPL
                     
                     Compiled releases bundle third party code and data which each remain licensed under their original licenses.
                     
-                    Source code for ZenithProxy is available at [the ZenithProxy GitHub repository](%s).
+                    Source code for gangsproxy is available at [the gangsproxy GitHub repository](%s).
                     """.formatted(sourceUrl()))
                 .primaryColor();
 
@@ -41,7 +41,7 @@ public class LicenseCommand extends Command {
     }
 
     /**
-     * If you distribute modified versions of ZenithProxy that do not properly configure the launch_config.json, replace this with a link to your repository.
+     * If you distribute modified versions of gangsproxy that do not properly configure the launch_config.json, replace this with a link to your repository.
      */
     private String sourceUrl() {
         return "https://github.com/" + LAUNCH_CONFIG.repo_owner + "/" + LAUNCH_CONFIG.repo_name;

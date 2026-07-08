@@ -10,7 +10,7 @@ import static com.zenith.Globals.SERVER_LOG;
 
 @FunctionalInterface
 public interface AsyncPacketHandler<P extends Packet, S extends Session> extends PacketHandler<P, S> {
-    EventLoop EVENT_LOOP = new DefaultEventLoop(new DefaultThreadFactory("ZenithProxy Async Packet Handler", true));
+    EventLoop EVENT_LOOP = new DefaultEventLoop(new DefaultThreadFactory("gangsproxy Async Packet Handler", true));
 
     boolean applyAsync(P packet, S session);
 

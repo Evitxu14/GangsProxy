@@ -49,10 +49,10 @@ public class SLoginFinishedOutgoingHandler implements PacketHandler<ClientboundL
             var requestedAuthState = AuthorizationState.CONTROLLER_OR_SPECTATOR;
             if (session.isTransferring()) {
                 var transferSrc = session.getCookieCache().getZenithTransferSrc();
-                transferSrc.ifPresent(s -> SERVER_LOG.info("{} transferring from ZenithProxy instance: {}", clientGameProfile.getName(), s));
+                transferSrc.ifPresent(s -> SERVER_LOG.info("{} transferring from gangsproxy instance: {}", clientGameProfile.getName(), s));
                 if (CONFIG.server.onlyZenithTransfers && transferSrc.isEmpty()) {
                     // clients can spoof these cookies easily, but the whitelist would stop them anyway
-                    SERVER_LOG.info("Blocking transfer from non-ZenithProxy source. Username: {} UUID: {} MC: {} [{}]", clientGameProfile.getName(), clientGameProfile.getIdAsString(), session.getMCVersion(), session.getRemoteAddress());
+                    SERVER_LOG.info("Blocking transfer from non-gangsproxy source. Username: {} UUID: {} MC: {} [{}]", clientGameProfile.getName(), clientGameProfile.getIdAsString(), session.getMCVersion(), session.getRemoteAddress());
                     session.disconnect("Transfer Blocked");
                     return null;
                 }

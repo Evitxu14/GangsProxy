@@ -18,7 +18,7 @@ public class CommandDocsGenerator {
             outputFile.delete();
         }
         final StringBuilder sb = new StringBuilder();
-        sb.append("# ZenithProxy Commands Documentation\n\n");
+        sb.append("# gangsproxy Commands Documentation\n\n");
         sb.append("## Command Prefixes\n\n");
         sb.append("#### Discord\n\n");
         sb.append("`.` (e.g. `.help`)").append("\n\n");

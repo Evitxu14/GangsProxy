@@ -29,11 +29,11 @@ public class ServerConnectionCommand extends Command {
 
             The `proxyIP` is the IP players should connect to. This is purely informational.
 
-            The `port` argument changes the port the ZenithProxy MC server listens on
+            The `port` argument changes the port the gangsproxy MC server listens on
 
             `upnp` will try to open the port to the public internet, useful for self-hosting on a home network
 
-            The `ping` arguments configure the server list ping response ZenithProxy sends to players.
+            The `ping` arguments configure the server list ping response gangsproxy sends to players.
             `onlinePlayers` = MC profiles of players
             `onlinePlayerCount` = number of players connected
             `maxPlayers` = number of players that can connect

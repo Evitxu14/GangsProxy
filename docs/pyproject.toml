@@ -1,7 +1,7 @@
 [project]
-name = "ZenithProxy-Wiki"
+name = "gangsproxy-Wiki"
 version = "0.1.0"
-description = "ZenithProxy Wiki Documentation"
+description = "gangsproxy Wiki Documentation"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [

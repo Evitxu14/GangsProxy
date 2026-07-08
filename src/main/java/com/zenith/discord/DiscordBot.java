@@ -342,7 +342,7 @@ public class DiscordBot {
 
     public void updateBotNickname() {
         if (CONFIG.discord.manageNickname)
-            DISCORD.setBotNickname(CONFIG.authentication.username + " | ZenithProxy");
+            DISCORD.setBotNickname(CONFIG.authentication.username + " | gangsproxy");
     }
 
     public void updateBotInfo() {
@@ -350,11 +350,11 @@ public class DiscordBot {
         if (CONFIG.discord.manageDescription)
             DISCORD.setBotDescription(
                 """
-                ZenithProxy %s
+                gangsproxy %s
                 **Official Discord**:
                   https://discord.gg/nJZrSaRKtb
                 **Github**:
-                  https://github.com/rfresh2/ZenithProxy
+                  https://github.com/Evitxu14/GangsProxy
                 """.formatted(VERSION));
     }
 
