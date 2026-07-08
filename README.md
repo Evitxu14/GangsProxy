@@ -1,116 +1,184 @@
-# ZenithProxy
+# Setup / Configuración — Gang'sProxy
 
-<p align="center">
-  <a href="https://discord.gg/nJZrSaRKtb">
-  <img alt="Discord" src="https://dcbadge.limes.pink/api/server/nJZrSaRKtb">
-  </a>
-</p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/MC-1.21.4-brightgreen.svg" alt="Minecraft"/>
-  <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Ftokei.kojix2.net%2Fbadge%2Fgithub%2Frfresh2%2FZenithProxy%2Flines" alt="Lines of Code"/>
-</p>
+---
 
-ZenithProxy is a Minecraft bot that players can also log into and control ingame
+## System Requirements / Requisitos del Sistema
 
-You can have accounts always online and securely shared with friends
+- Linux, Windows or Mac / Linux, Windows o Mac
+- Recommended VPS / VPS Recomendado: [DigitalOcean](https://www.digitalocean.com)
+- Minimum RAM / RAM mínima:
+  - Canal `linux`: ~250MB RAM
+  - Canal `java`: ~600MB RAM
+- Not enough RAM? / ¿Poca RAM? → [Create a Linux swap file / Crear swap en Linux](https://linuxize.com/post/a-linux-swap-file/)
 
-The bot can be controlled remotely through a Discord bot, a terminal, or ingame
+---
 
-It's designed for use on [2b2t.org](https://www.2b2t.org/) but works on any MC server
+## Downloads / Descargas
 
-This project is also used by the [2b2t.vc API](https://api.2b2t.vc) and [Discord Bot](https://bot.2b2t.vc).
+Go to the releases page and download the file for your system:
+Ve a la página de releases y descarga el archivo para tu sistema:
 
-<details>
-    <summary>What is a proxy?</summary>
+**👉 https://github.com/Evitxu14/GangsProxy/releases**
 
-    There are four main components:
-    1. A Player's Minecraft Client ("Player Client")
-    2. The Proxy's Minecraft Server ("Proxy Server")
-    3. The Proxy's Minecraft Client ("Proxy Client")
-    4. The destination Minecraft Server ("MC Server")
+| Platform / Plataforma | File / Archivo |
+|---|---|
+| Windows x64 | `GangsProxy-launcher-windows-python-amd64.zip` |
+| Linux x64 | `GangsProxy-launcher-linux-amd64.zip` |
+| Linux aarch64 (ARM) | `GangsProxy-launcher-linux-aarch64.zip` |
+| Mac M-series | `GangsProxy-launcher-macos-aarch64.zip` |
+| Mac x64 (Intel) | `GangsProxy-launcher-macos-amd64.zip` |
+| Alpine Linux x64 | `GangsProxy-launcher-alpine-amd64.zip` |
+| Universal Python | `GangsProxy-launcher-windows-python-amd64.zip` |
 
-    Player MC Client <-> Proxy Server <-> Proxy Client <-> MC Server
+---
 
-    Players use a Minecraft client to connect to the Proxy Server just like a normal MC server.
-    The Proxy Client connects to a destination MC server (i.e. 2b2t.org).
-    The Player's packets to the Proxy Server get forwarded to the Proxy Client which
-    forwards them to the destination MC server.
+## Instructions / Instrucciones
 
-    When no Player Client is connected the Proxy Client will act
-    as a bot: moving around, chatting, etc.
-</details>
+1. Download the launcher for your OS / Descarga el launcher para tu OS
+2. Unzip the file / Descomprime el archivo
+3. Run in a terminal / Ejecuta en una terminal:
 
-<details>
-    <summary>How does it work?</summary>
+**Windows:**
+```
+.\launch.bat
+```
 
-    ZenithProxy does not use, depend on, or interact with Mojang's Minecraft client or server code.
+**Linux / Mac:**
+```
+./launch
+```
 
-    Meaning it implements only the needed parts of the Minecraft network protocol and player logic
+**Python (Universal):**
+```
+./launch.sh
+```
 
-    So no rendering, lighting engine, or any similar components
+---
 
-    But this means existing MC mods or plugins cannot be used and must be
-    reimplemented specifically for ZenithProxy.
+## Usage / Uso
 
-    ZenithProxy acts primarily at the network packet layer. It can read/modify/cancel/send
-    packets in either direction at any time.
+The launcher will ask for configuration on first launch.
+El launcher pedirá configuración la primera vez.
 
-    the client's session and world state is cached and
-    sent to players when they connect.
+Use the `connect` command to link your MC account.
+Usa el comando `connect` para vincular tu cuenta de MC.
 
-    The cached world state is also used to simulate player movements,
-    inventory actions, discord chat relay, and many more features.
-</details>
+### Command Prefixes / Prefijos de Comandos
 
-# Setup and Download
+| Source / Fuente | Prefix / Prefijo | Example / Ejemplo |
+|---|---|---|
+| Discord | `.` | `.help` |
+| In-game / En juego | `/` or/o `!` | `/help` |
+| Terminal | *(none / ninguno)* | `help` |
 
-https://wiki.2b2t.vc/Setup/
+### Re-run Setup / Repetir Configuración
+```
+./launch --setup
+```
 
-# Features
+### Exit / Salir
+```
+Ctrl + C
+```
 
-* High performance and efficiency on minimal hardware, <300MB RAM per java instance or <200MB on linux.
-* Integrated ViaVersion
-  * Can connect to (almost) any MC server and players can connect with (almost) any MC client
-* Secure Whitelist system - share MC accounts without sharing passwords
-* Discord Bot for management and notifications
-    * Chat relay/bridge
-    * Customizable pings and alerts. e.g. Player in visual range alerts
-* Spectator mode
-  * Multiple players can connect and spectate the player
-* Coordinate obfuscation - let players you don't trust visit your base safely
-* Baritone pathfinding and movement
-* ReplayMod recordings
-* 25+ modules including AutoEat, AutoDisconnect, AutoReconnect, AutoRespawn, AutoTotem, KillAura, Spammer, AutoReply
-* Java plugins that add more modules created by the community
-* Many, many, more features
+---
 
-# Wiki and Documentation
+## Release Channels / Canales de Release
 
-https://wiki.2b2t.vc/
+### Platforms / Plataformas
 
-# Development
+| Channel / Canal | Description / Descripción |
+|---|---|
+| `java` | Works on all systems. Supports Plugins. / Funciona en todos los sistemas. Soporta Plugins. |
+| `linux` | Native Linux x64. ~50% less RAM, instant startup. / Linux nativo x64. ~50% menos RAM, arranque instantáneo. |
 
-I highly recommend using [Intellij](https://www.jetbrains.com/idea/) for building and running local development instances.
+### MC Versions / Versiones de MC
 
-Gradle will automatically install the required Java version for compiling (currently Java 25)
+| Version | Notes / Notas |
+|---|---|
+| `26.2.0` | Current 2b2t version (default) / Versión actual de 2b2t (por defecto) |
 
-Most useful gradle tasks:
-* `run` - Builds and runs a local dev instance
-* `build` - Builds an executable jar to `build/libs/ZenithProxy.jar`
-* `nativeCompile` - Builds a GraalVM native image to `build/native/nativeCompile/ZenithProxy` (requires GraalVM JDK)
+### Select a channel / Seleccionar un canal:
+```
+channel set java 26.2.0
+```
 
-# Special Thanks
+### View current channel / Ver canal actual:
+```
+status
+```
 
-* [odpay](https://github.com/odpay/)
-* [DaPorkchop_'s Pork2b2tBot](https://github.com/PorkStudios/Pork2b2tBot)
-* [MCProtocolLib](https://github.com/GeyserMC/MCProtocolLib)
-* [Baritone](https://github.com/cabaletta/Baritone)
-* [Netty](https://github.com/netty/netty/graphs/contributors)
-* [GraalVM](https://graalvm.org/)
-* [ViaVersion](https://github.com/ViaVersion/ViaVersion)
-* [RaphiMC's MinecraftAuth](https://github.com/RaphiMC/MinecraftAuth)
-* [JDA](https://github.com/DV8FromTheWorld/JDA)
-* [JLine](https://github.com/jline/jline3)
-* [Adventure](https://github.com/PaperMC/adventure)
-* And many more awesome open source libraries
+---
+
+## Running on Linux / Ejecutar en Linux
+
+Use a terminal multiplexer so Gang'sProxy keeps running after closing SSH.
+Usa un multiplexor de terminal para que Gang'sProxy siga corriendo al cerrar SSH.
+
+| Tool | Command |
+|---|---|
+| tmux *(recommended / recomendado)* | `tmux new -s gangsproxy` |
+| screen | `screen -S gangsproxy` |
+
+---
+
+## Multiple Instances / Múltiples Instancias
+
+Create a new folder for each instance with its own copy of the launcher files.
+Crea una carpeta nueva para cada instancia con su propia copia del launcher.
+
+Each instance needs its own:
+Cada instancia necesita su propio:
+- Discord bot / Bot de Discord
+- Port / Puerto
+- Config files / Archivos de configuración
+- Terminal session / Sesión de terminal
+
+---
+
+## 2b2t Limits / Límites de 2b2t
+
+2b2t limits accounts without priority queue based on:
+2b2t limita cuentas sin priority queue según:
+
+- Accounts connected per IP / Cuentas conectadas por IP
+- In-game session time excluding queue / Tiempo de sesión en juego excluyendo cola
+
+---
+
+## Launcher CLI Options / Opciones CLI del Launcher
+
+| Flag | Description / Descripción |
+|---|---|
+| `--setup` | Interactive setup wizard / Asistente de configuración |
+| `--unattended` | Headless mode for Docker / Modo headless para Docker |
+| `--env-config` | Set config.json values from env vars / Configura config.json desde variables de entorno |
+
+### `--unattended` Environment Variables / Variables de Entorno
+
+| Variable | Required / Requerido | Description / Descripción |
+|---|---|---|
+| `GANGS_DISCORD_TOKEN` | ✅ | Bot token |
+| `GANGS_DISCORD_CHANNEL_ID` | ✅ | Management channel / Canal de gestión |
+| `GANGS_DISCORD_ROLE_ID` | ✅ | Admin role / Rol admin |
+| `GANGS_DISCORD_CHAT_RELAY_CHANNEL` | ❌ | Chat relay channel / Canal de chat relay |
+| `GANGS_DISCORD_DISABLED` | ❌ | Disable Discord / Desactivar Discord (`true`) |
+| `GANGS_MC_VERSION` | ❌ | Default: `26.2.0` |
+| `GANGS_PLATFORM` | ❌ | Default: `linux` or/o `java` |
+| `GANGS_PORT` | ❌ | Default: `25565` |
+| `GANGS_IP` | ❌ | Default: `localhost` |
+
+### `--env-config` Example / Ejemplo:
+```
+GANGS_CONFIG_server_bind_port="25565"
+GANGS_CONFIG_server_proxyIP="localhost"
+```
+
+---
+
+## Links / Enlaces
+
+- 💬 Discord: https://discord.gg/M5U8yfDbdw
+- 📦 GitHub: https://github.com/Evitxu14/GangsProxy
+- 📖 Wiki: https://github.com/Evitxu14/GangsProxy/wiki/Discord‐Bot‐Guide
