@@ -66,27 +66,27 @@ public class ZenithViaInitializer {
             final int detectedVersion = ProtocolVersionDetector.getProtocolVersion(
                 CONFIG.client.server.address,
                 CONFIG.client.server.port);
-            if (!ProtocolVersion.isRegistered(detectedVersion)) {
-                CLIENT_LOG.error(
-                    "Unknown protocol version {} detected for server: {}:{}",
-                    detectedVersion,
+            if (detectedVersion <= 0 || !ProtocolVersion.isRegistered(detectedVersion)) {
+                CLIENT_LOG.warn(
+                    "No se pudo detectar la version del servidor: {}:{} (protocolo: {}), usando version nativa",
                     CONFIG.client.server.address,
-                    CONFIG.client.server.port);
+                    CONFIG.client.server.port,
+                    detectedVersion);
                 return;
             }
             CLIENT_LOG.info(
-                "Updating detected protocol version {} for server: {}:{}",
+                "Version detectada {} para el servidor: {}:{}",
                 detectedVersion,
                 CONFIG.client.server.address,
                 CONFIG.client.server.port);
             CONFIG.client.viaversion.protocolVersion = detectedVersion;
             saveConfigAsync();
         } catch (final Exception e) {
-            CLIENT_LOG.error(
-                "Failed to detect protocol version for server: {}:{}",
+            CLIENT_LOG.warn(
+                "Error detectando version del servidor: {}:{} - {}",
                 CONFIG.client.server.address,
                 CONFIG.client.server.port,
-                e);
+                e.toString());
         }
     }
 }

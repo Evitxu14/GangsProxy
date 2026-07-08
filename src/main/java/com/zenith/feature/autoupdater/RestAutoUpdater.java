@@ -79,7 +79,7 @@ public class RestAutoUpdater extends AutoUpdater {
     }
 
     private boolean versionLooksCorrect(final String version) {
-        return version != null && version.matches("[0-9]+\\.[0-9]+\\.[0-9]+\\+.*") && version.endsWith("+" + LAUNCH_CONFIG.release_channel);
+        return version != null && version.matches("v?[0-9]+\\.[0-9]+\\.[0-9]+\\+.*") && version.replaceAll("^v", "").endsWith("+" + LAUNCH_CONFIG.release_channel);
     }
 
     private boolean versionIsNewerThanCurrent(final String current, final String newVersion) {
