@@ -37,7 +37,7 @@ public class HelpCommand extends Command {
                 final String commandUsages = getCommandUsages(c.getSource().getSource(), CommandCategory.CORE);
                 final String prefix = c.getSource().getSource().commandPrefix();
                 c.getSource().getEmbed()
-                    .description(Lang.t("[Wiki de Comandos](https://wiki.2b2t.vc/Commands)", "[Commands Wiki](https://wiki.2b2t.vc/Commands)") + "\n\n"
+.description(Lang.t("[Wiki de Comandos](https://github.com/Evitxu14/GangsProxy/wiki/Commands)", "[Commands Wiki](https://github.com/Evitxu14/GangsProxy/wiki/Commands)") + "\n\n"
                                      + Lang.t("**Mas Info:** ", "**More Info:** ")
                                      + "\n  `" + prefix + "help <command>` or `" + prefix + "help <category>`"
                                      + "\n\n**Categories**\n"
@@ -75,7 +75,7 @@ public class HelpCommand extends Command {
         final String commandUsages = getCommandUsages(c.getSource(), category);
         final String prefix = c.getSource().commandPrefix();
         c.getEmbed()
-            .description(Lang.t("[Wiki de Comandos](https://wiki.2b2t.vc/Commands)", "[Commands Wiki](https://wiki.2b2t.vc/Commands)") + "\n\n"
+            .description(Lang.t("[Wiki de Comandos](https://github.com/Evitxu14/GangsProxy/wiki/Commands)", "[Commands Wiki](https://github.com/Evitxu14/GangsProxy/wiki/Commands)") + "\n\n"
                              + Lang.t("**Mas Info:** ", "**More Info:** ")
                              + "\n  `" + prefix + "help <command>` or `" + prefix + "help <category>`"
                              + "\n"

@@ -229,7 +229,7 @@ public class Proxy {
                             """));
             }
             if (!connected) {
-                DEFAULT_LOG.info("Commands Help: https://wiki.2b2t.vc/Commands");
+                DEFAULT_LOG.info("Commands Help: https://github.com/Evitxu14/GangsProxy/wiki/Commands");
                 DEFAULT_LOG.info(Lang.t("IP del Proxy: {}", Lang.t("IP del Proxy: {}", "Proxy IP: {}")), CONFIG.server.getProxyAddress());
                 DEFAULT_LOG.info(Lang.t("Usa el comando `conectar` para iniciar sesion!", Lang.t("Usa el comando `conectar` para iniciar sesion!", "Use the `connect` command to log in!")));
             }
