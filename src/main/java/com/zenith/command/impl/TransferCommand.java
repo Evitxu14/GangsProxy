@@ -17,12 +17,13 @@ import static com.mojang.brigadier.arguments.IntegerArgumentType.getInteger;
 import static com.mojang.brigadier.arguments.IntegerArgumentType.integer;
 import static com.zenith.command.brigadier.CustomStringArgumentType.getString;
 import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
+import com.zenith.Lang;
 
 public class TransferCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("transfer")
+            .name(Lang.t("transferir", Lang.t("transferir", "transfer")))
             .category(CommandCategory.MANAGE)
             .description("""
                  Transfers connected players to a destination MC server.

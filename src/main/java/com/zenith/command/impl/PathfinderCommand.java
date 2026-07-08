@@ -45,12 +45,13 @@ import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
 import static com.zenith.command.brigadier.Vec2Argument.getVec2;
 import static com.zenith.command.brigadier.Vec2Argument.vec2;
 import static com.zenith.discord.DiscordBot.escape;
+import com.zenith.Lang;
 
 public class PathfinderCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("pathfinder")
+            .name(Lang.t("navegador", Lang.t("navegador", "pathfinder")))
             .category(CommandCategory.MODULE)
             .description("""
             Baritone pathfinder

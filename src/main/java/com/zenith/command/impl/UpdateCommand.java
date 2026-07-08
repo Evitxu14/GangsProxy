@@ -9,14 +9,15 @@ import com.zenith.command.api.CommandUsage;
 import com.zenith.event.update.UpdateStartEvent;
 
 import static com.zenith.Globals.*;
+import com.zenith.Lang;
 
 public class UpdateCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("update")
+            .name(Lang.t("actualizar", Lang.t("actualizar", "update")))
             .category(CommandCategory.CORE)
-            .description("Restarts and updates gangsproxy if `autoUpdate` is enabled")
+            .description(Lang.t("Reinicia y actualiza Gang'sProxy si `autoUpdate` esta activado", "Restarts and updates Gang'sProxy if `autoUpdate` is enabled"))
             .aliases(
                 "restart",
                 "reboot"

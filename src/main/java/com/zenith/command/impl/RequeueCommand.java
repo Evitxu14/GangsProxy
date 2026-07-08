@@ -9,12 +9,13 @@ import com.zenith.command.api.CommandUsage;
 import com.zenith.module.impl.Requeue;
 
 import static com.zenith.Globals.MODULE;
+import com.zenith.Lang;
 
 public class RequeueCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("requeue")
+            .name(Lang.t("recolar", Lang.t("recolar", "requeue")))
             .category(CommandCategory.MODULE)
             .description("""
                  Cancels KeepAlive packets until the client is kicked to 2b2t's queue.

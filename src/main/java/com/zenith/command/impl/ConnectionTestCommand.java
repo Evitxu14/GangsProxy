@@ -16,12 +16,13 @@ import static com.zenith.command.brigadier.CustomStringArgumentType.getString;
 import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class ConnectionTestCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("connectionTest")
+            .name(Lang.t("testConexion", Lang.t("testConexion", "connectionTest")))
             .category(CommandCategory.INFO)
             .description("""
             Tests whether this proxy or another MC server is accessible from the public internet.
@@ -51,7 +52,7 @@ public class ConnectionTestCommand extends Command {
             .executes(c -> {
                 if (!CONFIG.server.enabled) {
                     c.getSource().getEmbed()
-                        .title("gangsproxy Server Is Disabled")
+                        .title(Lang.t("Servidor Gang'sProxy Desactivado", "Gang'sProxy Server Is Disabled"))
                         .errorColor()
                         .description("""
                             Not running connection test.
@@ -62,7 +63,7 @@ public class ConnectionTestCommand extends Command {
                 }
                 if (Proxy.getInstance().getServer() == null || !Proxy.getInstance().getServer().isListening()) {
                     c.getSource().getEmbed()
-                        .title("gangsproxy Server Not Listening")
+                        .title(Lang.t("Servidor Gang'sProxy No Escucha", "Gang'sProxy Server Not Listening"))
                         .errorColor()
                         .description("""
                             Not running connection test.

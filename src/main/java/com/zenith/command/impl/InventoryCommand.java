@@ -26,6 +26,7 @@ import static com.zenith.Globals.*;
 import static com.zenith.command.brigadier.TimeArgument.time;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class InventoryCommand extends Command {
     private static final int INV_ACTION_PRIORITY = 1000000;
@@ -33,7 +34,7 @@ public class InventoryCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("inventory")
+            .name(Lang.t("inventario", Lang.t("inventario", "inventory")))
             .category(CommandCategory.INFO)
             .description("""
                 Show and interact with the player's inventory or containers.

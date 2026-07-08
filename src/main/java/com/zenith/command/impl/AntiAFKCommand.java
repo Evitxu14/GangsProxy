@@ -15,12 +15,13 @@ import static com.zenith.Globals.MODULE;
 import static com.zenith.command.brigadier.TimeArgument.time;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class AntiAFKCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("antiAFK")
+            .name(Lang.t("antiAfk", Lang.t("antiAfk", "antiAFK")))
             .category(CommandCategory.MODULE)
             .description("""
             Configures the AntiAFK module.

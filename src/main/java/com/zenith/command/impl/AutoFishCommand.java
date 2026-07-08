@@ -15,12 +15,13 @@ import static com.zenith.command.brigadier.RotationArgument.getRotation;
 import static com.zenith.command.brigadier.RotationArgument.rotation;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class AutoFishCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("autoFish")
+            .name(Lang.t("autoPesca", Lang.t("autoPesca", "autoFish")))
             .category(CommandCategory.MODULE)
             .description("""
              Automatically fishes, both casting and reeling.

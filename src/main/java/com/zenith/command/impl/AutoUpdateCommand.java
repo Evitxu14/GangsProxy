@@ -13,13 +13,14 @@ import static com.zenith.Globals.LAUNCH_CONFIG;
 import static com.zenith.Globals.saveLaunchConfig;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class AutoUpdateCommand extends Command {
 
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("autoUpdate")
+            .name(Lang.t("autoActualizar", Lang.t("autoActualizar", "autoUpdate")))
             .category(CommandCategory.MANAGE)
             .description("""
             Configures the AutoUpdater.

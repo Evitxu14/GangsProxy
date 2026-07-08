@@ -34,7 +34,7 @@ public class DisconnectReasonInfo {
         }
 
         public String getWikiURL() {
-            return "https://wiki.2b2t.vc/Disconnects#" + wikiHeader;
+            return "https://github.com/Evitxu14/GangsProxy/wiki/Disconnects#" + wikiHeader;
         }
     }
 

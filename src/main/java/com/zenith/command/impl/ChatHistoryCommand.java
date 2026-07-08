@@ -14,12 +14,13 @@ import static com.zenith.Globals.CONFIG;
 import static com.zenith.Globals.MODULE;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class ChatHistoryCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("chatHistory")
+            .name(Lang.t("historialChat", Lang.t("historialChat", "chatHistory")))
             .category(CommandCategory.MODULE)
             .description("""
             Caches and sends recent chat history to players and spectators who connect to the proxy.

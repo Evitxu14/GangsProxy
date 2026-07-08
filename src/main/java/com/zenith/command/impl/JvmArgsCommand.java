@@ -13,6 +13,7 @@ import static com.mojang.brigadier.arguments.StringArgumentType.greedyString;
 import static com.zenith.Globals.LAUNCH_CONFIG;
 import static com.zenith.Globals.saveLaunchConfig;
 import static com.zenith.discord.DiscordBot.escape;
+import com.zenith.Lang;
 
 public class JvmArgsCommand extends Command {
     @Override
@@ -53,7 +54,7 @@ public class JvmArgsCommand extends Command {
                 saveLaunchConfig();
                 c.getSource().getEmbed()
                     .title("JVM Args Reset")
-                    .description("Restart gangsproxy for changes to take effect: `restart`")
+                    .description(Lang.t("Reinicia Gang'sProxy para aplicar los cambios: `restart`", "Restart Gang'sProxy for changes to take effect: `restart`"))
                     .primaryColor();
             }))
             .then(literal("get").executes(c -> {

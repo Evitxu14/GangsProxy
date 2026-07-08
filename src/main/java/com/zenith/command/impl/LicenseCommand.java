@@ -7,12 +7,13 @@ import com.zenith.command.api.CommandContext;
 import com.zenith.command.api.CommandUsage;
 
 import static com.zenith.Globals.LAUNCH_CONFIG;
+import com.zenith.Lang;
 
 public class LicenseCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("license")
+            .name(Lang.t("licencia", Lang.t("licencia", "license")))
             .category(CommandCategory.INFO)
             .description("Displays the software license and information about your legal rights")
             .build();
@@ -23,7 +24,7 @@ public class LicenseCommand extends Command {
         return command("license").executes(c -> {
             c.getSource()
                 .getEmbed()
-                .title("gangsproxy License Info")
+                .title(Lang.t("Informacion de Licencia de Gang'sProxy", "Gang'sProxy License Info"))
                 .description("""
                     gangsproxy is licensed under [the GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.en.html).
                     

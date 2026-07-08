@@ -21,12 +21,13 @@ import java.util.stream.Collectors;
 
 import static com.zenith.Globals.*;
 import static java.util.Objects.nonNull;
+import com.zenith.Lang;
 
 public class StatusCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("status")
+            .name(Lang.t("estado", Lang.t("estado", "status")))
             .category(CommandCategory.CORE)
             .description("""
             Prints the current status of Gang'sProxy, the in-game player, and modules.
@@ -79,7 +80,7 @@ public class StatusCommand extends Command {
                         + "(" + TimeFormat.DATE_TIME_SHORT.format(Instant.now().plus(Duration.ofSeconds(Queue.getQueueWait(Proxy.getInstance().getQueuePosition())))) +")";
                 }
             } else {
-                return "Online";
+                return Lang.t("En Linea", "Online");
             }
         } else {
             return "Disconnected";
@@ -142,18 +143,18 @@ public class StatusCommand extends Command {
                         : CONFIG.theme.success.discord())
                                : CONFIG.theme.error.discord())
                     .thumbnail(getThumbnailImage())
-                    .addField("Status", getStatus(), true)
-                    .addField("Uptime", MathHelper.formatDuration(Duration.ofMillis(System.currentTimeMillis() - Proxy.getInstance().getStartTime())))
+                    .addField(Lang.t("Estado", "Status"), getStatus(), true)
+                    .addField(Lang.t("Tiempo Activo", "Uptime"), MathHelper.formatDuration(Duration.ofMillis(System.currentTimeMillis() - Proxy.getInstance().getStartTime())))
                     .addField("Online Duration", getOnlineTime(), true)
                     // end row 1
-                    .addField("Health",  (CACHE.getPlayerCache().getThePlayer().getHealth()), true)
-                    .addField("Dimension",
+                    .addField(Lang.t("Salud", "Health"),  (CACHE.getPlayerCache().getThePlayer().getHealth()), true)
+                    .addField(Lang.t("Dimension", "Dimension"),
                               (nonNull(CACHE.getChunkCache().getCurrentDimension()) ? CACHE.getChunkCache().getCurrentDimension().name(): "None"),
                               true)
                     .addField("Ping", (Proxy.getInstance().isConnected() ? Proxy.getInstance().getClient().getPing() : 0) + "ms", true)
                     // end row 2
-                    .addField("Proxy IP", CONFIG.server.getProxyAddress(), true)
-                    .addField("Server", CONFIG.client.server.address + ':' + CONFIG.client.server.port, true)
+                    .addField(Lang.t("IP del Proxy", "Proxy IP"), CONFIG.server.getProxyAddress(), true)
+                    .addField(Lang.t("Servidor", "Server"), CONFIG.client.server.address + ':' + CONFIG.client.server.port, true)
                     .addField("Connected Player", getCurrentClientUserName(), true);
                     // end row 3
                 if (Proxy.getInstance().isOn2b2t()) {
@@ -166,7 +167,7 @@ public class StatusCommand extends Command {
                         .addField("2b2t Queue", getQueueStatus(), true);
                 }
                 if (CONFIG.discord.reportCoords)
-                    embed.addField("Coordinates", getCoordinates(CACHE.getPlayerCache().getThePlayer()), true);
+                    embed.addField(Lang.t("Coordenadas", "Coordinates"), getCoordinates(CACHE.getPlayerCache().getThePlayer()), true);
                 embed
                     .addField("AutoUpdate", toggleStr(LAUNCH_CONFIG.auto_update), true);
                  return OK;

@@ -17,12 +17,13 @@ import static com.zenith.Globals.CONFIG;
 import static com.zenith.Globals.MODULE;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class AutoReplyCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("autoReply")
+            .name(Lang.t("autoRespuesta", Lang.t("autoRespuesta", "autoReply")))
             .category(CommandCategory.MODULE)
             .description("""
             Automatically replies to whispers with a custom message.

@@ -15,12 +15,13 @@ import static com.zenith.command.api.CommandOutputHelper.playerListToString;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
 import static com.zenith.discord.DiscordBot.escape;
+import com.zenith.Lang;
 
 public class StalkCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("stalk")
+            .name(Lang.t("vigilar", Lang.t("vigilar", "stalk")))
             .category(CommandCategory.MODULE)
             .description("""
             Sends alerts when players join or leave

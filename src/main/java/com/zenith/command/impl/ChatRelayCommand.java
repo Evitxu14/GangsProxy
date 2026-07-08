@@ -17,6 +17,7 @@ import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChar
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
 import static java.util.Arrays.asList;
+import com.zenith.Lang;
 
 public class ChatRelayCommand extends Command {
     private static final Pattern CHANNEL_ID_PATTERN = Pattern.compile("<#\\d+>");
@@ -24,7 +25,7 @@ public class ChatRelayCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("chatRelay")
+            .name(Lang.t("relayChat", Lang.t("relayChat", "chatRelay")))
             .category(CommandCategory.MANAGE)
             .description("""
             Configures the Discord ChatRelay feature.

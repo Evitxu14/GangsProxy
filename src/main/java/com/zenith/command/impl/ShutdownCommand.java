@@ -7,12 +7,13 @@ import com.zenith.command.api.CommandCategory;
 import com.zenith.command.api.CommandContext;
 import com.zenith.command.api.CommandUsage;
 import com.zenith.discord.Embed;
+import com.zenith.Lang;
 
 public class ShutdownCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("shutdown")
+            .name(Lang.t("apagar", Lang.t("apagar", "shutdown")))
             .category(CommandCategory.MANAGE)
             .description("""
                 Shuts down Gang'sProxy, without letting the launcher restart it.
@@ -25,7 +26,7 @@ public class ShutdownCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("shutdown").requires(Command::validateAccountOwner).executes(c -> {
             c.getSource().getSource().logEmbed(c.getSource(), Embed.builder()
-                .title("Shutting down...")
+                .title(Lang.t("Apagando...", "Shutting down..."))
                 .errorColor()
             );
             c.getSource().setNoOutput(true);

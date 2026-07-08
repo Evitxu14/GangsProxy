@@ -14,12 +14,13 @@ import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChar
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
 import static java.util.Arrays.asList;
+import com.zenith.Lang;
 
 public class AuthCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("auth")
+            .name(Lang.t("autenticacion", Lang.t("autenticacion", "auth")))
             .category(CommandCategory.MANAGE)
             .description("""
             Configures the proxy's authentication settings.

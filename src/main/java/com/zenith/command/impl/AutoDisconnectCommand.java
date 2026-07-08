@@ -15,12 +15,13 @@ import static com.zenith.Globals.CONFIG;
 import static com.zenith.Globals.MODULE;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class AutoDisconnectCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("autoDisconnect")
+            .name(Lang.t("autoDesconectar", Lang.t("autoDesconectar", "autoDisconnect")))
             .category(CommandCategory.MODULE)
             .description("""
             Configures the AutoDisconnect module.

@@ -1,5 +1,6 @@
 package com.zenith.discord;
 
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.event.chat.DeathMessageChatEvent;
 import com.zenith.event.client.*;
@@ -104,8 +105,8 @@ public class NotificationEventListener {
     private void handleScheduledTaskCommandExecutedEvent(TasksCommandExecutedEvent event) {
         if (!CONFIG.client.extra.tasks.taskCommandExecutedNotification) return;
         sendEmbedMessage(Embed.builder()
-            .title("Scheduled Task Executed")
-            .addField("Command", "`" + event.command() + "`")
+            .title(Lang.t("Tarea Programada Ejecutada", Lang.t("Tarea Programada Ejecutada", "Scheduled Task Executed")))
+            .addField(Lang.t("Comando", Lang.t("Comando", "Command")), "`" + event.command() + "`")
             .primaryColor());
     }
 
@@ -119,8 +120,8 @@ public class NotificationEventListener {
 
     private void handleSessionTimeLimitEvent(SessionTimeLimitWarningEvent event) {
         var embed = Embed.builder()
-            .title("Session Time Limit Warning")
-            .description(event.sessionTimeLimit().toHoursPart() + "h kick in: " + event.durationUntilKick().toMinutes() + "m")
+            .title(Lang.t("Aviso: Limite de Sesion", Lang.t("Aviso: Limite de Sesion", "Session Time Limit Warning")))
+            .description(event.sessionTimeLimit().toHoursPart() + "h " + Lang.t("Expulsion en: ", Lang.t("Expulsion en: ", "Kick in: ")) + event.durationUntilKick().toMinutes() + "m")
             .primaryColor();
         if (CONFIG.client.extra.sessionTimeLimit.discordMentionPositions.contains((int) event.durationUntilKick().toMinutes())) {
             sendEmbedMessage(notificationMention(), embed);
@@ -131,9 +132,9 @@ public class NotificationEventListener {
 
     private void handleSpawnPatrolTargetKilledEvent(SpawnPatrolTargetKilledEvent event) {
         var embed = Embed.builder()
-            .title("Target Killed")
-            .addField("Target", "[" + event.profile().getName() + "](https://namemc.com/profile/" + event.profile().getId() + ")", false)
-            .addField("Death Message", escape(event.message())  , false)
+            .title(Lang.t("Objetivo Eliminado", Lang.t("Objetivo Eliminado", "Target Killed")))
+            .addField(Lang.t("Objetivo", Lang.t("Objetivo", Lang.t("Objetivo", "Target"))), "[" + event.profile().getName() + "](https://namemc.com/profile/" + event.profile().getId() + ")", false)
+            .addField(Lang.t("Mensaje de Muerte", Lang.t("Mensaje de Muerte", Lang.t("Mensaje de Muerte", "Death Message"))), escape(event.message())  , false)
             .thumbnail(Proxy.getInstance().getPlayerBodyURL(event.profile().getId()).toString())
             .successColor();
         sendEmbedMessage(embed);
@@ -142,11 +143,11 @@ public class NotificationEventListener {
     private void handleSpawnPatrolTargetAcquiredEvent(SpawnPatrolTargetAcquiredEvent event) {
         var profile = event.targetProfile();
         var embed = Embed.builder()
-            .title("Target Acquired")
+            .title(Lang.t("Objetivo Adquirido", "Target Acquired"))
             .addField("Target", "[" + profile.getName() + "](https://namemc.com/profile/" + profile.getProfileId() + ")", false)
-            .addField("Position",getCoordinates(event.target()), false)
-            .addField("Our Position", getCoordinates(CACHE.getPlayerCache().getThePlayer()), false)
-            .addField("Distance", String.format("%.2f", Math.sqrt(CACHE.getPlayerCache().distanceSqToSelf(event.target()))), false)
+            .addField(Lang.t("Posicion", "Position"),getCoordinates(event.target()), false)
+            .addField(Lang.t("Nuestra Posicion", "Our Position"), getCoordinates(CACHE.getPlayerCache().getThePlayer()), false)
+            .addField(Lang.t("Distancia", "Distance"), String.format("%.2f", Math.sqrt(CACHE.getPlayerCache().distanceSqToSelf(event.target()))), false)
             .thumbnail(Proxy.getInstance().getPlayerBodyURL(profile.getProfileId()).toString())
             .primaryColor();
         sendEmbedMessage(embed);
@@ -154,10 +155,10 @@ public class NotificationEventListener {
 
     public void handleConnectEvent(ClientConnectEvent event) {
         var embed = Embed.builder()
-            .title("Connected")
+            .title(Lang.t("Conectado", "Connected"))
             .inQueueColor()
-            .addField("Server", CONFIG.client.server.address, true)
-            .addField("Proxy IP", CONFIG.server.getProxyAddress(), false);
+            .addField(Lang.t("Servidor", "Server"), CONFIG.client.server.address, true)
+            .addField(Lang.t("IP del Proxy", "Proxy IP"), CONFIG.server.getProxyAddress(), false);
         if (CONFIG.discord.mentionRoleOnConnect) {
             sendEmbedMessage(notificationMention(), embed);
         } else {
@@ -168,10 +169,10 @@ public class NotificationEventListener {
 
     public void handlePlayerOnlineEvent(ClientOnlineEvent event) {
         var embedBuilder = Embed.builder()
-            .title("Online")
+            .title(Lang.t("En Linea", "Online"))
             .successColor();
         event.queueWait()
-            .ifPresent(duration -> embedBuilder.addField("Queue Duration", formatDuration(duration), true));
+            .ifPresent(duration -> embedBuilder.addField(Lang.t("Duracion en Cola", "Queue Duration"), formatDuration(duration), true));
         if (CONFIG.discord.mentionRoleOnPlayerOnline) {
             sendEmbedMessage(notificationMention(), embedBuilder);
         } else {
@@ -182,7 +183,7 @@ public class NotificationEventListener {
     private void handleClientConfigurationEnteringEvent(ClientConfigurationEvent.Entering event) {
         if (!CONFIG.client.extra.reconfiguringNotification) return;
         var embedBuilder = Embed.builder()
-            .title("Reconfiguring...")
+            .title(Lang.t("Reconfigurando...", "Reconfiguring..."))
             .inQueueColor();
         sendEmbedMessage(embedBuilder);
     }
@@ -190,45 +191,57 @@ public class NotificationEventListener {
     public void handleDisconnectEvent(ClientDisconnectEvent event) {
         var category = DisconnectReasonInfo.getDisconnectCategory(event.reason());
         var embed = Embed.builder()
-            .title("Disconnected")
-            .addField("Reason", event.reason(), false)
-            .addField("Why?", category.getWikiURL(), false)
-            .addField("Category", category.toString(), false)
-            .addField("Online Duration", formatDuration(event.onlineDurationWithQueueSkip()), false)
+            .title(Lang.t("Desconectado", "Disconnected"))
+            .addField(Lang.t("Razon", Lang.t("Razon", "Reason")), event.reason(), false)
+            .addField(Lang.t("Por que?", "Why?"), category.getWikiURL(), false)
+            .addField(Lang.t("Categoria", "Category"), category.toString(), false)
+            .addField(Lang.t("Duracion En Linea", Lang.t("Duracion En Linea", "Online Duration")), formatDuration(event.onlineDurationWithQueueSkip()), false)
             .errorColor();
         if (Proxy.getInstance().isOn2b2t()) {
             switch (category) {
                 case KICK -> {
                     if (!Proxy.getInstance().isPrio()) {
                         if (event.onlineDuration().toSeconds() >= 0L && event.onlineDuration().toSeconds() <= 1L) {
-                            embed.description("""
+                            embed.description(Lang.t("""
+                      Probablemente fuiste expulsado por alcanzar el limite de cuentas no-prio de 2b2t.
+                      Considera configurar un proxy con el comando `clientConnection`.
+                      O migra instancias de Gang'sProxy a multiples IPs.
+                      """, """
                       You have likely been kicked for reaching the 2b2t non-prio account IP limit.
                       Consider configuring a connection proxy with the `clientConnection` command.
-                      Or migrate gangsproxy instances to multiple hosts/IP's.
-                      """);
+                      Or migrate Gang'sProxy instances to multiple hosts/IP's.
+                      """));
                         } else if (event.wasInQueue() && event.queuePosition() <= 1) {
-                            embed.description("""
+                            embed.description(Lang.t("""
+                      Probablemente fuiste expulsado por ser baneado por IP en 2b2t.
+
+                      Para comprobarlo, intenta conectarte y esperar en la cola con la misma cuenta desde una IP diferente.
+                      """, """
                       You have likely been kicked due to being IP banned by 2b2t.
 
                       To check, try connecting and waiting through queue with the same account from a different IP.
-                      """);
+                      """));
                         } else if (!event.wasInQueue()
                             && MathHelper.isInRange( // whether we were kicked at session time limit +- 30s
                             event.onlineDuration().toSeconds(),
                             MODULE.get(SessionTimeLimit.class).getSessionTimeLimit().toSeconds(), 30L)
                         ) {
-                            embed.description("""
+                            embed.description(Lang.t("""
+                        Probablemente fuiste expulsado por alcanzar el limite de sesion no-prio.
+
+                        2b2t expulsa a los jugadores no-prio despues de %s horas en linea.
+                        """, """
                         You have likely been kicked for reaching the non-prio session time limit.
 
                         2b2t kicks non-prio players after %s hours online.
-                        """.formatted(MODULE.get(SessionTimeLimit.class).getSessionTimeLimit().toHours()));
+                        """).formatted(MODULE.get(SessionTimeLimit.class).getSessionTimeLimit().toHours()));
                         } else if (!event.wasInQueue()
                             && MathHelper.isInRange( // whether we were kicked at 20 minutes +- 30s
                             event.onlineDuration().toSeconds(),
                             TimeUnit.MINUTES.toSeconds(20),
                             30L)
                         ) {
-                            String msg = "You have possibly been kicked by 2b2t's AntiAFK plugin";
+                            String msg = Lang.t("Posiblemente fuiste expulsado por el plugin AntiAFK de 2b2t", "You have possibly been kicked by 2b2t's AntiAFK plugin");
                             if (!MODULE.get(AntiAFK.class).isEnabled()) {
                                 msg += "\n\nConsider enabling gangsproxy's AntiAFK module: `antiAFK on`";
                             }
@@ -237,7 +250,7 @@ public class NotificationEventListener {
                     }
                 }
                 case CONNECTION_ISSUE, CONNECTION_ISSUE_PLAYER, CONNECTION_ISSUE_2B2T -> {
-                    embed.addField("2b2t Status", "https://status.2b2t.org/");
+                    embed.addField(Lang.t("Estado 2b2t", "2b2t Status"), (MC_VERSION != null ? MC_VERSION + "\n" : "") + "https://status.2b2t.org/");
                 }
             }
         }
@@ -251,8 +264,8 @@ public class NotificationEventListener {
 
     private void handleQueueWarning(QueueWarningEvent event) {
         sendEmbedMessage((event.mention() ? notificationMention() : ""), Embed.builder()
-            .title("Queue Warning")
-            .addField("Queue Position", "[" + Queue.queuePositionStr() + "]", false)
+            .title(Lang.t("Aviso de Cola", "Queue Warning"))
+            .addField(Lang.t("Posicion en Cola", "Queue Position"), "[" + Queue.queuePositionStr() + "]", false)
             .inQueueColor());
     }
 
@@ -262,8 +275,8 @@ public class NotificationEventListener {
 
     public void handleAutoEatOutOfFoodEvent(final AutoEatOutOfFoodEvent event) {
         var embed = Embed.builder()
-            .title("AutoEat Out Of Food")
-            .description("AutoEat threshold met but player has no food")
+            .title(Lang.t("AutoComer: Sin Comida", "AutoEat Out Of Food"))
+            .description(Lang.t("Sin comida para AutoComer", "AutoEat threshold met but player has no food"))
             .errorColor();
         if (CONFIG.client.extra.autoEat.warningMention) {
             sendEmbedMessage(notificationMention(), embed);
@@ -278,13 +291,13 @@ public class NotificationEventListener {
 
     public void handleStartQueueEvent(QueueStartEvent event) {
         var embed = Embed.builder()
-            .title("Started Queuing")
+            .title(Lang.t("Cola Iniciada", "Started Queuing"))
             .inQueueColor()
-            .addField("Regular Queue", Queue.getQueueStatus().regular(), true)
-            .addField("Priority Queue", Queue.getQueueStatus().prio(), true);
+            .addField(Lang.t("Cola Normal", "Regular Queue"), Queue.getQueueStatus().regular(), true)
+            .addField(Lang.t("Cola Prioritaria", "Priority Queue"), Queue.getQueueStatus().prio(), true);
         if (event.wasOnline()) {
             embed
-                .addField("Info", "Kicked to queue", false)
+                .addField("Info", Lang.t("Expulsado a la cola", "Kicked to queue"), false)
                 .addField("Online Duration", formatDuration(event.wasOnlineDuration()), false);
         }
         if (CONFIG.discord.mentionRoleOnStartQueue) {
@@ -297,10 +310,10 @@ public class NotificationEventListener {
 
     public void handleDeathEvent(ClientDeathEvent event) {
         var embed = Embed.builder()
-            .title("Player Death")
+            .title(Lang.t("Muerte del Jugador", "Player Death"))
             .errorColor()
-            .addField("Coordinates", getCoordinates(CACHE.getPlayerCache().getThePlayer()), false)
-            .addField("Dimension", World.getCurrentDimension().name(), false);
+            .addField(Lang.t("Coordenadas", Lang.t("Coordenadas", Lang.t("Coordenadas", Lang.t("Coordenadas", "Coordinates")))), getCoordinates(CACHE.getPlayerCache().getThePlayer()), false)
+            .addField(Lang.t("Dimension", "Dimension"), World.getCurrentDimension().name(), false);
         if (CONFIG.discord.mentionRoleOnDeath) {
             sendEmbedMessage(notificationMention(), embed);
         } else {
@@ -312,13 +325,13 @@ public class NotificationEventListener {
         sendEmbedMessage(Embed.builder()
             .title("Death Message")
             .errorColor()
-            .addField("Message", event.message(), false));
+            .addField(Lang.t("Mensaje", Lang.t("Mensaje", Lang.t("Mensaje", "Message"))), event.message(), false));
     }
 
     public void handleHealthAutoDisconnectEvent(HealthAutoDisconnectEvent event) {
         var embed = Embed.builder()
-            .title("Health AutoDisconnect Triggered")
-            .addField("Health", CACHE.getPlayerCache().getThePlayer().getHealth(), true)
+            .title(Lang.t("AutoDesconexion por Salud", "Health AutoDisconnect Triggered"))
+            .addField(Lang.t("Salud", "Health"), CACHE.getPlayerCache().getThePlayer().getHealth(), true)
             .primaryColor();
         if (CONFIG.client.extra.utility.actions.autoDisconnect.mentionOnDisconnect) {
             sendEmbedMessage(notificationMention(), embed);
@@ -330,9 +343,9 @@ public class NotificationEventListener {
     public void handleProxyClientConnectedEvent(PlayerConnectedEvent event) {
         if (!CONFIG.discord.clientConnectionMessages) return;
         var embed = Embed.builder()
-            .title("Client Connected")
-            .addField("Username", escape(event.clientGameProfile().getName()), false)
-            .addField("MC Version", event.session().getMCVersion(), false)
+            .title(Lang.t("Cliente Conectado", "Client Connected"))
+            .addField(Lang.t("Nombre de Usuario", Lang.t("Nombre de Usuario", Lang.t("Nombre de Usuario", Lang.t("Nombre de Usuario", Lang.t("Nombre de Usuario", Lang.t("Nombre de Usuario", Lang.t("Nombre de Usuario", "Username"))))))), escape(event.clientGameProfile().getName()), false)
+            .addField(Lang.t("Version de MC", Lang.t("Version de MC", Lang.t("Version de MC", "MC Version"))), event.session().getMCVersion(), false)
             .thumbnail(Proxy.getInstance().getPlayerBodyURL(event.clientGameProfile().getId()).toString())
             .primaryColor();
         if (CONFIG.discord.mentionOnClientConnected) {
@@ -368,11 +381,11 @@ public class NotificationEventListener {
                 desc += "`via zenithToServer on`\n";
             }
             var embed = Embed.builder()
-                .title("MC Version Mismatch")
+                .title(Lang.t("Version de MC Incorrecta", "MC Version Mismatch"))
                 .description(desc)
                 .errorColor();
             var buttonId = "via-" + ThreadLocalRandom.current().nextInt(1000000);
-            var button = Button.primary(buttonId, "Auto-Configure ViaVersion");
+            var button = Button.primary(buttonId, Lang.t("Auto-Configurar ViaVersion", "Auto-Configure ViaVersion"));
             Consumer<ButtonInteractionEvent> mapper = e -> {
                 if (e.getComponentId().equals(buttonId)) {
                     CONFIG.client.viaversion.protocolVersion = playerProtocolVersion.getVersion();
@@ -380,8 +393,8 @@ public class NotificationEventListener {
                     CONFIG.client.viaversion.enabled = true;
                     saveConfigAsync();
                     e.replyEmbeds(Embed.builder()
-                            .title("ViaVersion Configured")
-                            .description("Changes will take effect on next connect")
+                            .title(Lang.t("ViaVersion Configurado", "ViaVersion Configured"))
+                            .description(Lang.t("Los cambios se aplicaran en la proxima conexion", "Changes will take effect on next connect"))
                             .addField("MC Version", playerProtocolVersion.getName())
                             .primaryColor()
                             .toJDAEmbed())
@@ -395,7 +408,7 @@ public class NotificationEventListener {
     public void handleProxySpectatorConnectedEvent(SpectatorConnectedEvent event) {
         if (!CONFIG.discord.clientConnectionMessages) return;
         var embed = Embed.builder()
-            .title("Spectator Connected")
+            .title(Lang.t("Espectador Conectado", "Spectator Connected"))
             .addField("Username", escape(event.clientGameProfile().getName()), false)
             .addField("MC Version", event.session().getMCVersion(), false)
             .thumbnail(Proxy.getInstance().getPlayerBodyURL(event.clientGameProfile().getId()).toString())
@@ -410,7 +423,7 @@ public class NotificationEventListener {
     public void handleProxyClientDisconnectedEvent(PlayerDisconnectedEvent event) {
         if (!CONFIG.discord.clientConnectionMessages) return;
         var embed = Embed.builder()
-            .title("Client Disconnected")
+            .title(Lang.t("Cliente Desconectado", "Client Disconnected"))
             .errorColor();
         if (nonNull(event.clientGameProfile())) {
             embed = embed.addField("Username", escape(event.clientGameProfile().getName()), false);
@@ -427,10 +440,10 @@ public class NotificationEventListener {
 
     public void handleVisualRangeEnterEvent(VisualRangeEnterEvent event) {
         var embedCreateSpec = Embed.builder()
-            .title("Player In Visual Range")
+            .title(Lang.t("Jugador en Rango Visual", "Player In Visual Range"))
             .color(event.isFriend() ? CONFIG.theme.success.color() : CONFIG.theme.error.color())
-            .addField("Player Name", escape(event.playerEntry().getName()), true)
-            .addField("Player UUID", ("[" + event.playerEntry().getProfileId() + "](https://namemc.com/profile/" + event.playerEntry().getProfileId() + ")"), true)
+            .addField(Lang.t("Nombre del Jugador", Lang.t("Nombre del Jugador", Lang.t("Nombre del Jugador", Lang.t("Nombre del Jugador", Lang.t("Nombre del Jugador", Lang.t("Nombre del Jugador", Lang.t("Nombre del Jugador", "Player Name"))))))), escape(event.playerEntry().getName()), true)
+            .addField(Lang.t("UUID del Jugador", Lang.t("UUID del Jugador", Lang.t("UUID del Jugador", Lang.t("UUID del Jugador", Lang.t("UUID del Jugador", Lang.t("UUID del Jugador", Lang.t("UUID del Jugador", "Player UUID"))))))), ("[" + event.playerEntry().getProfileId() + "](https://namemc.com/profile/" + event.playerEntry().getProfileId() + ")"), true)
             .thumbnail(Proxy.getInstance().getPlayerBodyURL(event.playerEntry().getProfileId()).toString());
 
         if (CONFIG.discord.reportCoords) {
@@ -441,7 +454,7 @@ public class NotificationEventListener {
                 + "]||", false);
         }
         final String buttonId = "addFriend" + ThreadLocalRandom.current().nextInt(1000000);
-        final List<Button> buttons = asList(Button.primary(buttonId, "Add Friend"));
+        final List<Button> buttons = asList(Button.primary(buttonId, Lang.t("Agregar Amigo", "Add Friend")));
         final Consumer<ButtonInteractionEvent> mapper = e -> {
             if (e.getComponentId().equals(buttonId)) {
                 DISCORD_LOG.info("{} added friend: {} [{}]",
@@ -452,7 +465,7 @@ public class NotificationEventListener {
                     event.playerEntry().getProfileId());
                 PLAYER_LISTS.getFriendsList().add(event.playerEntry().getName());
                 e.replyEmbeds(Embed.builder()
-                        .title("Friend Added")
+                        .title(Lang.t("Amigo Anadido", "Friend Added"))
                         .successColor()
                         .addField("Player Name", escape(event.playerEntry().getName()), true)
                         .addField("Player UUID", ("[" + event.playerEntry().getProfileId() + "](https://namemc.com/profile/" + event.playerEntry().getProfileId() + ")"), true)
@@ -476,7 +489,7 @@ public class NotificationEventListener {
 
     public void handleVisualRangeLeaveEvent(final VisualRangeLeaveEvent event) {
         var embedCreateSpec = Embed.builder()
-            .title("Player Left Visual Range")
+            .title(Lang.t("Jugador Salio del Rango Visual", "Player Left Visual Range"))
             .color(event.isFriend() ? CONFIG.theme.success.color() : CONFIG.theme.error.color())
             .addField("Player Name", escape(event.playerEntry().getName()), true)
             .addField("Player UUID", ("[" + event.playerEntity().getUuid() + "](https://namemc.com/profile/" + event.playerEntry().getProfileId() + ")"), true)
@@ -494,7 +507,7 @@ public class NotificationEventListener {
 
     public void handleVisualRangeLogoutEvent(final VisualRangeLogoutEvent event) {
         var embedCreateSpec = Embed.builder()
-            .title("Player Logout In Visual Range")
+            .title(Lang.t("Jugador Desconectado en Rango Visual", "Player Logout In Visual Range"))
             .color(event.isFriend() ? CONFIG.theme.success.color() : CONFIG.theme.error.color())
             .addField("Player Name", escape(event.playerEntry().getName()), true)
             .addField("Player UUID", ("[" + event.playerEntity().getUuid() + "](https://namemc.com/profile/" + event.playerEntry().getProfileId() + ")"), true)
@@ -512,10 +525,10 @@ public class NotificationEventListener {
 
     public void handleNonWhitelistedPlayerConnectedEvent(NonWhitelistedPlayerConnectedEvent event) {
         var embed = Embed.builder()
-            .title("Non-Whitelisted Login Blocked")
+            .title(Lang.t("Login no Permitido Bloqueado", "Non-Whitelisted Login Blocked"))
             .errorColor();
         if (nonNull(event.remoteAddress()) && CONFIG.discord.showNonWhitelistLoginIP) {
-            embed = embed.addField("IP", escape(event.remoteAddress().toString()), false);
+            embed = embed.addField(Lang.t(Lang.t("IP", "IP"), "IP"), escape(event.remoteAddress().toString()), false);
         }
         if (nonNull(event.gameProfile()) && nonNull(event.gameProfile().getId()) && nonNull(event.gameProfile().getName())) {
             embed
@@ -523,7 +536,7 @@ public class NotificationEventListener {
                 .addField("Player UUID", ("[" + event.gameProfile().getId().toString() + "](https://namemc.com/profile/" + event.gameProfile().getId().toString() + ")"), true)
                 .thumbnail(Proxy.getInstance().getPlayerBodyURL(event.gameProfile().getId()).toString());
             final String buttonId = "whitelist" + ThreadLocalRandom.current().nextInt(10000000);
-            final List<Button> buttons = asList(Button.primary(buttonId, "Whitelist Player"));
+            final List<Button> buttons = asList(Button.primary(buttonId, Lang.t("Agregar a Lista Blanca", "Whitelist Player")));
             final Consumer<ButtonInteractionEvent> mapper = e -> {
                 if (e.getComponentId().equals(buttonId)) {
                     if (validateButtonInteractionEventFromAccountOwner(e)) {
@@ -533,7 +546,7 @@ public class NotificationEventListener {
                             event.gameProfile().getId().toString());
                         PLAYER_LISTS.getWhitelist().add(event.gameProfile().getName());
                         e.replyEmbeds(Embed.builder()
-                            .title("Player Whitelisted")
+                            .title(Lang.t("Jugador en Lista Blanca", "Player Whitelisted"))
                             .successColor()
                             .addField("Player Name", escape(event.gameProfile().getName()), true)
                             .addField("Player UUID", ("[" + event.gameProfile().getId().toString() + "](https://namemc.com/profile/" + event.gameProfile().getId().toString() + ")"), true)
@@ -546,11 +559,11 @@ public class NotificationEventListener {
                             event.gameProfile().getName(),
                             event.gameProfile().getId().toString());
                         e.replyEmbeds(Embed.builder()
-                            .title("Not Authorized!")
+                            .title(Lang.t("No Autorizado!", "Not Authorized!"))
                             .errorColor()
-                            .addField("Error",
-                                "User: " + Optional.ofNullable(e.getInteraction().getMember()).map(m -> m.getUser().getName()).orElse("Unknown")
-                                    + " is not authorized to execute this command! Contact the account owner", true)
+                            .addField(Lang.t(Lang.t("Error", "Error"), "Error"),
+                                Lang.t("Usuario: ", "User: ") + Optional.ofNullable(e.getInteraction().getMember()).map(m -> m.getUser().getName()).orElse("Unknown")
+                                    + Lang.t(" no esta autorizado para ejecutar este comando. Contacta al propietario", " is not authorized to execute this command! Contact the account owner"), true)
                             .toJDAEmbed()).complete();
                     }
                 }
@@ -571,7 +584,7 @@ public class NotificationEventListener {
 
     private void handleBlacklistedPlayerConnectedEvent(BlacklistedPlayerConnectedEvent event) {
         var embed = Embed.builder()
-            .title("Blacklisted Player Disconnected")
+            .title(Lang.t("Jugador en Lista Negra Desconectado", "Blacklisted Player Disconnected"))
             .errorColor();
         if (nonNull(event.remoteAddress()) && CONFIG.discord.showNonWhitelistLoginIP) {
             embed = embed.addField("IP", escape(event.remoteAddress().toString()), false);
@@ -592,7 +605,7 @@ public class NotificationEventListener {
     public void handleProxySpectatorDisconnectedEvent(SpectatorDisconnectedEvent event) {
         if (!CONFIG.discord.clientConnectionMessages) return;
         var embed = Embed.builder()
-            .title("Spectator Disconnected")
+            .title(Lang.t("Espectador Desconectado", "Spectator Disconnected"))
             .errorColor();
         if (nonNull(event.clientGameProfile())) {
             embed = embed.addField("Username", escape(event.clientGameProfile().getName()), false);
@@ -612,11 +625,11 @@ public class NotificationEventListener {
             queueLength = Queue.getQueueStatus().regular();
         }
         var embed = Embed.builder()
-            .title("Active Hours Connect Triggered")
-            .addField("ETA", Queue.getQueueEta(queueLength), false)
+            .title(Lang.t("Conexion por Horas Activas", "Active Hours Connect Triggered"))
+            .addField(Lang.t("Tiempo Estimado", "ETA"), Queue.getQueueEta(queueLength), false)
             .primaryColor();
         if (event.willWait())
-            embed.addField("Info", "Waiting 1 minute to avoid 2b2t reconnect queue skip", false);
+            embed.addField("Info", Lang.t("Esperando 1 minuto para evitar salto de cola", "Waiting 1 minute to avoid 2b2t reconnect queue skip"), false);
         sendEmbedMessage(embed);
     }
 
@@ -625,9 +638,9 @@ public class NotificationEventListener {
         event.deathMessage().killer().ifPresent(killer -> {
             if (!killer.name().equals(CONFIG.authentication.username)) return;
             sendEmbedMessage(Embed.builder()
-                .title("Kill Detected")
+                .title(Lang.t("Eliminacion Detectada", "Kill Detected"))
                 .primaryColor()
-                .addField("Victim", escape(event.deathMessage().victim()), false)
+                .addField(Lang.t("Victima", "Victim"), escape(event.deathMessage().victim()), false)
                 .addField("Message", escape(event.message()), false)
                 .thumbnail(Proxy.getInstance().getPlayerHeadURL(event.deathMessage().victim()).toString()));
         });
@@ -636,7 +649,7 @@ public class NotificationEventListener {
     public void handleServerPlayerConnectedEventStalk(ServerPlayerConnectedEvent event) {
         if (!CONFIG.client.extra.stalk.enabled || !PLAYER_LISTS.getStalkList().contains(event.playerEntry().getProfile())) return;
         sendEmbedMessage(notificationMention(), Embed.builder()
-            .title("Stalked Player Online!")
+            .title(Lang.t("Jugador Vigilado En Linea!", "Stalked Player Online!"))
             .successColor()
             .addField("Player Name", event.playerEntry().getName(), true)
             .thumbnail(Proxy.getInstance().getPlayerBodyURL(event.playerEntry().getProfileId()).toString()));
@@ -645,7 +658,7 @@ public class NotificationEventListener {
     public void handleServerPlayerDisconnectedEventStalk(ServerPlayerDisconnectedEvent event) {
         if (!CONFIG.client.extra.stalk.enabled || !PLAYER_LISTS.getStalkList().contains(event.playerEntry().getProfile())) return;
         sendEmbedMessage(notificationMention(), Embed.builder()
-            .title("Stalked Player Offline!")
+            .title(Lang.t("Jugador Vigilado Desconectado!", "Stalked Player Offline!"))
             .errorColor()
             .addField("Player Name", event.playerEntry().getName(), true)
             .thumbnail(Proxy.getInstance().getPlayerBodyURL(event.playerEntry().getProfileId()).toString()));
@@ -656,20 +669,20 @@ public class NotificationEventListener {
         var newVersion = event.newVersion();
         if (newVersion.isPresent()) verString += "\nNew Version: `" + escape(newVersion.get()) + "`";
         var embed = Embed.builder()
-            .title("Updating and restarting...")
+            .title(Lang.t("Actualizando y reiniciando...", "Updating and restarting..."))
             .description(verString)
             .primaryColor();
         if (!LAUNCH_CONFIG.auto_update) {
             embed
-                .title("Restarting...")
-                .addField("Error", "`autoUpdate` must be enabled for new updates to apply");
+                .title(Lang.t("Reiniciando...", "Restarting..."))
+                .addField("Error", Lang.t("`autoUpdate` debe estar activado para aplicar nuevas actualizaciones", "`autoUpdate` must be enabled for new updates to apply"));
         };
         sendEmbedMessage(embed);
     }
 
     public void handleServerRestartingEvent(ServerRestartingEvent event) {
         var embed = Embed.builder()
-            .title("Server Restarting")
+            .title(Lang.t("Servidor Reiniciando", "Server Restarting"))
             .errorColor()
             .addField("Message", event.message(), true);
         if (CONFIG.discord.mentionRoleOnServerRestart) {
@@ -680,19 +693,27 @@ public class NotificationEventListener {
     }
 
     public void handleProxyLoginFailedEvent(ClientLoginFailedEvent event) {
-        var description = """
+        var description = Lang.t("""
+        [Ayuda]
+        Intenta esperar y conectarte de nuevo.
+
+        Si eso falla, inicia sesion con la cuenta en el launcher de MC vanilla y unete a un servidor. Luego intenta de nuevo con Gang'sProxy.
+
+        Otra posible causa es que tu cuenta de Microsoft necesite tener una contrasena (re)establecida. Generalmente solo es posible si usas codigos por correo para iniciar sesion en lugar de contrasenas.
+        """, """
         [Help]
         Try waiting and connecting again.
 
-        If that fails, log into the account with the vanilla MC launcher and join a server. Then try again with gangsproxy.
+        If that fails, log into the account with the vanilla MC launcher and join a server. Then try again with Gang'sProxy.
 
         Another possible cause is your microsoft account needing to have a password (re)set. Usually only possible if you are using email codes to log in instead of passwords.
-        """;
+        """);
+
         if (event.exception() != null) {
-            description = "Error: " + ChatUtil.constrainChatMessageSize(event.exception().getMessage(), true) + "\n\n" + description;
+            description = Lang.t("Error: ", "Error: ") + ChatUtil.constrainChatMessageSize(event.exception().getMessage(), true) + "\n\n" + description;
         }
         var embed = Embed.builder()
-            .title("Login Failed")
+            .title(Lang.t("Inicio de Sesion Fallido", "Login Failed"))
             .description(description)
             .errorColor();
         if (CONFIG.discord.mentionRoleOnLoginFailed) {
@@ -704,7 +725,7 @@ public class NotificationEventListener {
 
     public void handleStartConnectEvent(ClientStartConnectEvent event) {
         sendEmbedMessage(Embed.builder()
-            .title("Connecting...")
+            .title(Lang.t("Conectando...", "Connecting..."))
             .inQueueColor());
     }
 
@@ -713,14 +734,14 @@ public class NotificationEventListener {
         var embed = Embed.builder();
         if (event.prio()) {
             embed
-                .title("Prio Queue Status Detected")
+                .title(Lang.t("Cola Prioritaria Detectada", "Prio Queue Status Detected"))
                 .successColor();
         } else {
             embed
-                .title("Prio Queue Status Lost")
+                .title(Lang.t("Cola Prioritaria Perdida", "Prio Queue Status Lost"))
                 .errorColor();
         }
-        embed.addField("User", escape(CONFIG.authentication.username), false);
+        embed.addField(Lang.t("Usuario", "User"), escape(CONFIG.authentication.username), false);
         if (CONFIG.discord.mentionRoleOnPrioUpdate) {
             sendEmbedMessage(notificationMention(), embed);
         } else {
@@ -730,15 +751,15 @@ public class NotificationEventListener {
 
     public void handleAutoReconnectEvent(final AutoReconnectEvent event) {
         sendEmbedMessage(Embed.builder()
-            .title("AutoReconnecting in " + event.delaySeconds() + "s")
+            .title(Lang.t("AutoReconectando en ", "AutoReconnecting in ") + event.delaySeconds() + "s")
             .inQueueColor());
     }
 
     public void handleMsaDeviceCodeLoginEvent(final MsaDeviceCodeLoginEvent event) {
         final var embed = Embed.builder()
-            .title("Microsoft Device Code Login")
+            .title(Lang.t("Login con Codigo de Dispositivo", "Microsoft Device Code Login"))
             .primaryColor()
-            .description("Login Here: " + event.deviceCode().getDirectVerificationUri() + " \nCode: " + event.deviceCode().getUserCode());
+            .description(Lang.t("Inicia sesion aqui: ", "Login Here: ") + event.deviceCode().getDirectVerificationUri() + Lang.t(" \nCodigo: ", " \nCode: ") + event.deviceCode().getUserCode());
         if (CONFIG.discord.mentionRoleOnDeviceCodeAuth)
             sendEmbedMessage(notificationMention(), embed);
         else
@@ -747,27 +768,27 @@ public class NotificationEventListener {
 
     public void handleUpdateAvailableEvent(final UpdateAvailableEvent event) {
         var embed = Embed.builder()
-            .title("Update Available!")
+            .title(Lang.t("Actualizacion Disponible!", "Update Available!"))
             .primaryColor();
         event.getVersion().ifPresent(v -> embed
-            .addField("Current", "`" + escape(LAUNCH_CONFIG.version) + "`", false)
-            .addField("New", "`" + escape(v) + "`", false));
+            .addField(Lang.t("Actual", "Current"), "`" + escape(LAUNCH_CONFIG.version) + "`", false)
+            .addField(Lang.t("Nueva", "New"), "`" + escape(v) + "`", false));
         embed.addField(
             "Info",
-            "Update will be applied after the next disconnect.\nOr apply now: `update`",
+            Lang.t("Actualizacion se aplicara tras la proxima desconexion.\nO aplicar ahora: `update`", "Update will be applied after the next disconnect.\nOr apply now: `update`"),
             false);
         sendEmbedMessage(embed);
     }
 
     public void handleReplayStartedEvent(final ReplayStartedEvent event) {
         sendEmbedMessage(Embed.builder()
-            .title("Replay Recording Started")
+            .title(Lang.t("Grabacion de Replay Iniciada", "Replay Recording Started"))
             .primaryColor());
     }
 
     public void handleReplayStoppedEvent(final ReplayStoppedEvent event) {
         var embed = Embed.builder()
-            .title("Replay Recording Stopped")
+            .title(Lang.t("Grabacion de Replay Detenida", "Replay Recording Stopped"))
             .primaryColor();
         var replayFile = event.replayFile();
         if (replayFile != null && CONFIG.client.extra.replayMod.sendRecordingsToDiscord) {
@@ -779,24 +800,24 @@ public class NotificationEventListener {
                         DISCORD_LOG.info("Uploading large replay to file.io with size: {}", replayFile.length());
                         var notiEmbed = Embed.builder()
                             .title("Replay Recording Stopped")
-                            .description("Replay file too large to upload directly to discord: " + replaySizeMb + "mb\nUpload to file.io in progress...")
+                            .description(Lang.t("Archivo de replay demasiado grande para Discord: " + replaySizeMb + "mb\nSubiendo a file.io...", "Replay file too large to upload directly to discord: " + replaySizeMb + "mb\nUpload to file.io in progress..."))
                             .inQueueColor();
                         sendEmbedMessage(notiEmbed);
                         var fileIOResponse = FileIOApi.INSTANCE.uploadFile(replayFile.getName(), in);
                         if (fileIOResponse.isEmpty() || !fileIOResponse.get().success()) {
-                            embed.description("Failed uploading to file.io and replay too large to upload to discord: " + replaySizeMb + "mb");
+                            embed.description(Lang.t("Error al subir a file.io y el replay es demasiado grande para Discord: ", "Failed uploading to file.io and replay too large to upload to discord: ") + replaySizeMb + "mb");
                         } else {
-                            embed.description("Download `" + replayFile.getName() + "`: " + fileIOResponse.get().link());
+                            embed.description(Lang.t("Descargar `", "Download `") + replayFile.getName() + "`: " + fileIOResponse.get().link());
                         }
                     } else {
-                        embed.description("Replay too large to upload to discord: " + replaySizeMb + "mb");
+                        embed.description(Lang.t("Replay demasiado grande para Discord: ", "Replay too large to upload to discord: ") + replaySizeMb + "mb");
                     }
                 } else {
                     embed.fileAttachment(new Embed.FileAttachment(replayFile.getName(), in.readAllBytes()));
                 }
             } catch (final Exception e) {
                 DISCORD_LOG.error("Failed to read replay file", e);
-                embed.description("Error reading replay file: " + e.getMessage());
+                embed.description(Lang.t("Error al leer el archivo de replay: ", "Error reading replay file: ") + e.getMessage());
             }
         }
         sendEmbedMessage(embed);
@@ -804,8 +825,8 @@ public class NotificationEventListener {
 
     public void handleTotemPopEvent(final PlayerTotemPopAlertEvent event) {
         var embed = Embed.builder()
-            .title("Player Totem Popped")
-            .addField("Totems Left", event.totemsRemaining(), false)
+            .title(Lang.t("Totem del Jugador Activado", "Player Totem Popped"))
+            .addField(Lang.t("Totems Restantes", "Totems Left"), event.totemsRemaining(), false)
             .errorColor();
         if (CONFIG.client.extra.autoTotem.totemPopAlertMention)
             sendEmbedMessage(notificationMention(), embed);
@@ -815,7 +836,7 @@ public class NotificationEventListener {
 
     public void handleNoTotemsEvent(final NoTotemsEvent event) {
         var embed = Embed.builder()
-            .title("Player Out of Totems")
+            .title(Lang.t("Jugador Sin Totems", "Player Out of Totems"))
             .errorColor();
         if (CONFIG.client.extra.autoTotem.noTotemsAlertMention)
             sendEmbedMessage(notificationMention(), embed);
@@ -826,23 +847,23 @@ public class NotificationEventListener {
     private void handlePluginLoadFailure(PluginLoadFailureEvent event) {
         String id = event.id() != null ? event.id() : "?";
         var embed = Embed.builder()
-            .title("Plugin Load Failure")
+            .title(Lang.t("Error al Cargar Plugin", "Plugin Load Failure"))
             .errorColor()
             .description("Error: " + escape(event.message()))
-            .addField("Plugin ID", escape(id), false)
-            .addField("Plugin Jar", escape(event.jarPath().getFileName().toString()), false);
+            .addField(Lang.t("ID del Plugin", "Plugin ID"), escape(id), false)
+            .addField(Lang.t("Jar del Plugin", "Plugin Jar"), escape(event.jarPath().getFileName().toString()), false);
         sendEmbedMessage(embed);
     }
 
     private void handlePluginLoadedEvent(PluginLoadedEvent event) {
         var embed = Embed.builder()
-            .title("Plugin Loaded")
+            .title(Lang.t("Plugin Cargado", "Plugin Loaded"))
             .successColor()
             .addField("ID", escape(event.pluginInfo().id()), false)
-            .addField("Description", escape(event.pluginInfo().description()))
-            .addField("Version", escape(event.pluginInfo().version().toString()), false)
+            .addField(Lang.t("Descripcion", "Description"), escape(event.pluginInfo().description()))
+            .addField(Lang.t("Version", "Version"), escape(event.pluginInfo().version().toString()), false)
             .addField("URL", escape(event.pluginInfo().url()), false)
-            .addField("Author(s)", String.join(", ", event.pluginInfo().authors()), false);
+            .addField(Lang.t("Autor(es)", "Author(s)"), String.join(", ", event.pluginInfo().authors()), false);
         sendEmbedMessage(embed);
     }
 

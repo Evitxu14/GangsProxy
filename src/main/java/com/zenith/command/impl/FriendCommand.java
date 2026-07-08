@@ -15,6 +15,7 @@ import static com.mojang.brigadier.arguments.StringArgumentType.*;
 import static com.zenith.Globals.PLAYER_LISTS;
 import static com.zenith.command.api.CommandOutputHelper.playerListToString;
 import static com.zenith.discord.DiscordBot.escape;
+import com.zenith.Lang;
 
 public class FriendCommand extends Command {
     @Override
@@ -44,7 +45,7 @@ public class FriendCommand extends Command {
                 PLAYER_LISTS.getFriendsList().add(player)
                     .ifPresentOrElse(e ->
                             c.getSource().getEmbed()
-                                .title("Friend added"),
+                                .title(Lang.t("Amigo anadido", "Friend added")),
                         () -> c.getSource().getEmbed()
                             .title("Failed to add user: " + escape(player) + " to friends. Unable to lookup profile."));
             })))

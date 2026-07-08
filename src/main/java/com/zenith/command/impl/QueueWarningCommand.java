@@ -16,12 +16,13 @@ import static com.zenith.Globals.CONFIG;
 import static com.zenith.Globals.MODULE;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class QueueWarningCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("queueWarning")
+            .name(Lang.t("avisoCola", Lang.t("avisoCola", "queueWarning")))
             .category(CommandCategory.INFO)
             .description("""
             Configure warnings sent when 2b2t queue positions are reached.

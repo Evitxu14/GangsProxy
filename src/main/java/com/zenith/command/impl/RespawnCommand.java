@@ -13,12 +13,13 @@ import org.geysermc.mcprotocollib.protocol.packet.ingame.serverbound.Serverbound
 
 import static com.zenith.Globals.CACHE;
 import static java.util.Objects.nonNull;
+import com.zenith.Lang;
 
 public class RespawnCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("respawn")
+            .name(Lang.t("reaparecer", Lang.t("reaparecer", "respawn")))
             .category(CommandCategory.MODULE)
             .description("Performs a respawn")
             .build();

@@ -14,12 +14,13 @@ import static com.mojang.brigadier.arguments.IntegerArgumentType.integer;
 import static com.zenith.Globals.CONFIG;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class RateLimiterCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("rateLimiter")
+            .name(Lang.t("limitador", Lang.t("limitador", "rateLimiter")))
             .category(CommandCategory.MODULE)
             .description("""
               Limits how often players are allowed to attempt logins and send packets.

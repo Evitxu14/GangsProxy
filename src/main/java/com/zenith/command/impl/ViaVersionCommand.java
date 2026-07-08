@@ -16,6 +16,7 @@ import static com.zenith.Globals.CONFIG;
 import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class ViaVersionCommand extends Command {
     @Override
@@ -46,21 +47,21 @@ public class ViaVersionCommand extends Command {
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.viaversion.enabled = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Zenith To Server ViaVersion " + toggleStrCaps(CONFIG.client.viaversion.enabled));
+                        .title(Lang.t("ViaVersion Proxy al Servidor ", "Zenith To Server ViaVersion ") + toggleStrCaps(CONFIG.client.viaversion.enabled));
                     return OK;
                 }))
                 .then(literal("disableOn2b2t")
                     .then(argument("toggle", toggle()).executes(c -> {
                         CONFIG.client.viaversion.disableOn2b2t = getToggle(c, "toggle");
                         c.getSource().getEmbed()
-                            .title("Zenith To Server Disable On 2b2t " + toggleStrCaps(CONFIG.client.viaversion.disableOn2b2t));
+                            .title(Lang.t("Desactivar en 2b2t (Proxy al Servidor) ", "Zenith To Server Disable On 2b2t ") + toggleStrCaps(CONFIG.client.viaversion.disableOn2b2t));
                         return OK;
                     })))
                 .then(literal("autoConfig")
                     .then(argument("toggle", toggle()).executes(c -> {
                         CONFIG.client.viaversion.autoProtocolVersion = getToggle(c, "toggle");
                         c.getSource().getEmbed()
-                            .title("Zenith To Server ViaVersion AutoConfig " + toggleStrCaps(CONFIG.client.viaversion.autoProtocolVersion));
+                            .title(Lang.t("AutoConfig ViaVersion (Proxy al Servidor) ", "Zenith To Server ViaVersion AutoConfig ") + toggleStrCaps(CONFIG.client.viaversion.autoProtocolVersion));
                         return OK;
                     })))
                 .then(literal("version")
@@ -72,8 +73,8 @@ public class ViaVersionCommand extends Command {
                             ProtocolVersion closest = ProtocolVersion.getClosest(version);
                             if (closest == null) {
                                 c.getSource().getEmbed()
-                                    .title("Invalid Version!")
-                                    .description("Please select a valid version. Example: 1.19.4")
+                                    .title(Lang.t("Version Invalida!", "Invalid Version!"))
+                                    .description(Lang.t("Selecciona una version valida. Ejemplo: 1.19.4", "Please select a valid version. Example: 1.19.4"))
                                     .errorColor();
                                 return OK;
                             } else {
@@ -82,14 +83,14 @@ public class ViaVersionCommand extends Command {
                             }
                         }
                         c.getSource().getEmbed()
-                            .title("Zenith To Server ViaVersion Version Updated!");
+                            .title(Lang.t("Version de ViaVersion Actualizada! (Proxy al Servidor)", "Zenith To Server ViaVersion Version Updated!"));
                         return OK;
                     }))))
-            .then(literal("playerToZenith")
+            .then(literal(Lang.t("jugadorAlProxy", "playerToZenith"))
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.server.viaversion.enabled = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Player To Zenith ViaVersion " + toggleStrCaps(CONFIG.server.viaversion.enabled));
+                        .title(Lang.t("ViaVersion Jugador al Proxy ", "Player To Zenith ViaVersion ") + toggleStrCaps(CONFIG.server.viaversion.enabled));
                     return OK;
                 })))
             .then(literal("c").then(argument("args", greedyString()).executes(c -> {
@@ -103,11 +104,11 @@ public class ViaVersionCommand extends Command {
     @Override
     public void defaultEmbed(final Embed embedBuilder) {
         embedBuilder
-            .addField("Zenith To Server ViaVersion", toggleStr(CONFIG.client.viaversion.enabled), false)
-            .addField("Zenith To Server Disable On 2b2t", toggleStr(CONFIG.client.viaversion.disableOn2b2t), false)
-            .addField("Zenith To Server Version", CONFIG.client.viaversion.autoProtocolVersion
-                ? "Auto (" + ProtocolVersion.getProtocol(CONFIG.client.viaversion.protocolVersion).getName() + ")"
+            .addField(Lang.t("ViaVersion Proxy al Servidor", "Zenith To Server ViaVersion"), toggleStr(CONFIG.client.viaversion.enabled), false)
+            .addField(Lang.t("Desactivar en 2b2t (Proxy al Servidor)", "Zenith To Server Disable On 2b2t"), toggleStr(CONFIG.client.viaversion.disableOn2b2t), false)
+            .addField(Lang.t("Version (Proxy al Servidor)", "Zenith To Server Version"), CONFIG.client.viaversion.autoProtocolVersion
+                ? Lang.t("Auto (", "Auto (") + ProtocolVersion.getProtocol(CONFIG.client.viaversion.protocolVersion).getName() + ")"
                 : ProtocolVersion.getProtocol(CONFIG.client.viaversion.protocolVersion).getName(), false)
-            .addField("Player To Zenith ViaVersion", toggleStr(CONFIG.server.viaversion.enabled), false)
+            .addField(Lang.t("ViaVersion Jugador al Proxy", "Player To Zenith ViaVersion"), toggleStr(CONFIG.server.viaversion.enabled), false)
             .primaryColor();
     }}

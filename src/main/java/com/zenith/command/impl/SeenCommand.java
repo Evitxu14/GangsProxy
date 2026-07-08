@@ -15,12 +15,13 @@ import java.time.OffsetDateTime;
 import static com.zenith.command.brigadier.CustomStringArgumentType.getString;
 import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
 import static com.zenith.discord.DiscordBot.escape;
+import com.zenith.Lang;
 
 public class SeenCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("seen")
+            .name(Lang.t("visto", Lang.t("visto", "seen")))
             .category(CommandCategory.INFO)
             .description("""
             Gets the first and last times a player was seen on 2b2t using https://api.2b2t.vc

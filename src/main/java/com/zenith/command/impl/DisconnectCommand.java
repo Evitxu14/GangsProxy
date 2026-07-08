@@ -10,14 +10,15 @@ import com.zenith.module.impl.AutoReconnect;
 
 import static com.zenith.Globals.DISCORD_LOG;
 import static com.zenith.Globals.MODULE;
+import com.zenith.Lang;
 
 public class DisconnectCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("disconnect")
+            .name(Lang.t("desconectar", Lang.t("desconectar", "disconnect")))
             .category(CommandCategory.CORE)
-            .description("Disconnects gangsproxy from the destination MC server")
+            .description(Lang.t("Desconecta Gang'sProxy del servidor MC", "Disconnects Gang'sProxy from the destination MC server"))
             .aliases("dc")
             .build();
     }

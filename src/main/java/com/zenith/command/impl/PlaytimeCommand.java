@@ -13,12 +13,13 @@ import java.time.Duration;
 
 import static com.zenith.command.brigadier.CustomStringArgumentType.getString;
 import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
+import com.zenith.Lang;
 
 public class PlaytimeCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("playtime")
+            .name(Lang.t("tiempoJuego", Lang.t("tiempoJuego", "playtime")))
             .category(CommandCategory.INFO)
             .description("Gets the playtime of a player on 2b2t using https://api.2b2t.vc/")
             .usageLines(
@@ -36,7 +37,7 @@ public class PlaytimeCommand extends Command {
                 VcApi.INSTANCE.getPlaytime(playerName)
                     .ifPresentOrElse((response) ->
                             c.getSource().getEmbed()
-                                .title("Playtime")
+                                .title(Lang.t("Tiempo de Juego", "Playtime"))
                                 .addField("Player", playerName, true)
                                 .description(MathHelper.formatDurationLong(Duration.ofSeconds(response.playtimeSeconds())))
                                 .thumbnail(Proxy.getInstance().getPlayerHeadURL(playerName).toString())

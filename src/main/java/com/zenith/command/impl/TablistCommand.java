@@ -20,12 +20,13 @@ import java.util.stream.IntStream;
 
 import static com.zenith.Globals.CACHE;
 import static com.zenith.Globals.DEFAULT_LOG;
+import com.zenith.Lang;
 
 public class TablistCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("tablist")
+            .name(Lang.t("listaJugadores", Lang.t("listaJugadores", "tablist")))
             .category(CommandCategory.INFO)
             .description("Prints the current MC server's player list")
             .usageLines(

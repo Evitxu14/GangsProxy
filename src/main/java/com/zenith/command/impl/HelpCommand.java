@@ -10,14 +10,15 @@ import java.util.stream.Collectors;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.string;
 import static com.zenith.Globals.COMMAND;
+import com.zenith.Lang;
 
 public class HelpCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("help")
+            .name(Lang.t("ayuda", Lang.t("ayuda", "help")))
             .category(CommandCategory.CORE)
-            .description("gangsproxy command list")
+            .description(Lang.t("Lista de comandos de Gang'sProxy", "Gang'sProxy command list"))
             .usageLines(
                 "",
                 "<category>",
@@ -31,27 +32,27 @@ public class HelpCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("help").executes(c -> {
                 c.getSource().getEmbed()
-                    .title("Commands")
+                    .title(Lang.t("Comandos", "Commands"))
                     .primaryColor();
                 final String commandUsages = getCommandUsages(c.getSource().getSource(), CommandCategory.CORE);
                 final String prefix = c.getSource().getSource().commandPrefix();
                 c.getSource().getEmbed()
-                    .description("[Commands Wiki](https://wiki.2b2t.vc/Commands)\n\n"
-                                     + "**More Info:** "
+                    .description(Lang.t("[Wiki de Comandos](https://wiki.2b2t.vc/Commands)", "[Commands Wiki](https://wiki.2b2t.vc/Commands)") + "\n\n"
+                                     + Lang.t("**Mas Info:** ", "**More Info:** ")
                                      + "\n  `" + prefix + "help <command>` or `" + prefix + "help <category>`"
                                      + "\n\n**Categories**\n"
                                      + Arrays.stream(CommandCategory.values())
                                             .map(CommandCategory::getName)
                                             .collect(Collectors.joining(", "))
                                      + "\n"
-                                     + "\n**Core Commands**"
+                                     + Lang.t("\n**Comandos Principales**", "\n**Core Commands**")
                                      + "\n" + commandUsages
                     );
             })
             .then(argument("commandName", string()).executes(c -> {
                 final String commandName = StringArgumentType.getString(c, "commandName");
                 c.getSource().getEmbed()
-                    .title("Command Usage")
+                    .title(Lang.t("Uso del Comando", "Command Usage"))
                     .primaryColor();
                 Arrays.stream(CommandCategory.values())
                     .filter(category -> category.getName().equalsIgnoreCase(commandName))
@@ -74,11 +75,11 @@ public class HelpCommand extends Command {
         final String commandUsages = getCommandUsages(c.getSource(), category);
         final String prefix = c.getSource().commandPrefix();
         c.getEmbed()
-            .description("[Commands Wiki](https://wiki.2b2t.vc/Commands)\n\n"
-                             + "**More Info:** "
+            .description(Lang.t("[Wiki de Comandos](https://wiki.2b2t.vc/Commands)", "[Commands Wiki](https://wiki.2b2t.vc/Commands)") + "\n\n"
+                             + Lang.t("**Mas Info:** ", "**More Info:** ")
                              + "\n  `" + prefix + "help <command>` or `" + prefix + "help <category>`"
                              + "\n"
-                             + "\n**" + category.getName() + " Commands**"
+                             + "\n**" + category.getName() + Lang.t(" Comandos**", " Commands**")
                              + "\n" + commandUsages
             );
     }
@@ -91,7 +92,7 @@ public class HelpCommand extends Command {
         if (foundCommand.isPresent()) {
             c.getEmbed().description(foundCommand.get().commandUsage().serialize(c.getSource()));
         } else {
-            c.getEmbed().description("Unknown command or category");
+            c.getEmbed().description(Lang.t("Comando o categoria desconocido", "Unknown command or category"));
         }
     }
 }

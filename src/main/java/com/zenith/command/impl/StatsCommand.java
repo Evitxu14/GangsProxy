@@ -15,12 +15,13 @@ import java.util.Optional;
 
 import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
 import static com.zenith.util.math.MathHelper.formatDurationLong;
+import com.zenith.Lang;
 
 public class StatsCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("stats")
+            .name(Lang.t("estadisticas", Lang.t("estadisticas", "stats")))
             .category(CommandCategory.INFO)
             .description("Gets the 2b2t stats of a player using https://api.2b2t.vc")
             .usageLines(
@@ -48,7 +49,7 @@ public class StatsCommand extends Command {
                     .addField("\u200B", "\u200B", true)
                     .addField("\u200B", "\u200B", true)
                     .addField("Joins", playerStats.joinCount(), true)
-                    .addField("Leaves", playerStats.leaveCount(), true)
+                    .addField(Lang.t("Salidas", "Leaves"), playerStats.leaveCount(), true)
                     .addField("\u200B", "\u200B", true)
                     .addField("First Seen", TimeFormat.DATE_TIME_SHORT.format(playerStats.firstSeen().toInstant()), true)
                     .addField("Last Seen", TimeFormat.DATE_TIME_SHORT.format(playerStats.lastSeen().toInstant()), true)
@@ -56,10 +57,10 @@ public class StatsCommand extends Command {
                     .addField("Playtime", formatDurationLong(Duration.ofSeconds(playerStats.playtimeSeconds())), true)
                     .addField("Playtime (Last 30 Days)", formatDurationLong(Duration.ofSeconds(playerStats.playtimeSecondsMonth())), true)
                     .addField("\u200B", "\u200B", true)
-                    .addField("Deaths", playerStats.deathCount(), true)
-                    .addField("Kills", playerStats.killCount(), true)
+                    .addField(Lang.t("Muertes", "Deaths"), playerStats.deathCount(), true)
+                    .addField(Lang.t("Eliminaciones", "Kills"), playerStats.killCount(), true)
                     .addField("\u200B", "\u200B", true)
-                    .addField("Chats", playerStats.chatsCount(), true)
+                    .addField(Lang.t("Chats", "Chats"), playerStats.chatsCount(), true)
                     .addField("Priority Queue", playerStats.prio() ? "Yes (probably)" : "No (probably not)", true)
                     .addField("\u200B", "\u200B", true)
                     .thumbnail(Proxy.getInstance().getPlayerHeadURL(playerName).toString());

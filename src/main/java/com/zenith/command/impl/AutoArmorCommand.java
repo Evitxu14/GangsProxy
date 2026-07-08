@@ -11,12 +11,13 @@ import static com.zenith.Globals.CONFIG;
 import static com.zenith.Globals.MODULE;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class AutoArmorCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("autoArmor")
+            .name(Lang.t("autoArmadura", Lang.t("autoArmadura", "autoArmor")))
             .category(CommandCategory.MODULE)
             .description("""
             Automatically equips the best armor in your inventory

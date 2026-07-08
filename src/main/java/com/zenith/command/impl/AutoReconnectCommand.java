@@ -14,12 +14,13 @@ import static com.zenith.Globals.CONFIG;
 import static com.zenith.Globals.MODULE;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class AutoReconnectCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("autoReconnect")
+            .name(Lang.t("autoReconectar", Lang.t("autoReconectar", "autoReconnect")))
             .category(CommandCategory.MODULE)
             .description("""
              Automatically reconnects the bot when it is disconnected.
@@ -62,8 +63,8 @@ public class AutoReconnectCommand extends Command {
     @Override
     public void defaultEmbed(final Embed builder) {
         builder
-            .addField("AutoReconnect", toggleStr(CONFIG.client.extra.autoReconnect.enabled), false)
-            .addField("Delay", CONFIG.client.extra.autoReconnect.delaySeconds, true)
+            .addField(Lang.t("AutoReconexion", "AutoReconnect"), toggleStr(CONFIG.client.extra.autoReconnect.enabled), false)
+            .addField(Lang.t("Retraso", "Delay"), CONFIG.client.extra.autoReconnect.delaySeconds, true)
             .addField("Max Attempts", CONFIG.client.extra.autoReconnect.maxAttempts, true)
             .primaryColor();
     }

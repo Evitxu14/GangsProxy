@@ -10,12 +10,13 @@ import com.zenith.discord.Embed;
 import static com.zenith.Globals.CONFIG;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class PrioCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("prio")
+            .name(Lang.t("prioritaria", Lang.t("prioritaria", "prio")))
             .category(CommandCategory.INFO)
             .description("Configure alerts for 2b2t priority queue status")
             .usageLines(

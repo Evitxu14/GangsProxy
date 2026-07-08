@@ -8,12 +8,13 @@ import com.zenith.command.api.CommandContext;
 import com.zenith.command.api.CommandUsage;
 
 import static com.zenith.Globals.EXECUTOR;
+import com.zenith.Lang;
 
 public class ConnectCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("connect")
+            .name(Lang.t("conectar", Lang.t("conectar", "connect")))
             .category(CommandCategory.CORE)
             .description("""
              Connects gangsproxy to the destination MC server

@@ -14,12 +14,13 @@ import java.util.stream.Collectors;
 
 import static com.mojang.brigadier.arguments.IntegerArgumentType.integer;
 import static com.zenith.Globals.CACHE;
+import com.zenith.Lang;
 
 public class MapCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("map")
+            .name(Lang.t("mapa", Lang.t("mapa", "map")))
             .category(CommandCategory.INFO)
             .description("""
             Generate and render map images.

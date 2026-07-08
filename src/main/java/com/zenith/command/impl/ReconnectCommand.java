@@ -11,12 +11,13 @@ import com.zenith.module.impl.AutoReconnect;
 import static com.zenith.Globals.EXECUTOR;
 import static com.zenith.Globals.MODULE;
 import static com.zenith.util.DisconnectMessages.SYSTEM_DISCONNECT;
+import com.zenith.Lang;
 
 public class ReconnectCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("reconnect")
+            .name(Lang.t("reconectar", Lang.t("reconectar", "reconnect")))
             .category(CommandCategory.MANAGE)
             .description("""
             Disconnect and reconnects from the destination MC server.

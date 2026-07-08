@@ -10,6 +10,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundTabListPacket;
 
 import static com.zenith.Globals.*;
+import com.zenith.Lang;
 
 public class ServerTablistDataOutgoingHandler implements PacketHandler<ClientboundTabListPacket, ServerSession> {
     // todo: allow users to configure the contents of this

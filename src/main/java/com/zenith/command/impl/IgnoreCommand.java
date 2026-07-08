@@ -14,12 +14,13 @@ import static com.mojang.brigadier.arguments.StringArgumentType.*;
 import static com.zenith.Globals.PLAYER_LISTS;
 import static com.zenith.command.api.CommandOutputHelper.playerListToString;
 import static com.zenith.discord.DiscordBot.escape;
+import com.zenith.Lang;
 
 public class IgnoreCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("ignore")
+            .name(Lang.t("ignorar", Lang.t("ignorar", "ignore")))
             .category(CommandCategory.MODULE)
             .description("""
              Hides chat and death messages and notifications from a configured list of players.

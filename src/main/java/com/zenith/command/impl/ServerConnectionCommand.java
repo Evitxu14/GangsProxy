@@ -17,12 +17,13 @@ import static com.zenith.command.brigadier.CustomStringArgumentType.getString;
 import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class ServerConnectionCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("serverConnection")
+            .name(Lang.t("conexionServidor", Lang.t("conexionServidor", "serverConnection")))
             .category(CommandCategory.MANAGE)
             .description("""
             Configures the MC server hosted by Zenith and players' connections to it

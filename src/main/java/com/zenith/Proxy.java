@@ -2,6 +2,7 @@ package com.zenith;
 
 import ar.com.hjg.pngj.PngReader;
 import ch.qos.logback.classic.LoggerContext;
+import com.zenith.Lang;
 import com.zenith.cache.CacheResetType;
 import com.zenith.discord.ChatRelayEventListener;
 import com.zenith.discord.DiscordRPC;
@@ -136,18 +137,19 @@ public class Proxy {
     }
 
     public void start() {
-        DEFAULT_LOG.info("Starting Gang'sProxy-{}", VERSION);
+        Lang.reload();
+        DEFAULT_LOG.info(Lang.t("Iniciando Gang'sProxy-{}", Lang.t("Iniciando Gang'sProxy-{}", "Starting Gang'sProxy-{}")), VERSION);
         var exeReleaseVersion = getExecutableReleaseVersion();
         if (exeReleaseVersion == null) {
-            DEFAULT_LOG.warn("Detected unofficial gangsproxy development build!");
+            DEFAULT_LOG.warn(Lang.t("Build de desarrollo no oficial detectado!", Lang.t("Build de desarrollo no oficial detectado!", "Detected unofficial Gang'sProxy development build!")));
         } else if (!LAUNCH_CONFIG.version.split("\\+")[0].equals(exeReleaseVersion.split("\\+")[0])) {
-            DEFAULT_LOG.warn("launch_config.json version: {} and embedded gangsproxy version: {} do not match!", LAUNCH_CONFIG.version, exeReleaseVersion);
+            DEFAULT_LOG.warn(Lang.t("La version de launch_config.json: {} y la version embebida de Gang'sProxy: {} no coinciden!", Lang.t("La version de launch_config.json: {} y la version embebida de Gang'sProxy: {} no coinciden!", "launch_config.json version: {} and embedded Gang'sProxy version: {} do not match!")), LAUNCH_CONFIG.version, exeReleaseVersion);
             if (inDevEnv() && !ImageInfo.inImageRuntimeCode()) {
                 var correctedVersion = exeReleaseVersion.split("\\+")[0] + "+java." + exeReleaseVersion.split("\\+")[1];
                 LAUNCH_CONFIG.version = correctedVersion;
                 LAUNCH_CONFIG.local_version = correctedVersion;
                 saveLaunchConfig();
-                DEFAULT_LOG.warn("Updated version to match embedded gangsproxy version: {}", exeReleaseVersion);
+                DEFAULT_LOG.warn(Lang.t("Version actualizada para coincidir con la version embebida: {}", Lang.t("Version actualizada para coincidir con la version embebida: {}", "Updated version to match embedded Gang'sProxy version: {}")), exeReleaseVersion);
             } else if (LAUNCH_CONFIG.auto_update && !inDevEnv()) {
                 DEFAULT_LOG.warn("AutoUpdater is enabled but will break!");
             }
@@ -210,13 +212,13 @@ public class Proxy {
                     ? NoOpAutoUpdater.INSTANCE
                     : new RestAutoUpdater();
                 autoUpdater.start();
-                DEFAULT_LOG.info("Started AutoUpdater");
+                DEFAULT_LOG.info(Lang.t("AutoUpdater iniciado", Lang.t("AutoUpdater iniciado", "Started AutoUpdater")));
             }
-            DEFAULT_LOG.info("gangsproxy started!");
+            DEFAULT_LOG.info(Lang.t("Gang'sProxy iniciado!", Lang.t("Gang'sProxy iniciado!", "Gang'sProxy started!")));
             if (LAUNCH_CONFIG.release_channel.endsWith(".pre")) {
                 DISCORD.sendEmbedMessage(
                     Embed.builder()
-                        .title("gangsproxy Prerelease")
+                        .title("Gang'sProxy Prerelease")
                         .description(
                             """
                             You are currently using a gangsproxy prerelease
@@ -228,8 +230,8 @@ public class Proxy {
             }
             if (!connected) {
                 DEFAULT_LOG.info("Commands Help: https://wiki.2b2t.vc/Commands");
-                DEFAULT_LOG.info("Proxy IP: {}", CONFIG.server.getProxyAddress());
-                DEFAULT_LOG.info("Use the `connect` command to log in!");
+                DEFAULT_LOG.info(Lang.t("IP del Proxy: {}", Lang.t("IP del Proxy: {}", "Proxy IP: {}")), CONFIG.server.getProxyAddress());
+                DEFAULT_LOG.info(Lang.t("Usa el comando `conectar` para iniciar sesion!", Lang.t("Usa el comando `conectar` para iniciar sesion!", "Use the `connect` command to log in!")));
             }
             Wait.waitSpinLoop();
         } catch (Exception e) {

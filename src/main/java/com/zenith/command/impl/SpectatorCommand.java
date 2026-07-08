@@ -22,12 +22,13 @@ import static com.zenith.command.api.CommandOutputHelper.playerListToString;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
 import static com.zenith.discord.DiscordBot.escape;
+import com.zenith.Lang;
 
 public class SpectatorCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("spectator")
+            .name(Lang.t("espectador", Lang.t("espectador", "spectator")))
             .category(CommandCategory.CORE)
             .description("""
             Configures the Spectator feature.

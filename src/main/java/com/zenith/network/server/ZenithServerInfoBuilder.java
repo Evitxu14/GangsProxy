@@ -2,6 +2,7 @@ package com.zenith.network.server;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.event.client.ClientConnectEvent;
 import com.zenith.event.client.ClientDisconnectEvent;
@@ -134,19 +135,22 @@ public class ZenithServerInfoBuilder {
     private static final String motdMM = """
         <white>[<aqua><username><white>] <reset>- <motd_body>
         """;
-    private static final String motdDisconnectedBody = "<red>Disconnected";
-    private static final String motdConnectedBody = """
+    private static final String motdDisconnectedBody = Lang.t("<red>Desconectado", "<red>Disconnected");
+    private static final String motdConnectedBody = Lang.t("""
+        <motd_status><reset>
+        <aqua>Conectado hace: <white>[<reset><online_time><white>]
+        """, """
         <motd_status><reset>
         <aqua>Online for: <white>[<reset><online_time><white>]
-        """;
-    private static final String motdStatusInGame = "<green>In Game";
+        """);
+    private static final String motdStatusInGame = Lang.t("<green>En el Servidor", "<green>In Game");
     private static final String motdStatusInQueue = """
         <in_queue> <white>[<aqua><queue_pos><white>] <queue_eta>
         """;
-    private static final String motdInPrioQueue = "<red>In Prio Queue";
-    private static final String motdInQueue = "<red>In Queue";
-    private static final String motdQueuePosGeneric = "Queueing";
-    private static final String motdQueueEta = "<reset>- <red>ETA <white>[<aqua><eta><white>]";
+    private static final String motdInPrioQueue = Lang.t("<red>En Cola Prioritaria", "<red>In Prio Queue");
+    private static final String motdInQueue = Lang.t("<red>En Cola", "<red>In Queue");
+    private static final String motdQueuePosGeneric = Lang.t("En cola", "Queueing");
+    private static final String motdQueueEta = Lang.t("<reset>- <red>ETA <white>[<aqua><eta><white>]", "<reset>- <red>ETA <white>[<aqua><eta><white>]");
 
     public Component getMotd() {
         var event = new MotdBuildEvent(buildDefaultMotd());

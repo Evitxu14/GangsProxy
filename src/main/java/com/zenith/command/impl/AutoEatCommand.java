@@ -24,12 +24,13 @@ import static com.zenith.command.brigadier.FoodArgument.getFood;
 import static com.zenith.command.brigadier.ItemArgument.item;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class AutoEatCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("autoEat")
+            .name(Lang.t("autoComer", Lang.t("autoComer", "autoEat")))
             .category(CommandCategory.MODULE)
             .description("""
              Automatically eats food when health or hunger is below a set threshold.

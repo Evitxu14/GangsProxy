@@ -29,6 +29,7 @@ import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChar
 import static com.zenith.command.brigadier.TimeArgument.time;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class TasksCommand extends Command {
     private static final BiMap<String, Class<?>> EVENT_MAP = ImmutableBiMap.of(
@@ -43,7 +44,7 @@ public class TasksCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("tasks")
+            .name(Lang.t("tareas", Lang.t("tareas", "tasks")))
             .category(CommandCategory.MODULE)
             .description("""
                 [BETA]

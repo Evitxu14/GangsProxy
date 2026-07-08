@@ -13,6 +13,7 @@ import static com.mojang.brigadier.arguments.FloatArgumentType.floatArg;
 import static com.mojang.brigadier.arguments.FloatArgumentType.getFloat;
 import static com.zenith.Globals.BOT;
 import static com.zenith.Globals.INPUTS;
+import com.zenith.Lang;
 
 public class RotateCommand extends Command {
     private static final int MOVE_PRIORITY = 1000000;
@@ -20,7 +21,7 @@ public class RotateCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("rotate")
+            .name(Lang.t("rotar", Lang.t("rotar", "rotate")))
             .category(CommandCategory.MODULE)
             .description("""
             Rotates the bot in-game.

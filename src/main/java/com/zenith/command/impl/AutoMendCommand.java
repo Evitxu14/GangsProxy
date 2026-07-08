@@ -12,12 +12,13 @@ import static com.zenith.Globals.CONFIG;
 import static com.zenith.Globals.MODULE;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class AutoMendCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("autoMend")
+            .name(Lang.t("autoReparar", Lang.t("autoReparar", "autoMend")))
             .category(CommandCategory.MODULE)
             .description("""
             Equips items that are both damaged and have the mending enchantment to the offhand.

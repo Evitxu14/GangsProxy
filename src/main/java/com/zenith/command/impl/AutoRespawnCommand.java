@@ -14,12 +14,13 @@ import static com.zenith.Globals.CONFIG;
 import static com.zenith.Globals.MODULE;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class AutoRespawnCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("autoRespawn")
+            .name(Lang.t("autoRespawneo", Lang.t("autoRespawneo", "autoRespawn")))
             .category(CommandCategory.MODULE)
             .description("""
             Automatically respawns the player after dying.

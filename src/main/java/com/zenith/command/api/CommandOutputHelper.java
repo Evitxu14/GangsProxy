@@ -1,5 +1,6 @@
 package com.zenith.command.api;
 
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.discord.Embed;
 import com.zenith.feature.whitelist.PlayerList;
@@ -25,11 +26,11 @@ public class CommandOutputHelper {
     }
 
     public void logInputToDiscord(String command, CommandSource source, CommandContext ctx) {
-        Embed embed = Embed.builder().title(source.name() + " Command Executed")
+        Embed embed = Embed.builder().title(source.name() + Lang.t(" Comando Ejecutado", Lang.t(" Comando Ejecutado", " Command Executed")))
             .description(command);
         if (source instanceof PlayerCommandSource playerCommandSource) {
             ServerSession executor = ctx.getInGamePlayerInfo().session();
-            embed.footer("Executed by: " + executor.getName(), Proxy.getInstance().getPlayerHeadURL(executor.getUUID()).toString());
+            embed.footer(Lang.t("Ejecutado por: ", Lang.t("Ejecutado por: ", "Executed by: ")) + executor.getName(), Proxy.getInstance().getPlayerHeadURL(executor.getUUID()).toString());
         }
         DISCORD.sendEmbedMessage(embed);
     }

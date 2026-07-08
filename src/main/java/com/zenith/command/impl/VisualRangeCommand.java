@@ -23,12 +23,13 @@ import static com.zenith.Globals.*;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
 import static com.zenith.discord.DiscordBot.escape;
+import com.zenith.Lang;
 
 public class VisualRangeCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("visualRange")
+            .name(Lang.t("rangoVisual", Lang.t("rangoVisual", "visualRange")))
             .category(CommandCategory.MODULE)
             .description("""
             Configure the VisualRange notification feature.

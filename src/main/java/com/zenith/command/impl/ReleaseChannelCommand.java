@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 import static com.mojang.brigadier.arguments.StringArgumentType.getString;
 import static com.zenith.Globals.*;
 import static java.util.Arrays.asList;
+import com.zenith.Lang;
 
 public class ReleaseChannelCommand extends Command {
     private static final List<String> PLATFORMS = asList("java", "linux");
@@ -46,7 +47,7 @@ public class ReleaseChannelCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("channel")
+            .name(Lang.t("canal", Lang.t("canal", "channel")))
             .category(CommandCategory.MANAGE)
             .description("""
             Configures the current AutoUpdater release channel.
@@ -152,7 +153,7 @@ public class ReleaseChannelCommand extends Command {
         if (pre) LAUNCH_CONFIG.release_channel += ".pre";
         c.getSource().getEmbed()
             .title("Release Channel Updated!")
-            .addField("Info", "Please restart gangsproxy for changes to take effect.\nOr apply now: `update`", false)
+            .addField(Lang.t("Info", "Info"), Lang.t("Reinicia Gang'sProxy para aplicar los cambios.\nO aplica ahora: `update`", "Please restart Gang'sProxy for changes to take effect.\nOr apply now: `update`"), false)
             .primaryColor();
         saveLaunchConfig();
     }

@@ -18,6 +18,7 @@ import static com.mojang.brigadier.arguments.IntegerArgumentType.integer;
 import static com.zenith.Globals.CONFIG;
 import static com.zenith.Globals.EXECUTOR;
 import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
+import com.zenith.Lang;
 
 public class ServerCommand extends Command {
     private final Pattern ipWithPortPattern = Pattern.compile("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}:[0-9]{1,5}$");
@@ -28,9 +29,9 @@ public class ServerCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("server")
+            .name(Lang.t("servidor", Lang.t("servidor", "server")))
             .category(CommandCategory.MANAGE)
-            .description("Change the MC server gangsproxy connects to.")
+            .description(Lang.t("Cambia el servidor MC al que se conecta Gang'sProxy.", "Change the MC server Gang'sProxy connects to."))
             .usageLines(
                 "<IP>",
                 "<IP> <port>"
@@ -131,7 +132,7 @@ public class ServerCommand extends Command {
                     .description("Double check if you have set the correct server IP")
                     .addField("Error", ChatUtil.constrainChatMessageSize(e.getMessage(), true))
                     .addField("IP", ip)
-                    .addField("Port", port)
+                    .addField(Lang.t("Puerto", Lang.t("Puerto", "Port")), port)
                     .errorColor());
             }
         });

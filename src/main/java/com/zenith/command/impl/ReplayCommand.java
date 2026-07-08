@@ -18,12 +18,13 @@ import static com.zenith.Globals.CONFIG;
 import static com.zenith.Globals.MODULE;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class ReplayCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("replay")
+            .name(Lang.t("grabacion", Lang.t("grabacion", "replay")))
             .category(CommandCategory.MODULE)
             .description("""
             Captures a ReplayMod recording.

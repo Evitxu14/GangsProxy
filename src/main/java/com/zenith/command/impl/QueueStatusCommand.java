@@ -18,13 +18,14 @@ import static com.mojang.brigadier.arguments.IntegerArgumentType.integer;
 import static com.zenith.Globals.CONFIG;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class QueueStatusCommand extends Command {
 
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("queueStatus")
+            .name(Lang.t("estadoCola", Lang.t("estadoCola", "queueStatus")))
             .category(CommandCategory.INFO)
             .description("Gets the current 2b2t queue length and wait ETA")
             .usageLines(
@@ -48,14 +49,14 @@ public class QueueStatusCommand extends Command {
                 final QueueStatus queueStatus = Queue.getQueueStatus();
                 c.getSource().getEmbed()
                     .title("2b2t Queue Status")
-                    .addField("Regular", queueStatus.regular() + (inQueue ? "" : " [ETA: " + Queue.getQueueEta(queueStatus.regular()) + "]"), false)
-                    .addField("Priority", queueStatus.prio(), false)
+                    .addField(Lang.t("Normal", "Regular"), queueStatus.regular() + (inQueue ? "" : " [ETA: " + Queue.getQueueEta(queueStatus.regular()) + "]"), false)
+                    .addField(Lang.t("Prioritaria", "Priority"), queueStatus.prio(), false)
                     .primaryColor();
                 if (inQueue) {
                     final int queuePosition = Proxy.getInstance().getQueuePosition();
                     final Duration currentWaitDuration = Duration.ofSeconds(Proxy.getInstance().getOnlineTimeSeconds());
                     c.getSource().getEmbed()
-                        .addField("Position", queuePosition + " [ETA: " + Queue.getQueueEta(queuePosition) + "]", false)
+                        .addField(Lang.t("Posicion", "Position"), queuePosition + " [ETA: " + Queue.getQueueEta(queuePosition) + "]", false)
                         .addField("Current Wait Duration", MathHelper.formatDuration(currentWaitDuration), false);
                 }})
             .then(literal("refresh")

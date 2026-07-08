@@ -22,12 +22,13 @@ import static com.zenith.Globals.MODULE;
 import static com.zenith.command.brigadier.TimeArgument.time;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class SpammerCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("spammer")
+            .name(Lang.t("spameador", Lang.t("spameador", "spammer")))
             .category(CommandCategory.MODULE)
             .description("""
                 Spams messages or whispers in-game. Use with caution, this can and will get you muted.

@@ -20,12 +20,13 @@ import static com.zenith.command.brigadier.CustomStringArgumentType.getString;
 import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
 import static com.zenith.command.brigadier.DimensionArgument.dimension;
 import static com.zenith.command.brigadier.DimensionArgument.getDimension;
+import com.zenith.Lang;
 
 public class WaypointsCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("waypoints")
+            .name(Lang.t("puntos", Lang.t("puntos", "waypoints")))
             .category(CommandCategory.INFO)
             .description("""
                Save and manage waypoints.

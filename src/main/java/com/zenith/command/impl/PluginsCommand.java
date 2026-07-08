@@ -30,12 +30,13 @@ import static com.zenith.command.brigadier.CustomStringArgumentType.getString;
 import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class PluginsCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("plugins")
+            .name(Lang.t("complementos", Lang.t("complementos", "plugins")))
             .category(CommandCategory.MANAGE)
             .description("""
              [BETA]
@@ -67,7 +68,7 @@ public class PluginsCommand extends Command {
                 c.getSource().getEmbed()
                     .title("Plugins " + toggleStrCaps(CONFIG.plugins.enabled))
                     .addField("Plugins", toggleStr(CONFIG.plugins.enabled), false)
-                    .description(appendWarningToDescription("Restart gangsproxy for changes to take effect: `restart`"))
+                    .description(appendWarningToDescription(Lang.t("Reinicia Gang'sProxy para aplicar los cambios: `restart`", "Restart Gang'sProxy for changes to take effect: `restart`")))
                     .primaryColor();
             }))
             .then(literal("list").executes(c -> {
@@ -137,7 +138,7 @@ public class PluginsCommand extends Command {
                 }
                 var pluginId = readResult.pluginInfo().id();
                 var existingPlugin = PLUGIN_MANAGER.getPluginInstance(pluginId);
-                String desc = "Restart gangsproxy to reload plugins: `restart`";
+                String desc = Lang.t("Reinicia Gang'sProxy para recargar plugins: `restart`", "Restart Gang'sProxy to reload plugins: `restart`");
                 if (existingPlugin != null) {
                     existingPlugin.getJarPath().toFile().deleteOnExit();
                     desc += "\n\nExisting plugin with ID: `%s` found. It will be replaced/updated on next restart.".formatted(pluginId);
@@ -147,7 +148,7 @@ public class PluginsCommand extends Command {
                     .description(appendWarningToDescription(desc))
                     .addField("ID", pluginId)
                     .addField("Description", readResult.pluginInfo().description())
-                    .addField("Version", readResult.pluginInfo().version())
+                    .addField(Lang.t("Version", "Version"), readResult.pluginInfo().version())
                     .addField("URL", readResult.pluginInfo().url())
                     .addField("Author(s)", String.join(", ", readResult.pluginInfo().authors()))
                     .addField("Jar", downloadResult.file().toPath().getFileName())
@@ -162,7 +163,7 @@ public class PluginsCommand extends Command {
                         c.getSource().getEmbed()
                             .title("Plugin Removed")
                             .description(appendWarningToDescription("Changes will take effect on next restart"))
-                            .addField("Plugin", instance.getPluginInfo().id())
+                            .addField(Lang.t("Plugin", "Plugin"), instance.getPluginInfo().id())
                             .addField("Jar", instance.getJarPath().toString())
                             .primaryColor();
                         return OK;

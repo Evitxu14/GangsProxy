@@ -13,12 +13,13 @@ import java.util.stream.Collectors;
 import static com.mojang.brigadier.arguments.StringArgumentType.string;
 import static com.zenith.Globals.CONFIG;
 import static com.zenith.discord.DiscordBot.escape;
+import com.zenith.Lang;
 
 public class KickCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("kick")
+            .name(Lang.t("expulsar", Lang.t("expulsar", "kick")))
             .category(CommandCategory.MANAGE)
             .description("""
             Kicks all players or a specific player. Only usable by account owners.
@@ -64,7 +65,7 @@ public class KickCommand extends Command {
                 c.getSource().getEmbed()
                     .title("Unable to kick " + escape(playerName))
                     .errorColor()
-                    .addField("Reason", "Player is not connected", false);
+                    .addField(Lang.t("Razon", "Reason"), "Player is not connected", false);
                 return OK;
             }));
     }

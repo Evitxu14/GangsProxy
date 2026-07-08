@@ -15,12 +15,13 @@ import static com.zenith.command.brigadier.CustomStringArgumentType.getString;
 import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class DatabaseCommand extends Command {
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()
-            .name("database")
+            .name(Lang.t("baseDatos", Lang.t("baseDatos", "database")))
             .category(CommandCategory.MANAGE)
             .description("""
             Configures the database module used by https://api.2b2t.vc
