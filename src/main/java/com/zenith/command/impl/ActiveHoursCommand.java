@@ -22,6 +22,7 @@ import static com.zenith.Globals.MODULE;
 import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class ActiveHoursCommand extends Command {
     private static final Pattern TIME_PATTERN = Pattern.compile("[0-9]{1,2}:[0-9]{2}");
@@ -61,19 +62,19 @@ public class ActiveHoursCommand extends Command {
                 CONFIG.client.extra.utility.actions.activeHours.enabled = getToggle(c, "toggle");
                 MODULE.get(ActiveHours.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
-                    .title("Active Hours " + toggleStrCaps(CONFIG.client.extra.utility.actions.activeHours.enabled));
+                    .title(Lang.t("Horas activas " + toggleStrCaps(CONFIG.client.extra.utility.actions.activeHours.enabled), "Active Hours " + toggleStrCaps(CONFIG.client.extra.utility.actions.activeHours.enabled)));
                 return OK;
             }))
             .then(literal("timezone").then(argument("tz", wordWithChars()).executes(c -> {
                 final String timeZoneId = CustomStringArgumentType.getString(c, "tz");
                 if (ZoneId.getAvailableZoneIds().stream().noneMatch(id -> id.equals(timeZoneId))) {
                     c.getSource().getEmbed()
-                        .title("Invalid Timezone")
-                        .addField("Help", "Time zone Ids: https://w.wiki/8Yif", false);
+                        .title(Lang.t("Zona horaria inválida", "Invalid Timezone"))
+                        .addField(Lang.t("Ayuda", "Help"), Lang.t("IDs de zona horaria: https://w.wiki/8Yif", "Time zone Ids: https://w.wiki/8Yif"), false);
                 } else {
                     CONFIG.client.extra.utility.actions.activeHours.timeZoneId = ZoneId.of(timeZoneId).getId();
                     c.getSource().getEmbed()
-                        .title("Set timezone: " + timeZoneId);
+                        .title(Lang.t("Zona horaria establecida: " + timeZoneId, "Set timezone: " + timeZoneId));
                 }
                 return OK;
             })))
@@ -81,8 +82,8 @@ public class ActiveHoursCommand extends Command {
                 final String time = StringArgumentType.getString(c, "time");
                 if (!timeMatchesRegex(time)) {
                     c.getSource().getEmbed()
-                        .title("Invalid Time Format")
-                        .addField("Help", "Time format: XX:XX, e.g.: 1:42, 14:42, 14:01", false);
+                        .title(Lang.t("Formato de hora inválido", "Invalid Time Format"))
+                        .addField(Lang.t("Ayuda", "Help"), Lang.t("Formato de hora: XX:XX, ej.: 1:42, 14:42, 14:01", "Time format: XX:XX, e.g.: 1:42, 14:42, 14:01"), false);
                     return ERROR;
                 } else {
                     final ActiveTime activeTime = ActiveTime.fromString(time);
@@ -90,7 +91,7 @@ public class ActiveHoursCommand extends Command {
                         CONFIG.client.extra.utility.actions.activeHours.activeTimes.add(activeTime);
                     }
                     c.getSource().getEmbed()
-                        .title("Added time: " + time);
+                        .title(Lang.t("Hora añadida: " + time, "Added time: " + time));
                     return OK;
                 }
             })))
@@ -98,39 +99,39 @@ public class ActiveHoursCommand extends Command {
                 final String time = StringArgumentType.getString(c, "time");
                 if (!timeMatchesRegex(time)) {
                     c.getSource().getEmbed()
-                        .title("Invalid Time Format")
-                        .addField("Help", "Time format: XX:XX, e.g.: 1:42, 14:42, 14:01", false);
+                        .title(Lang.t("Formato de hora inválido", "Invalid Time Format"))
+                        .addField(Lang.t("Ayuda", "Help"), Lang.t("Formato de hora: XX:XX, ej.: 1:42, 14:42, 14:01", "Time format: XX:XX, e.g.: 1:42, 14:42, 14:01"), false);
                     return ERROR;
                 } else {
                     final ActiveTime activeTime = ActiveTime.fromString(time);
                     CONFIG.client.extra.utility.actions.activeHours.activeTimes.removeIf(s -> s.equals(activeTime));
                     c.getSource().getEmbed()
-                        .title("Removed time: " + time);
+                        .title(Lang.t("Hora eliminada: " + time, "Removed time: " + time));
                     return OK;
                 }
             })))
             .then(literal("status").executes(c -> {
                 c.getSource().getEmbed()
-                    .title("Active Hours Status");
+                    .title(Lang.t("Estado de horas activas", "Active Hours Status"));
             }))
             .then(literal("whilePlayerConnected")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.utility.actions.activeHours.forceReconnect = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Force Reconnect Set!");
+                        .title(Lang.t("¡Reconexión forzada establecida!", "Force Reconnect Set!"));
                     return OK;
                 })))
             .then(literal("queueEtaCalc")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.utility.actions.activeHours.queueEtaCalc = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Queue ETA Calc Set!");
+                        .title(Lang.t("¡Cálculo de ETA de cola establecido!", "Queue ETA Calc Set!"));
                     return OK;
                 })))
             .then(literal("fullSessionUntilNextDisconnect").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.utility.actions.activeHours.fullSessionUntilNextDisconnect = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Full Session Until Next Disconnect " + toggleStrCaps(CONFIG.client.extra.utility.actions.activeHours.fullSessionUntilNextDisconnect));
+                    .title(Lang.t("Sesión completa hasta la próxima desconexión " + toggleStrCaps(CONFIG.client.extra.utility.actions.activeHours.fullSessionUntilNextDisconnect), "Full Session Until Next Disconnect " + toggleStrCaps(CONFIG.client.extra.utility.actions.activeHours.fullSessionUntilNextDisconnect)));
             })));
     }
 
@@ -158,14 +159,14 @@ public class ActiveHoursCommand extends Command {
     @Override
     public void defaultEmbed(Embed builder) {
         builder
-            .addField("ActiveHours", toggleStr(CONFIG.client.extra.utility.actions.activeHours.enabled))
-            .addField("Time Zone", CONFIG.client.extra.utility.actions.activeHours.timeZoneId)
-            .addField("Active Hours", (CONFIG.client.extra.utility.actions.activeHours.activeTimes.isEmpty()
-                ? "None set!"
+            .addField(Lang.t("Horas activas", "ActiveHours"), toggleStr(CONFIG.client.extra.utility.actions.activeHours.enabled))
+            .addField(Lang.t("Zona horaria", "Time Zone"), CONFIG.client.extra.utility.actions.activeHours.timeZoneId)
+            .addField(Lang.t("Horas activas", "Active Hours"), (CONFIG.client.extra.utility.actions.activeHours.activeTimes.isEmpty()
+                ? Lang.t("¡Ninguno establecido!", "None set!")
                 : activeTimeListToString(CONFIG.client.extra.utility.actions.activeHours.activeTimes)))
-            .addField("While Player Connected", toggleStr(CONFIG.client.extra.utility.actions.activeHours.forceReconnect))
-            .addField("Queue ETA Calc", toggleStr(CONFIG.client.extra.utility.actions.activeHours.queueEtaCalc))
-            .addField("Full Session Until Next Disconnect", toggleStr(CONFIG.client.extra.utility.actions.activeHours.fullSessionUntilNextDisconnect))
+            .addField(Lang.t("Mientras el jugador esté conectado", "While Player Connected"), toggleStr(CONFIG.client.extra.utility.actions.activeHours.forceReconnect))
+            .addField(Lang.t("Cálculo de ETA de cola", "Queue ETA Calc"), toggleStr(CONFIG.client.extra.utility.actions.activeHours.queueEtaCalc))
+            .addField(Lang.t("Sesión completa hasta la próxima desconexión", "Full Session Until Next Disconnect"), toggleStr(CONFIG.client.extra.utility.actions.activeHours.fullSessionUntilNextDisconnect))
             .primaryColor();
     }
 }

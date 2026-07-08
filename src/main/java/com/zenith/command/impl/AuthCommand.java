@@ -66,21 +66,21 @@ public class AuthCommand extends Command {
                 Proxy.getInstance().cancelLogin();
                 Authenticator.INSTANCE.clearAuthCache();
                 c.getSource().getEmbed()
-                    .title("Authentication Cleared")
-                    .description("Cached tokens and authentication state cleared. Full re-auth will occur on next login.")
+                    .title(Lang.t("Autenticacion Borrada", "Authentication Cleared"))
+                    .description(Lang.t("Los tokens almacenados en cache y el estado de autenticacion se han borrado. Se realizara una reautenticacion completa en el proximo inicio de sesion.", "Cached tokens and authentication state cleared. Full re-auth will occur on next login."))
                     .primaryColor();
             }))
             .then(literal("attempts").then(argument("attempts", integer(1)).executes(c -> {
                 CONFIG.authentication.msaLoginAttemptsBeforeCacheWipe = c.getArgument("attempts", Integer.class);
                 c.getSource().getEmbed()
-                    .title("Authentication Max Attempts Set")
+                    .title(Lang.t("Maximos Intentos de Autenticacion Establecido", "Authentication Max Attempts Set"))
                     .primaryColor();
                 return OK;
             })))
             .then(literal("alwaysRefreshOnLogin").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.authentication.alwaysRefreshOnLogin = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Always Refresh On Login " + toggleStrCaps(CONFIG.authentication.alwaysRefreshOnLogin))
+                    .title(Lang.t("Siempre Refrescar Al Iniciar Sesion ", "Always Refresh On Login ") + toggleStrCaps(CONFIG.authentication.alwaysRefreshOnLogin))
                     .primaryColor();
                 return OK;
             })))
@@ -95,13 +95,13 @@ public class AuthCommand extends Command {
                     };
                     if (accountType == null) {
                         c.getSource().getEmbed()
-                            .title("Invalid Type")
+                            .title(Lang.t("Tipo Invalido", "Invalid Type"))
                             .errorColor();
                         return ERROR;
                     }
                     CONFIG.authentication.accountType = accountType;
                     c.getSource().getEmbed()
-                        .title("Authentication Type Set")
+                        .title(Lang.t("Tipo de Autenticacion Establecido", "Authentication Type Set"))
                         .primaryColor();
                     Proxy.getInstance().cancelLogin();
                     Authenticator.INSTANCE.clearAuthCache();
@@ -114,13 +114,13 @@ public class AuthCommand extends Command {
                     // validate email str is an email
                     if (!emailStr.contains("@") || emailStr.length() < 3) {
                         c.getSource().getEmbed()
-                            .title("Invalid Email")
+                            .title(Lang.t("Correo Electronico Invalido", "Invalid Email"))
                             .errorColor();
                         return OK;
                     }
                     CONFIG.authentication.email = emailStr;
                     c.getSource().getEmbed()
-                        .title("Authentication Email Set")
+                        .title(Lang.t("Correo Electronico de Autenticacion Establecido", "Authentication Email Set"))
                         .primaryColor();
                     return OK;
                 })))
@@ -131,13 +131,13 @@ public class AuthCommand extends Command {
                     // validate password str is a password
                     if (passwordStr.isBlank()) {
                         c.getSource().getEmbed()
-                            .title("Invalid Password")
+                            .title(Lang.t("Contrasena Invalida", "Invalid Password"))
                             .errorColor();
                         return OK;
                     }
                     CONFIG.authentication.password = passwordStr;
                     c.getSource().getEmbed()
-                        .title("Authentication Password Set")
+                        .title(Lang.t("Contrasena de Autenticacion Establecida", "Authentication Password Set"))
                         .primaryColor();
                     return OK;
                 })))
@@ -145,28 +145,28 @@ public class AuthCommand extends Command {
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.discord.mentionRoleOnDeviceCodeAuth = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Mention Role " + toggleStrCaps(CONFIG.discord.mentionRoleOnDeviceCodeAuth))
+                        .title(Lang.t("Mencionar Rol ", "Mention Role ") + toggleStrCaps(CONFIG.discord.mentionRoleOnDeviceCodeAuth))
                         .primaryColor();
                     return OK;
                 })))
             .then(literal("openBrowser").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.authentication.openBrowserOnLogin = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Open Browser On Login " + toggleStrCaps(CONFIG.authentication.openBrowserOnLogin))
+                    .title(Lang.t("Abrir Navegador al Iniciar Sesion ", "Open Browser On Login ") + toggleStrCaps(CONFIG.authentication.openBrowserOnLogin))
                     .primaryColor();
                 return OK;
             })))
             .then(literal("maxRefreshInterval").then(argument("minutes", integer(5, 500)).executes(c -> {
                 CONFIG.authentication.maxRefreshIntervalMins = c.getArgument("minutes", Integer.class);
                 c.getSource().getEmbed()
-                    .title("Max Refresh Interval Set")
+                    .title(Lang.t("Intervalo Maximo de Actualizacion Establecido", "Max Refresh Interval Set"))
                     .primaryColor();
                 return OK;
             })))
             .then(literal("useClientConnectionProxy").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.authentication.useClientConnectionProxy = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Use Client Connection Proxy " + toggleStrCaps(CONFIG.authentication.useClientConnectionProxy))
+                    .title(Lang.t("Usar Proxy de Conexion del Cliente ", "Use Client Connection Proxy ") + toggleStrCaps(CONFIG.authentication.useClientConnectionProxy))
                     .primaryColor();
                 return OK;
             })))
@@ -174,21 +174,21 @@ public class AuthCommand extends Command {
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.chatSigning.enabled = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Chat Signing " + toggleStrCaps(CONFIG.client.chatSigning.enabled))
+                        .title(Lang.t("Firma de Chat ", "Chat Signing ") + toggleStrCaps(CONFIG.client.chatSigning.enabled))
                         .primaryColor();
                     return OK;
                 }))
                 .then(literal("force").then(argument("forceToggle", toggle()).executes(c -> {
                     CONFIG.client.chatSigning.force = getToggle(c, "forceToggle");
                     c.getSource().getEmbed()
-                        .title("Chat Signing Force " + toggleStrCaps(CONFIG.client.chatSigning.force))
+                        .title(Lang.t("Forzar Firma de Chat ", "Chat Signing Force ") + toggleStrCaps(CONFIG.client.chatSigning.force))
                         .primaryColor();
                     return OK;
                 })))
                 .then(literal("commands").then(argument("commandsToggle", toggle()).executes(c -> {
                     CONFIG.client.chatSigning.signCommands = getToggle(c, "commandsToggle");
                     c.getSource().getEmbed()
-                        .title("Chat Signing Commands " + toggleStrCaps(CONFIG.client.chatSigning.signCommands))
+                        .title(Lang.t("Comandos de Firma de Chat ", "Chat Signing Commands ") + toggleStrCaps(CONFIG.client.chatSigning.signCommands))
                         .primaryColor();
                     return OK;
                 }))));
@@ -205,16 +205,16 @@ public class AuthCommand extends Command {
     @Override
     public void defaultEmbed(final Embed builder) {
         builder
-            .addField("Account Type", authTypeToString(CONFIG.authentication.accountType))
-            .addField("Attempts", CONFIG.authentication.msaLoginAttemptsBeforeCacheWipe)
-            .addField("Always Refresh On Login", toggleStr(CONFIG.authentication.alwaysRefreshOnLogin))
-            .addField("Mention", toggleStr(CONFIG.discord.mentionRoleOnDeviceCodeAuth))
-            .addField("Open Browser", toggleStr(CONFIG.authentication.openBrowserOnLogin))
-            .addField("Max Refresh Interval", CONFIG.authentication.maxRefreshIntervalMins + " minutes")
-            .addField("Use Client Connection Proxy", toggleStr(CONFIG.authentication.useClientConnectionProxy))
-            .addField("Chat Signing", toggleStr(CONFIG.client.chatSigning.enabled))
-            .addField("Chat Signing Force", toggleStr(CONFIG.client.chatSigning.force))
-            .addField("Chat Signing Commands", toggleStr(CONFIG.client.chatSigning.signCommands));
+            .addField(Lang.t("Tipo de Cuenta", "Account Type"), authTypeToString(CONFIG.authentication.accountType))
+            .addField(Lang.t("Intentos", "Attempts"), CONFIG.authentication.msaLoginAttemptsBeforeCacheWipe)
+            .addField(Lang.t("Siempre Refrescar al Iniciar Sesion", "Always Refresh On Login"), toggleStr(CONFIG.authentication.alwaysRefreshOnLogin))
+            .addField(Lang.t("Mencion", "Mention"), toggleStr(CONFIG.discord.mentionRoleOnDeviceCodeAuth))
+            .addField(Lang.t("Abrir Navegador", "Open Browser"), toggleStr(CONFIG.authentication.openBrowserOnLogin))
+            .addField(Lang.t("Intervalo Maximo de Actualizacion", "Max Refresh Interval"), CONFIG.authentication.maxRefreshIntervalMins + " minutes")
+            .addField(Lang.t("Usar Proxy de Conexion del Cliente", "Use Client Connection Proxy"), toggleStr(CONFIG.authentication.useClientConnectionProxy))
+            .addField(Lang.t("Firma de Chat", "Chat Signing"), toggleStr(CONFIG.client.chatSigning.enabled))
+            .addField(Lang.t("Forzar Firma de Chat", "Chat Signing Force"), toggleStr(CONFIG.client.chatSigning.force))
+            .addField(Lang.t("Comandos de Firma de Chat", "Chat Signing Commands"), toggleStr(CONFIG.client.chatSigning.signCommands));
     }
 
     private String authTypeToString(Config.Authentication.AccountType type) {

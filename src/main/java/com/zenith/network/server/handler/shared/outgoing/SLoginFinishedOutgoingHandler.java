@@ -1,5 +1,6 @@
 package com.zenith.network.server.handler.shared.outgoing;
 
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.event.player.BlacklistedPlayerConnectedEvent;
 import com.zenith.event.player.NonWhitelistedPlayerConnectedEvent;
@@ -40,7 +41,7 @@ public class SLoginFinishedOutgoingHandler implements PacketHandler<ClientboundL
             if (!CONFIG.server.extra.whitelist.enable || !CONFIG.server.spectator.whitelistEnabled) {
                 if (PLAYER_LISTS.getBlacklist().contains(clientGameProfile)) {
                     session.disconnect(CONFIG.server.extra.whitelist.kickmsg);
-                    SERVER_LOG.warn("Blacklisted connect attempted. Username: {} UUID: {} [{}] MC: {}", clientGameProfile.getName(), clientGameProfile.getIdAsString(), session.getMCVersion(), session.getRemoteAddress());
+                    SERVER_LOG.warn(Lang.t("Intento de conexión en lista negra. Usuario: {} UUID: {} [{}] MC: {}", "Blacklisted connect attempted. Username: {} UUID: {} [{}] MC: {}"), clientGameProfile.getName(), clientGameProfile.getIdAsString(), session.getMCVersion(), session.getRemoteAddress());
                     EVENT_BUS.postAsync(new BlacklistedPlayerConnectedEvent(clientGameProfile, session.getRemoteAddress()));
                     return null;
                 }
@@ -49,10 +50,10 @@ public class SLoginFinishedOutgoingHandler implements PacketHandler<ClientboundL
             var requestedAuthState = AuthorizationState.CONTROLLER_OR_SPECTATOR;
             if (session.isTransferring()) {
                 var transferSrc = session.getCookieCache().getZenithTransferSrc();
-                transferSrc.ifPresent(s -> SERVER_LOG.info("{} transferring from gangsproxy instance: {}", clientGameProfile.getName(), s));
+                transferSrc.ifPresent(s -> SERVER_LOG.info(Lang.t("{} transfiriendo desde instancia de gangsproxy: {}", "{} transferring from gangsproxy instance: {}"), clientGameProfile.getName(), s));
                 if (CONFIG.server.onlyZenithTransfers && transferSrc.isEmpty()) {
                     // clients can spoof these cookies easily, but the whitelist would stop them anyway
-                    SERVER_LOG.info("Blocking transfer from non-gangsproxy source. Username: {} UUID: {} MC: {} [{}]", clientGameProfile.getName(), clientGameProfile.getIdAsString(), session.getMCVersion(), session.getRemoteAddress());
+                    SERVER_LOG.info(Lang.t("Bloqueando transferencia desde origen no gangsproxy. Usuario: {} UUID: {} MC: {} [{}]", "Blocking transfer from non-gangsproxy source. Username: {} UUID: {} MC: {} [{}]"), clientGameProfile.getName(), clientGameProfile.getIdAsString(), session.getMCVersion(), session.getRemoteAddress());
                     session.disconnect("Transfer Blocked");
                     return null;
                 }
@@ -107,7 +108,7 @@ public class SLoginFinishedOutgoingHandler implements PacketHandler<ClientboundL
                 }
             }
 
-            SERVER_LOG.info("Username: {} UUID: {} MC: {} [{}] has passed the whitelist check with auth: {}", clientGameProfile.getName(), clientGameProfile.getIdAsString(), session.getMCVersion(), session.getRemoteAddress(), authState.name());
+            SERVER_LOG.info(Lang.t("Usuario: {} UUID: {} MC: {} [{}] ha pasado la verificación de lista blanca con auth: {}", "Username: {} UUID: {} MC: {} [{}] has passed the whitelist check with auth: {}"), clientGameProfile.getName(), clientGameProfile.getIdAsString(), session.getMCVersion(), session.getRemoteAddress(), authState.name());
             session.setWhitelistChecked(true);
             EXECUTOR.execute(() -> {
                 try {
@@ -126,7 +127,7 @@ public class SLoginFinishedOutgoingHandler implements PacketHandler<ClientboundL
 
     private void authFailDisconnect(ServerSession session, GameProfile clientGameProfile) {
         session.disconnect(CONFIG.server.extra.whitelist.kickmsg);
-        SERVER_LOG.warn("Username: {} UUID: {} [{}] MC: {} tried to connect!", clientGameProfile.getName(), clientGameProfile.getIdAsString(), session.getMCVersion(), session.getRemoteAddress());
+        SERVER_LOG.warn(Lang.t("Usuario: {} UUID: {} [{}] MC: {} intentó conectarse!", "Username: {} UUID: {} [{}] MC: {} tried to connect!"), clientGameProfile.getName(), clientGameProfile.getIdAsString(), session.getMCVersion(), session.getRemoteAddress());
         EVENT_BUS.postAsync(new NonWhitelistedPlayerConnectedEvent(clientGameProfile, session.getRemoteAddress()));
     }
 
@@ -135,10 +136,10 @@ public class SLoginFinishedOutgoingHandler implements PacketHandler<ClientboundL
             if (!Proxy.getInstance().isConnected()) {
                     if (CONFIG.client.extra.autoConnectOnLogin && authState != AuthorizationState.SPECTATOR) {
                     try {
-                        SERVER_LOG.info("Auto connecting client on player login...");
+                        SERVER_LOG.info(Lang.t("Conectando automáticamente al cliente en inicio de sesión...", "Auto connecting client on player login..."));
                         Proxy.getInstance().connect();
                     } catch (final Throwable e) {
-                        SERVER_LOG.info("Failed `autoConnectOnLogin` client connect", e);
+                        SERVER_LOG.info(Lang.t("Falló la conexión del cliente `autoConnectOnLogin`", "Failed `autoConnectOnLogin` client connect"), e);
                         session.disconnect("Failed to connect to server", e);
                         return;
                     }
@@ -148,12 +149,12 @@ public class SLoginFinishedOutgoingHandler implements PacketHandler<ClientboundL
                             && CACHE.getProfileCache().getProfile() != null
                             && (client.isOnline() || client.isInQueue());
                     }, 15)) {
-                        SERVER_LOG.info("Timed out waiting for the proxy to login");
+                        SERVER_LOG.info(Lang.t("Tiempo de espera agotado esperando que el proxy inicie sesión", "Timed out waiting for the proxy to login"));
                         session.disconnect("Timed out waiting for the proxy to login");
                         return;
                     }
                 } else {
-                    SERVER_LOG.info("Disconnecting: {} [{}] ({}) : Not connected to server (AutoConnectOnLogin)!", clientGameProfile.getName(), clientGameProfile.getId(), session.getMCVersion());
+                    SERVER_LOG.info(Lang.t("Desconectando: {} [{}] ({}) : No conectado al servidor (AutoConnectOnLogin)!", "Disconnecting: {} [{}] ({}) : Not connected to server (AutoConnectOnLogin)!"), clientGameProfile.getName(), clientGameProfile.getId(), session.getMCVersion());
                     session.disconnect("Not connected to server!");
                     return;
                 }
@@ -163,7 +164,7 @@ public class SLoginFinishedOutgoingHandler implements PacketHandler<ClientboundL
         if (client == null
             || CACHE.getProfileCache().getProfile() == null
             || !(client.isOnline() || client.isInQueue())) {
-            SERVER_LOG.info("Disconnecting: {} [{}] ({}) : Not connected to server!", clientGameProfile.getName(), clientGameProfile.getId(), session.getMCVersion());
+            SERVER_LOG.info(Lang.t("Desconectando: {} [{}] ({}) : No conectado al servidor!", "Disconnecting: {} [{}] ({}) : Not connected to server!"), clientGameProfile.getName(), clientGameProfile.getId(), session.getMCVersion());
             session.disconnect("Not connected to server!");
             return;
         }
@@ -198,7 +199,7 @@ public class SLoginFinishedOutgoingHandler implements PacketHandler<ClientboundL
 
     private boolean tryControllerLogin(ServerSession session, GameProfile clientGameProfile) {
         if (Proxy.getInstance().getCurrentPlayer().compareAndSet(null, session)) {
-            SERVER_LOG.info("Logging in {} [{}] ({}) as controlling player", clientGameProfile.getName(), clientGameProfile.getId().toString(), session.getMCVersion());
+            SERVER_LOG.info(Lang.t("Iniciando sesión {} [{}] ({}) como jugador controlador", "Logging in {} [{}] ({}) as controlling player"), clientGameProfile.getName(), clientGameProfile.getId().toString(), session.getMCVersion());
             session.getEventLoop().execute(() -> {
                 session.send(new ClientboundLoginFinishedPacket(CACHE.getProfileCache().getProfile(), UUID.randomUUID()));
                 session.switchOutboundState(ProtocolState.CONFIGURATION);
@@ -213,13 +214,13 @@ public class SLoginFinishedOutgoingHandler implements PacketHandler<ClientboundL
             session.disconnect("Spectator mode is disabled");
             return false;
         }
-        SERVER_LOG.info("Logging in {} [{}] ({}) as spectator", clientGameProfile.getName(), clientGameProfile.getId().toString(), session.getMCVersion());
+        SERVER_LOG.info(Lang.t("Iniciando sesión {} [{}] ({}) como espectador", "Logging in {} [{}] ({}) as spectator"), clientGameProfile.getName(), clientGameProfile.getId().toString(), session.getMCVersion());
         session.setSpectator(true);
         final GameProfile spectatorFakeProfile = new GameProfile(spectatorFakeUUID, clientGameProfile.getName());
         if (clientGameProfile.getProperty("textures") == null) {
             SessionServerApi.INSTANCE.getProfileAndSkin(clientGameProfile.getId())
                 .ifPresentOrElse(p -> spectatorFakeProfile.setProperties(p.getProperties()),
-                    () -> SERVER_LOG.info("Failed getting spectator skin for {} [{}] ({})", clientGameProfile.getName(), clientGameProfile.getId().toString(), session.getMCVersion()));
+                    () -> SERVER_LOG.info(Lang.t("Error al obtener la skin de espectador para {} [{}] ({})", "Failed getting spectator skin for {} [{}] ({})"), clientGameProfile.getName(), clientGameProfile.getId().toString(), session.getMCVersion()));
         } else {
             spectatorFakeProfile.setProperties(clientGameProfile.getProperties());
         }

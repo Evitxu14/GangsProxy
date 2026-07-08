@@ -1,5 +1,6 @@
 package com.zenith.feature.autoupdater;
 
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.event.client.ClientDisconnectEvent;
 import com.zenith.event.update.UpdateAvailableEvent;
@@ -120,7 +121,7 @@ public abstract class AutoUpdater {
 
     public void update() {
         if (!Proxy.getInstance().getActiveConnections().isEmpty()) return;
-        DEFAULT_LOG.info("[AutoUpdater] Shutting down and updating to version: {}", newVersion.orElse("unknown"));
+        DEFAULT_LOG.info(Lang.t("[AutoUpdater] Apagando y actualizando a la version: {}", "[AutoUpdater] Shutting down and updating to version: {}"), newVersion.orElse("unknown"));
         EVENT_BUS.post(new UpdateStartEvent(newVersion));
         CONFIG.discord.isUpdating = true;
         Proxy.getInstance().stop();

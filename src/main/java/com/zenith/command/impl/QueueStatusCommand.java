@@ -1,6 +1,7 @@
 package com.zenith.command.impl;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.command.api.Command;
 import com.zenith.command.api.CommandCategory;
@@ -48,7 +49,7 @@ public class QueueStatusCommand extends Command {
                 final boolean inQueue = Proxy.getInstance().isInQueue();
                 final QueueStatus queueStatus = Queue.getQueueStatus();
                 c.getSource().getEmbed()
-                    .title("2b2t Queue Status")
+                    .title(Lang.t("Estado de cola 2b2t", "2b2t Queue Status"))
                     .addField(Lang.t("Normal", "Regular"), queueStatus.regular() + (inQueue ? "" : " [ETA: " + Queue.getQueueEta(queueStatus.regular()) + "]"), false)
                     .addField(Lang.t("Prioritaria", "Priority"), queueStatus.prio(), false)
                     .primaryColor();
@@ -57,7 +58,7 @@ public class QueueStatusCommand extends Command {
                     final Duration currentWaitDuration = Duration.ofSeconds(Proxy.getInstance().getOnlineTimeSeconds());
                     c.getSource().getEmbed()
                         .addField(Lang.t("Posicion", "Position"), queuePosition + " [ETA: " + Queue.getQueueEta(queuePosition) + "]", false)
-                        .addField("Current Wait Duration", MathHelper.formatDuration(currentWaitDuration), false);
+                        .addField(Lang.t("Tiempo de espera actual", "Current Wait Duration"), MathHelper.formatDuration(currentWaitDuration), false);
                 }})
             .then(literal("refresh")
                 .executes(c -> {

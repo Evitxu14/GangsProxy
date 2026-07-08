@@ -1,6 +1,7 @@
 package com.zenith.module.impl;
 
 import com.github.rfresh2.EventConsumer;
+import com.zenith.Lang;
 import com.zenith.discord.Embed;
 import com.zenith.event.client.ClientConnectEvent;
 import com.zenith.event.client.ClientDisconnectEvent;
@@ -95,7 +96,7 @@ public class ReplayMod extends Module {
     private void disableReplayRecordingConditional(BooleanSupplier condition) {
         if (!isEnabled()) return;
         if (condition.getAsBoolean()) {
-            info("Delayed recording stop condition met");
+            info(Lang.t("Condicion de detencion retrasada de grabacion cumplida", "Delayed recording stop condition met"));
             disable();
         } else {
             scheduleRecordingStop(30, condition);
@@ -108,8 +109,8 @@ public class ReplayMod extends Module {
         if (startT == 0L) return;
         if (replayDirectory.toFile().getUsableSpace() < minFreeSpaceBytes) {
             discordNotification(Embed.builder()
-                .title("Error")
-                .description("Not enough disk space remaining to continue replay recording")
+                .title(Lang.t("Error", "Error"))
+                .description(Lang.t("No queda suficiente espacio en disco para continuar la grabacion de la reproduccion", "Not enough disk space remaining to continue replay recording"))
                 .errorColor()
             );
             disable();
@@ -117,7 +118,7 @@ public class ReplayMod extends Module {
         }
         if (CONFIG.client.extra.replayMod.maxRecordingTimeMins <= 0) return;
         if (System.currentTimeMillis() - ((long) CONFIG.client.extra.replayMod.maxRecordingTimeMins * 60 * 1000) > startT) {
-            info("Stopping recording due to max recording time");
+            info(Lang.t("Deteniendo la grabacion debido al tiempo maximo de grabacion", "Stopping recording due to max recording time"));
             disable();
         }
     }
@@ -152,14 +153,14 @@ public class ReplayMod extends Module {
         cancelDelayedRecordingStop();
         if (replayDirectory.toFile().getUsableSpace() < minFreeSpaceBytes) {
             discordNotification(Embed.builder()
-                .title("Error")
-                .description("Not enough disk space remaining to start replay recording")
+                .title(Lang.t("Error", "Error"))
+                .description(Lang.t("No queda suficiente espacio en disco para iniciar la grabacion de la reproduccion", "Not enough disk space remaining to start replay recording"))
                 .errorColor()
             );
             disable();
             return;
         }
-        info("Starting recording");
+        info(Lang.t("Iniciando grabacion", "Starting recording"));
         this.replayRecording = new ReplayRecording(replayDirectory);
         try {
             this.replayRecording.startRecording();
@@ -173,7 +174,7 @@ public class ReplayMod extends Module {
 
     @Locked
     private void stopRecording() {
-        info("Stopping recording");
+        info(Lang.t("Deteniendo grabacion", "Stopping recording"));
         try {
             this.replayRecording.close();
         } catch (final Exception e) {
@@ -181,7 +182,7 @@ public class ReplayMod extends Module {
         }
         var file = replayRecording.getReplayFile();
         if (file != null && file.exists()) {
-            info("Recording saved to {}", file.getPath());
+            info(Lang.t("Grabacion guardada en {}", "Recording saved to {}"), file.getPath());
             EVENT_BUS.postAsync(new ReplayStoppedEvent(replayRecording.getReplayFile()));
         } else {
             EVENT_BUS.postAsync(new ReplayStoppedEvent(null));
@@ -192,7 +193,7 @@ public class ReplayMod extends Module {
 
     public void handleProxyClientDisconnectedEvent(final PlayerDisconnectedEvent event) {
         if (CONFIG.client.extra.replayMod.autoRecordMode == AutoRecordMode.PLAYER_CONNECTED) {
-            info("Stopping recording due to player disconnect");
+            info(Lang.t("Deteniendo grabacion debido a la desconexion del jugador", "Stopping recording due to player disconnect"));
             disable();
         }
     }
@@ -219,7 +220,7 @@ public class ReplayMod extends Module {
         public void handleProxyClientConnectedEvent(final PlayerConnectedEvent event) {
             if (instance.isEnabled()) return;
             if (CONFIG.client.extra.replayMod.autoRecordMode == AutoRecordMode.PLAYER_CONNECTED) {
-                instance.info("Starting recording because player connected");
+                instance.info(Lang.t("Iniciando grabacion porque un jugador se conecto", "Starting recording because player connected"));
                 instance.enable();
             }
         }
@@ -227,7 +228,7 @@ public class ReplayMod extends Module {
         public void handleConnectEvent(ClientConnectEvent event) {
             if (instance.isEnabled()) return;
             if (CONFIG.client.extra.replayMod.autoRecordMode == AutoRecordMode.PROXY_CONNECTED) {
-                instance.info("Starting recording because proxy connected");
+                instance.info(Lang.t("Iniciando grabacion porque el proxy se conecto", "Starting recording because proxy connected"));
                 instance.enable();
             }
         }
@@ -236,7 +237,7 @@ public class ReplayMod extends Module {
             if (instance.isEnabled()) return;
             if (CONFIG.client.extra.replayMod.autoRecordMode == AutoRecordMode.HEALTH
                 && event.newHealth() <= CONFIG.client.extra.replayMod.replayRecordingHealthThreshold) {
-                instance.info("Starting recording because health is below {}", CONFIG.client.extra.replayMod.replayRecordingHealthThreshold);
+                instance.info(Lang.t("Iniciando grabacion porque la salud esta por debajo de {}", "Starting recording because health is below {}"), CONFIG.client.extra.replayMod.replayRecordingHealthThreshold);
                 instance.enable();
                 instance.startDelayedRecordingStop(
                     30,

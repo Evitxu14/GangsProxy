@@ -38,7 +38,7 @@ public class RespawnCommand extends Command {
                     player.setHealth(20.0f);
                 }
                 c.getSource().getEmbed()
-                    .title("Respawn performed")
+                    .title(Lang.t("Reaparicion realizada", "Respawn performed"))
                     .primaryColor();
             });
     }

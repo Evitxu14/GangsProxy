@@ -49,7 +49,7 @@ public class ServerCommand extends Command {
                     CONFIG.client.server.address = ip;
                     CONFIG.client.server.port = port;
                     c.getSource().getEmbed()
-                        .title("Server Updated!");
+                        .title(Lang.t("Servidor Actualizado!", "Server Updated!"));
                     pingServer(c.getSource(), CONFIG.client.server.address, CONFIG.client.server.port);
                     return OK;
                 }))
@@ -59,64 +59,64 @@ public class ServerCommand extends Command {
                         final String[] split = ip.split(":");
                         if (split.length != 2) {
                             c.getSource().getEmbed()
-                                .title("Error")
-                                .description("Invalid IP format.");
+                                .title(Lang.t("Error", "Error"))
+                                .description(Lang.t("Formato de IP invalido.", "Invalid IP format."));
                             return OK;
                         }
                         String ipExtracted = split[0];
                         Integer p = Ints.tryParse(split[1]);
                         if (p == null) {
                             c.getSource().getEmbed()
-                                .title("Error")
-                                .description("Invalid IP format.");
+                                .title(Lang.t("Error", "Error"))
+                                .description(Lang.t("Formato de IP invalido.", "Invalid IP format."));
                             return OK;
                         }
                         CONFIG.client.server.address = ipExtracted;
                         CONFIG.client.server.port = p;
                         c.getSource().getEmbed()
-                            .title("Server Updated!");
+                            .title(Lang.t("Servidor Actualizado!", "Server Updated!"));
                         pingServer(c.getSource(), CONFIG.client.server.address, CONFIG.client.server.port);
                         return OK;
                     } else if (domainWithPortPattern.matcher(ip).matches()) {
                         final String[] split = ip.split(":");
                         if (split.length != 2) {
                             c.getSource().getEmbed()
-                                .title("Error")
-                                .description("Invalid IP format.");
+                                .title(Lang.t("Error", "Error"))
+                                .description(Lang.t("Formato de IP invalido.", "Invalid IP format."));
                             return OK;
                         }
                         String ipExtracted = split[0];
                         Integer p = Ints.tryParse(split[1]);
                         if (p == null) {
                             c.getSource().getEmbed()
-                                .title("Error")
-                                .description("Invalid IP format.");
+                                .title(Lang.t("Error", "Error"))
+                                .description(Lang.t("Formato de IP invalido.", "Invalid IP format."));
                             return OK;
                         }
                         CONFIG.client.server.address = ipExtracted;
                         CONFIG.client.server.port = p;
                         c.getSource().getEmbed()
-                            .title("Server Updated!");
+                            .title(Lang.t("Servidor Actualizado!", "Server Updated!"));
                         pingServer(c.getSource(), CONFIG.client.server.address, CONFIG.client.server.port);
                         return OK;
                     } else if (ipv6Pattern.matcher(ip).matches()) {
                         CONFIG.client.server.address = ip;
                         CONFIG.client.server.port = 25565;
                         c.getSource().getEmbed()
-                            .title("Server Updated!");
+                            .title(Lang.t("Servidor Actualizado!", "Server Updated!"));
                         pingServer(c.getSource(), CONFIG.client.server.address, CONFIG.client.server.port);
                         return OK;
                     } else if (domainPattern.matcher(ip).matches()) {
                         CONFIG.client.server.address = ip;
                         CONFIG.client.server.port = 25565;
                         c.getSource().getEmbed()
-                            .title("Server Updated!");
+                            .title(Lang.t("Servidor Actualizado!", "Server Updated!"));
                         pingServer(c.getSource(), CONFIG.client.server.address, CONFIG.client.server.port);
                         return OK;
                     } else {
                         c.getSource().getEmbed()
-                            .title("Error")
-                            .description("Invalid IP format.");
+                            .title(Lang.t("Error", "Error"))
+                            .description(Lang.t("Formato de IP invalido.", "Invalid IP format."));
                         return OK;
                     }
                 }));
@@ -128,8 +128,8 @@ public class ServerCommand extends Command {
                 MCPing.INSTANCE.getProtocolVersion(ip, port, 3000, true);
             } catch (Throwable e) {
                 c.getSource().logEmbed(c, Embed.builder()
-                    .title("Server Ping Failed")
-                    .description("Double check if you have set the correct server IP")
+                    .title(Lang.t("Ping del Servidor Fallido", "Server Ping Failed"))
+                    .description(Lang.t("Verifica si has configurado la IP del servidor correcta", "Double check if you have set the correct server IP"))
                     .addField("Error", ChatUtil.constrainChatMessageSize(e.getMessage(), true))
                     .addField("IP", ip)
                     .addField(Lang.t("Puerto", Lang.t("Puerto", "Port")), port)

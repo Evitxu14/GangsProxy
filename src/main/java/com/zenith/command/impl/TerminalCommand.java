@@ -2,6 +2,7 @@ package com.zenith.command.impl;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.zenith.command.api.*;
+import com.zenith.Lang;
 
 import static com.zenith.Globals.CONFIG;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
@@ -33,23 +34,23 @@ public class TerminalCommand extends Command {
             .then(literal("autoCompletions").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.interactiveTerminal.alwaysOnCompletions = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("AutoCompletions " + toggleStrCaps(CONFIG.interactiveTerminal.alwaysOnCompletions))
-                    .addField("Info", "Changes will take effect on next `restart`");
+                    .title(Lang.t("Autocompletados ", "AutoCompletions ") + toggleStrCaps(CONFIG.interactiveTerminal.alwaysOnCompletions))
+                    .addField(Lang.t("Información", "Info"), Lang.t("Los cambios surtirán efecto en el próximo `restart`", "Changes will take effect on next `restart`"));
             })))
             .then(literal("logToDiscord").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.interactiveTerminal.logToDiscord = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Log To Discord " + toggleStrCaps(CONFIG.interactiveTerminal.logToDiscord));
+                    .title(Lang.t("Registrar en Discord ", "Log To Discord ") + toggleStrCaps(CONFIG.interactiveTerminal.logToDiscord));
             })))
             .then(literal("logChatMessages").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.logChatMessages = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Log Chat Messages " + toggleStrCaps(CONFIG.client.extra.logChatMessages));
+                    .title(Lang.t("Registrar Mensajes de Chat ", "Log Chat Messages ") + toggleStrCaps(CONFIG.client.extra.logChatMessages));
             })))
             .then(literal("logOnlyQueuePositionUpdates").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.logOnlyQueuePositionUpdates = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Log Only Queue Pos Updates " + toggleStrCaps(CONFIG.client.extra.logOnlyQueuePositionUpdates));
+                    .title(Lang.t("Registrar Solo Actualizaciones de Posición de Cola ", "Log Only Queue Pos Updates ") + toggleStrCaps(CONFIG.client.extra.logOnlyQueuePositionUpdates));
             })));
     }
 
@@ -57,10 +58,10 @@ public class TerminalCommand extends Command {
     @Override
     public void defaultHandler(final CommandContext ctx) {
         ctx.getEmbed()
-            .addField("AutoCompletions", toggleStr(CONFIG.interactiveTerminal.alwaysOnCompletions))
-            .addField("Log To Discord", toggleStr(CONFIG.interactiveTerminal.logToDiscord))
-            .addField("Log Chat Messages", toggleStr(CONFIG.client.extra.logChatMessages))
-            .addField("Log Only Queue Pos Updates", toggleStr(CONFIG.client.extra.logOnlyQueuePositionUpdates))
+            .addField(Lang.t("Autocompletados", "AutoCompletions"), toggleStr(CONFIG.interactiveTerminal.alwaysOnCompletions))
+            .addField(Lang.t("Registrar en Discord", "Log To Discord"), toggleStr(CONFIG.interactiveTerminal.logToDiscord))
+            .addField(Lang.t("Registrar Mensajes de Chat", "Log Chat Messages"), toggleStr(CONFIG.client.extra.logChatMessages))
+            .addField(Lang.t("Registrar Solo Actualizaciones de Posición de Cola", "Log Only Queue Pos Updates"), toggleStr(CONFIG.client.extra.logOnlyQueuePositionUpdates))
             .primaryColor();
     }
 }

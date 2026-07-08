@@ -1,6 +1,7 @@
 package com.zenith.command.impl;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.command.api.Command;
 import com.zenith.command.api.CommandCategory;
@@ -28,43 +29,43 @@ public class RaycastCommand extends Command {
                 if (Proxy.getInstance().hasActivePlayer()) BOT.syncFromCache(true);
                 var result = RaycastHelper.playerBlockOrEntityRaycast(BOT.getBlockReachDistance(), BOT.getEntityInteractDistance());
                 var embed = c.getSource().getEmbed();
-                embed.title("Raycast Result")
-                    .addField("Hit", result.hit(), false)
+                embed.title(Lang.t("Resultado del Raycast", "Raycast Result"))
+                    .addField(Lang.t("Impacto", "Hit"), result.hit(), false)
                     .primaryColor();
                 if (result.isBlock()) {
-                    embed.addField("Block", result.block().block().toString(), false);
+                    embed.addField(Lang.t("Bloque", "Block"), result.block().block().toString(), false);
                     if (CONFIG.discord.reportCoords) {
-                        embed.addField("Pos", ("||[" + result.block().x() + ", " + result.block().y() + ", " + result.block().z()) + "]||", false);
+                        embed.addField(Lang.t("Pos", "Pos"), ("||[" + result.block().x() + ", " + result.block().y() + ", " + result.block().z()) + "]||", false);
                     }
-                    embed.addField("Direction", result.block().direction().name(), false);
+                    embed.addField(Lang.t("Direccion", "Direction"), result.block().direction().name(), false);
                     if (result.hit() && CONFIG.discord.reportCoords) {
-                        embed.addField("State", "||" + World.getBlockState(result.block().x(), result.block().y(), result.block().z()).toString() + "||", false);
+                        embed.addField(Lang.t("Estado", "State"), "||" + World.getBlockState(result.block().x(), result.block().y(), result.block().z()).toString() + "||", false);
                     }
                 } else if (result.isEntity()) {
                     var type = result.entity().entityType();
-                    embed.addField("Entity", type != null ? type : "N/A", false);
+                    embed.addField(Lang.t("Entidad", "Entity"), type != null ? type : "N/A", false);
                 }})
             .then(literal("e").executes(c -> {
                 if (Proxy.getInstance().hasActivePlayer()) BOT.syncFromCache(true);
                 var result = RaycastHelper.playerEntityRaycast(BOT.getEntityInteractDistance());
                 c.getSource().getEmbed()
-                    .title("Raycast Result")
-                    .addField("Hit", result.hit(), false)
-                    .addField("Entity", result.entity() != null ? result.entityType() != null ? result.entityType() : "N/A" : "N/A", false)
-                    .addField("ID", result.entity() != null ? result.entity().getEntityId() : "N/A", false)
+                    .title(Lang.t("Resultado del Raycast", "Raycast Result"))
+                    .addField(Lang.t("Impacto", "Hit"), result.hit(), false)
+                    .addField(Lang.t("Entidad", "Entity"), result.entity() != null ? result.entityType() != null ? result.entityType() : "N/A" : "N/A", false)
+                    .addField(Lang.t("ID", "ID"), result.entity() != null ? result.entity().getEntityId() : "N/A", false)
                     .primaryColor();
             }))
             .then(literal("b").executes(c -> {
                 if (Proxy.getInstance().hasActivePlayer()) BOT.syncFromCache(true);
                 var result = RaycastHelper.playerBlockRaycast(BOT.getBlockReachDistance(), false);
                 c.getSource().getEmbed()
-                    .title("Raycast Result")
-                    .addField("Hit", result.hit(), false)
-                    .addField("Block", result.block().toString(), false);
+                    .title(Lang.t("Resultado del Raycast", "Raycast Result"))
+                    .addField(Lang.t("Impacto", "Hit"), result.hit(), false)
+                    .addField(Lang.t("Bloque", "Block"), result.block().toString(), false);
                 if (CONFIG.discord.reportCoords) {
-                    c.getSource().getEmbed().addField("Pos", "||[ " + result.x() + ", " + result.y() + ", " + result.z() + "]||", false);
+                    c.getSource().getEmbed().addField(Lang.t("Pos", "Pos"), "||[ " + result.x() + ", " + result.y() + ", " + result.z() + "]||", false);
                 }
-                c.getSource().getEmbed().addField("Direction", result.direction().name(), false)
+                c.getSource().getEmbed().addField(Lang.t("Direccion", "Direction"), result.direction().name(), false)
                     .primaryColor();
                 if (result.hit() && CONFIG.discord.reportCoords) {
                     c.getSource().getEmbed().addField("State", "||" + World.getBlockState(result.x(), result.y(), result.z()).toString() + "||", false);

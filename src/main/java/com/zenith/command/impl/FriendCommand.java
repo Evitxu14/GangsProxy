@@ -47,15 +47,15 @@ public class FriendCommand extends Command {
                             c.getSource().getEmbed()
                                 .title(Lang.t("Amigo anadido", "Friend added")),
                         () -> c.getSource().getEmbed()
-                            .title("Failed to add user: " + escape(player) + " to friends. Unable to lookup profile."));
+                            .title(Lang.t("Error al anadir usuario a amigos: ", "Failed to add user: ") + escape(player) + Lang.t(". No se puede buscar el perfil.", ". Unable to lookup profile.")));
             })))
             .then(literal("addAll").then(argument("playerList", greedyString()).executes(c -> {
                 String playerList = getString(c, "playerList");
                 String[] split = playerList.split(",");
                 if (split.length == 0) {
                     c.getSource().getEmbed()
-                        .title("Invalid Input")
-                        .description("Each player name must be delimited by `,`");
+                        .title(Lang.t("Entrada Invalida", "Invalid Input"))
+                        .description(Lang.t("Cada nombre de jugador debe estar delimitado por `,`", "Each player name must be delimited by `,`"));
                     return ERROR;
                 }
                 List<String> addErrors = new ArrayList<>();
@@ -65,11 +65,11 @@ public class FriendCommand extends Command {
                     }
                 }
                 c.getSource().getEmbed()
-                    .title("Added Players")
-                    .addField("Added Player Count", split.length - addErrors.size());
+                    .title(Lang.t("Jugadores Anadidos", "Added Players"))
+                    .addField(Lang.t("Contador de Jugadores Anadidos", "Added Player Count"), split.length - addErrors.size());
                 if (!addErrors.isEmpty()) {
                     c.getSource().getEmbed()
-                        .description("Failed adding " + addErrors.size() + " players: " + String.join(", ", addErrors));
+                        .description(Lang.t("Error al anadir ", "Failed adding ") + addErrors.size() + Lang.t(" jugadores: ", " players: ") + String.join(", ", addErrors));
                 }
                 return OK;
             })))
@@ -77,23 +77,23 @@ public class FriendCommand extends Command {
                 final String player = StringArgumentType.getString(c, "player");
                 PLAYER_LISTS.getFriendsList().remove(player);
                 c.getSource().getEmbed()
-                    .title("Friend deleted");
+                    .title(Lang.t("Amigo eliminado", "Friend deleted"));
             })))
             .then(literal("list").executes(c -> {
                 c.getSource().getEmbed()
-                    .title("Friend list");
+                    .title(Lang.t("Lista de Amigos", "Friend list"));
             }))
             .then(literal("clear").executes(c -> {
                 PLAYER_LISTS.getFriendsList().clear();
                 c.getSource().getEmbed()
-                    .title("Friend list cleared!");
+                    .title(Lang.t("Lista de amigos borrada!", "Friend list cleared!"));
             }));
     }
 
     @Override
     public void defaultEmbed(final Embed builder) {
         builder
-            .description("**Friend List**\n" + playerListToString(PLAYER_LISTS.getFriendsList()))
+            .description(Lang.t("**Lista de Amigos**\n", "**Friend List**\n") + playerListToString(PLAYER_LISTS.getFriendsList()))
             .primaryColor();
     }
 }

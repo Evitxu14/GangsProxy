@@ -1,6 +1,7 @@
 package com.zenith.command.impl;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.command.api.Command;
 import com.zenith.command.api.CommandCategory;
@@ -86,9 +87,9 @@ public class CoordinateObfuscationCommand extends Command {
                             description.append(reason).append("\n");
                         }
                         c.getSource().getEmbed()
-                            .title("Validation Error")
+                            .title(Lang.t("Error de Validacion", "Validation Error"))
                             .description(description.toString())
-                            .addField("Info", "Don't care? Disable this check: `coordobf validateSetup off`")
+                            .addField(Lang.t("Info", "Info"), Lang.t("No te importa? Deshabilita esta comprobacion: `coordobf validateSetup off`", "Don't care? Disable this check: `coordobf validateSetup off`"))
                             .errorColor();
                         return ERROR;
                     }
@@ -145,8 +146,8 @@ public class CoordinateObfuscationCommand extends Command {
                 if (biome == null) {
                     if (Proxy.getInstance().isConnected()) {
                         c.getSource().getEmbed()
-                            .title("Error")
-                            .description("No biome with this id found");
+                            .title(Lang.t("Error", "Error"))
+                            .description(Lang.t("No se encontro un bioma con este id", "No biome with this id found"));
                         return ERROR;
                     }
                 }

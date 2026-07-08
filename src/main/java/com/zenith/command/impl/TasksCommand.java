@@ -80,9 +80,9 @@ public class TasksCommand extends Command {
                     var parse = COMMAND.parse(CommandContext.create(command, new CommandAction.CommandActionSource()));
                     if (!parse.getExceptions().isEmpty() || parse.getReader().canRead()) {
                         c.getSource().getEmbed()
-                            .title("Invalid Command")
-                            .description("Invalid command: `" + command + "`"
-                                + (parse.getExceptions().isEmpty() ? "" : "\nExceptions: " + parse.getExceptions().values())
+                            .title(Lang.t("Comando Inválido", "Invalid Command"))
+                            .description(Lang.t("Comando inválido: `", "Invalid command: `") + command + "`"
+                                + (parse.getExceptions().isEmpty() ? "" : Lang.t("\nExcepciones: ", "\nExceptions: ") + parse.getExceptions().values())
                             );
                         return ERROR;
                     }
@@ -95,11 +95,11 @@ public class TasksCommand extends Command {
                     );
                     MODULE.get(Tasks.class).addTask(task);
                     c.getSource().getEmbed()
-                        .title("Task Added")
-                        .addField("Task ID", task.getId())
-                        .addField("Type", "Timed")
-                        .addField("Delay", formatTaskDuration(Duration.ofMillis(delayMs)))
-                        .addField("Command", command);
+                        .title(Lang.t("Tarea Añadida", "Task Added"))
+                        .addField(Lang.t("ID de Tarea", "Task ID"), task.getId())
+                        .addField(Lang.t("Tipo", "Type"), Lang.t("Programada", "Timed"))
+                        .addField(Lang.t("Retraso", "Delay"), formatTaskDuration(Duration.ofMillis(delayMs)))
+                        .addField(Lang.t("Comando", "Command"), command);
                     return OK;
                 })))))
                 .then(literal("interval").then(argument("id", wordWithChars()).then(argument("startDelay", time()).then(argument("repeatDelay", time()).then(argument("command", greedyString()).executes(c -> {
@@ -108,9 +108,9 @@ public class TasksCommand extends Command {
                     var parse = COMMAND.parse(CommandContext.create(command, new CommandAction.CommandActionSource()));
                     if (!parse.getExceptions().isEmpty() || parse.getReader().canRead()) {
                         c.getSource().getEmbed()
-                            .title("Invalid Command")
-                            .description("Invalid command: `" + command + "`"
-                                + (parse.getExceptions().isEmpty() ? "" : "\nExceptions: " + parse.getExceptions().values())
+                            .title(Lang.t("Comando Inválido", "Invalid Command"))
+                            .description(Lang.t("Comando inválido: `", "Invalid command: `") + command + "`"
+                                + (parse.getExceptions().isEmpty() ? "" : Lang.t("\nExcepciones: ", "\nExceptions: ") + parse.getExceptions().values())
                             );
                         return ERROR;
                     }
@@ -126,12 +126,12 @@ public class TasksCommand extends Command {
                     );
                     MODULE.get(Tasks.class).addTask(task);
                     c.getSource().getEmbed()
-                        .title("Task Added")
-                        .addField("Task ID", task.getId())
-                        .addField("Type", "Interval")
-                        .addField("Start Time", TimeFormat.DATE_TIME_LONG.format(startTimeInstant))
-                        .addField("Repeat Delay", formatTaskDuration(repeatDuration))
-                        .addField("Command", command);
+                        .title(Lang.t("Tarea Añadida", "Task Added"))
+                        .addField(Lang.t("ID de Tarea", "Task ID"), task.getId())
+                        .addField(Lang.t("Tipo", "Type"), Lang.t("Intervalo", "Interval"))
+                        .addField(Lang.t("Hora de Inicio", "Start Time"), TimeFormat.DATE_TIME_LONG.format(startTimeInstant))
+                        .addField(Lang.t("Retraso de Repetición", "Repeat Delay"), formatTaskDuration(repeatDuration))
+                        .addField(Lang.t("Comando", "Command"), command);
                     return OK;
                 }))))))
                 .then(literal("event").then(argument("id", wordWithChars()).then(argument("event", enumStrings(EVENT_MAP.keySet())).then(argument("repeat", enumStrings("repeat", "once")).then(argument("command", greedyString()).executes(c -> {
@@ -142,9 +142,9 @@ public class TasksCommand extends Command {
                     var parse = COMMAND.parse(CommandContext.create(command, new CommandAction.CommandActionSource()));
                     if (!parse.getExceptions().isEmpty() || parse.getReader().canRead()) {
                         c.getSource().getEmbed()
-                            .title("Invalid Command")
-                            .description("Invalid command: `" + command + "`"
-                                + (parse.getExceptions().isEmpty() ? "" : "\nExceptions: " + parse.getExceptions().values())
+                            .title(Lang.t("Comando Inválido", "Invalid Command"))
+                            .description(Lang.t("Comando inválido: `", "Invalid command: `") + command + "`"
+                                + (parse.getExceptions().isEmpty() ? "" : Lang.t("\nExcepciones: ", "\nExceptions: ") + parse.getExceptions().values())
                             );
                         return ERROR;
                     }
@@ -157,8 +157,8 @@ public class TasksCommand extends Command {
                     }
                     if (eventClass == null) {
                         c.getSource().getEmbed()
-                            .title("Invalid Event")
-                            .description("Unknown event id '" + eventId + "'");
+                            .title(Lang.t("Evento Inválido", "Invalid Event"))
+                            .description(Lang.t("ID de evento desconocido '", "Unknown event id '") + eventId + "'");
                         return ERROR;
                     }
                     var task = new Task(
@@ -171,20 +171,20 @@ public class TasksCommand extends Command {
                     );
                     MODULE.get(Tasks.class).addTask(task);
                     c.getSource().getEmbed()
-                        .title("Task Added")
-                        .addField("Task ID", task.getId())
-                        .addField("Type", "Event")
-                        .addField("Repeat", repeat)
-                        .addField("Event", EVENT_MAP.inverse().get(eventClass))
-                        .addField("Command", command);
+                        .title(Lang.t("Tarea Añadida", "Task Added"))
+                        .addField(Lang.t("ID de Tarea", "Task ID"), task.getId())
+                        .addField(Lang.t("Tipo", "Type"), Lang.t("Evento", "Event"))
+                        .addField(Lang.t("Repetir", "Repeat"), repeat)
+                        .addField(Lang.t("Evento", "Event"), EVENT_MAP.inverse().get(eventClass))
+                        .addField(Lang.t("Comando", "Command"), command);
                     return OK;
                 })))))))
             .then(literal("del").then(argument("id", wordWithChars()).executes(c -> {
                 var id = getString(c, "id");
                 MODULE.get(Tasks.class).removeTask(id);
                 c.getSource().getEmbed()
-                    .title("Task Removed")
-                    .addField("Task ID", id);
+                    .title(Lang.t("Tarea Eliminada", "Task Removed"))
+                    .addField(Lang.t("ID de Tarea", "Task ID"), id);
             })))
             .then(literal("list").executes(c -> {
                 var tasksStr = MODULE.get(Tasks.class).getTasks().stream()
@@ -197,23 +197,23 @@ public class TasksCommand extends Command {
                     .reduce((a, b) -> a + "\n" + b)
                     .orElse("None");
                 c.getSource().getEmbed()
-                    .title("Task List")
+                    .title(Lang.t("Lista de Tareas", "Task List"))
                     .description(tasksStr);
             }))
             .then(literal("clear").executes(c -> {
                 MODULE.get(Tasks.class).clearTasks();
                 c.getSource().getEmbed()
-                    .title("Tasks Cleared");
+                    .title(Lang.t("Tareas Borradas", "Tasks Cleared"));
             }))
             .then(literal("logCommandActionOutput").requires(Command::validateAccountOwner).then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.tasks.logCommandActionOutput = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Log Command Action Output " + toggleStrCaps(CONFIG.client.extra.tasks.logCommandActionOutput));
+                    .title(Lang.t("Registrar Salida de Acción de Comando ", "Log Command Action Output ") + toggleStrCaps(CONFIG.client.extra.tasks.logCommandActionOutput));
             })))
             .then(literal("taskCommandExecutedNotification").requires(Command::validateAccountOwner).then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.tasks.taskCommandExecutedNotification = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Task Command Executed Notification " + toggleStrCaps(CONFIG.client.extra.tasks.taskCommandExecutedNotification));
+                    .title(Lang.t("Notificación de Comando de Tarea Ejecutado ", "Task Command Executed Notification ") + toggleStrCaps(CONFIG.client.extra.tasks.taskCommandExecutedNotification));
             })));
     }
 

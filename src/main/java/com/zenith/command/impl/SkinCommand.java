@@ -1,6 +1,7 @@
 package com.zenith.command.impl;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.command.api.*;
 import com.zenith.discord.DiscordBot;
@@ -64,8 +65,8 @@ public class SkinCommand extends Command {
                 var existingProfile = CACHE.getProfileCache().getProfile();
                 if (existingProfile == null) {
                     var embed = Embed.builder()
-                        .title("Error")
-                        .description("Failed to get current profile");
+                        .title(Lang.t("Error", "Error"))
+                        .description(Lang.t("Error al obtener el perfil actual", "Failed to get current profile"));
                     CommandOutputHelper.logEmbedOutputToInGame(embed, session);
                     return;
                 }
@@ -74,8 +75,8 @@ public class SkinCommand extends Command {
                 var existingEntryOptional = CACHE.getTabListCache().get(existingProfile.getId());
                 if (existingEntryOptional.isEmpty()) {
                     var embed = Embed.builder()
-                        .title("Error")
-                        .description("Failed to get existing tab list entry");
+                        .title(Lang.t("Error", "Error"))
+                        .description(Lang.t("Error al obtener la entrada de la lista de pestañas existente", "Failed to get existing tab list entry"));
                     CommandOutputHelper.logEmbedOutputToInGame(embed, session);
                     return;
                 }
@@ -110,7 +111,7 @@ public class SkinCommand extends Command {
             }, () -> {
                 var embed = Embed.builder()
                     .title("Error")
-                    .description("Failed to get skin for: " + DiscordBot.escape(playerName));
+                    .description(Lang.t("Error al obtener la skin para: ", "Failed to get skin for: ") + DiscordBot.escape(playerName));
                 CommandOutputHelper.logEmbedOutputToInGame(embed, session);
             });
     }

@@ -100,14 +100,14 @@ public class PluginsCommand extends Command {
                 var requestedUrl = getString(c, "url");
                 if (!requestedUrl.startsWith("http://") && !requestedUrl.startsWith("https://")) {
                     c.getSource().getEmbed()
-                        .title("Invalid URL")
-                        .description("The URL must start with `http://` or `https://`");
+                        .title(Lang.t("URL Invalida", "Invalid URL"))
+                        .description(Lang.t("La URL debe comenzar con `http://` o `https://`", "The URL must start with `http://` or `https://`"));
                     return ERROR;
                 }
                 if (!requestedUrl.endsWith(".jar")) {
                     c.getSource().getEmbed()
-                        .title("Invalid URL")
-                        .description("The URL must point to a `.jar` file");
+                        .title(Lang.t("URL Invalida", "Invalid URL"))
+                        .description(Lang.t("La URL debe apuntar a un archivo `.jar`", "The URL must point to a `.jar` file"));
                     return ERROR;
                 }
                 URL url;
@@ -115,8 +115,8 @@ public class PluginsCommand extends Command {
                     url = URI.create(requestedUrl).toURL();
                 } catch (MalformedURLException e) {
                     c.getSource().getEmbed()
-                        .title("Invalid URL")
-                        .description("Invalid URL: " + e.getClass().getSimpleName() + " : " + e.getMessage());
+                        .title(Lang.t("URL Invalida", "Invalid URL"))
+                        .description(Lang.t("URL Invalida: ", "Invalid URL: ") + e.getClass().getSimpleName() + " : " + e.getMessage());
                     return ERROR;
                 }
                 var api = new PluginDownloadApi();
@@ -162,7 +162,7 @@ public class PluginsCommand extends Command {
                         instance.getJarPath().toFile().deleteOnExit();
                         c.getSource().getEmbed()
                             .title("Plugin Removed")
-                            .description(appendWarningToDescription("Changes will take effect on next restart"))
+                            .description(appendWarningToDescription(Lang.t("Los cambios surtiran efecto en el proximo reinicio", "Changes will take effect on next restart")))
                             .addField(Lang.t("Plugin", "Plugin"), instance.getPluginInfo().id())
                             .addField("Jar", instance.getJarPath().toString())
                             .primaryColor();

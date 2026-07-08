@@ -1,5 +1,6 @@
 package com.zenith.feature.api;
 
+import com.zenith.Lang;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -31,7 +32,7 @@ public abstract class Api {
             var response = client
                 .send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() >= 400) {
-                DEFAULT_LOG.warn("Request failed to: {}{} - {}", baseUrl, uri, response.statusCode());
+                DEFAULT_LOG.warn(Lang.t("Solicitud fallida a: {}{} - {}", "Request failed to: {}{} - {}"), baseUrl, uri, response.statusCode());
                 return Optional.empty();
             }
             var body = response.body();
@@ -42,7 +43,7 @@ public abstract class Api {
                 return Optional.empty();
             }
         } catch (Exception e) {
-            DEFAULT_LOG.warn("Request failed to: {}{} - {}", baseUrl, uri, e.toString());
+            DEFAULT_LOG.warn(Lang.t("Solicitud fallida a: {}{} - {}", "Request failed to: {}{} - {}"), baseUrl, uri, e.toString());
             return Optional.empty();
         }
     }

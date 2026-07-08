@@ -49,34 +49,34 @@ public class RateLimiterCommand extends Command {
                       .then(argument("toggle", toggle()).executes(c -> {
                           CONFIG.server.loginRateLimiter.enabled = getToggle(c, "toggle");
                           c.getSource().getEmbed()
-                              .title("Login Rate Limiter " + toggleStrCaps(CONFIG.server.loginRateLimiter.enabled));
+                               .title(Lang.t("Limitador de Tasa de Inicio de Sesion ", "Login Rate Limiter ") + toggleStrCaps(CONFIG.server.loginRateLimiter.enabled));
                           return OK;
                       }))
                       .then(literal("rateLimit").then(argument("seconds", integer(0, 1000)).executes(c -> {
                           CONFIG.server.loginRateLimiter.rateLimitSeconds = getInteger( c, "seconds");
                           c.getSource().getEmbed()
-                              .title("Login Rate Limit Set")
-                              .description("Changes will take effect on next gangsproxy restart.");
-                          return OK;
-                      }))))
+                               .title(Lang.t("Limite de Tasa de Inicio de Sesion Establecido", "Login Rate Limit Set"))
+                            .description(Lang.t("Los cambios surtiran efecto en el proximo reinicio de gangsproxy.", "Changes will take effect on next gangsproxy restart."));
+                        return OK;
+                    }))))
             .then(literal("packet")
                       .then(argument("toggle", toggle()).executes(c -> {
                           CONFIG.server.packetRateLimiter.enabled = getToggle(c, "toggle");
                           c.getSource().getEmbed()
-                              .title("Packet Rate Limiter " + toggleStrCaps(CONFIG.server.packetRateLimiter.enabled));
+                               .title(Lang.t("Limitador de Tasa de Paquetes ", "Packet Rate Limiter ") + toggleStrCaps(CONFIG.server.packetRateLimiter.enabled));
                           return OK;
                       }))
                       .then(literal("interval").then(argument("packetInterval", doubleArg(0.05, 1000)).executes(c -> {
                           CONFIG.server.packetRateLimiter.intervalSeconds = getDouble(c, "packetInterval");
                           c.getSource().getEmbed()
-                              .title("Packet Interval Set")
-                              .description("Changes will take effect on next gangsproxy restart.");
+                               .title(Lang.t("Intervalo de Paquetes Establecido", "Packet Interval Set"))
+                              .description(Lang.t("Los cambios surtiran efecto en el proximo reinicio de gangsproxy.", "Changes will take effect on next gangsproxy restart."));
                           return OK;
                       })))
                       .then(literal("rateLimit").then(argument("rateLimitSeconds", integer(1, 1_000_000)).executes(c -> {
                           CONFIG.server.packetRateLimiter.maxPacketsPerInterval = getInteger( c, "rateLimitSeconds");
                           c.getSource().getEmbed()
-                              .title("Packet Rate Limit Set");
+                               .title(Lang.t("Limite de Tasa de Paquetes Establecido", "Packet Rate Limit Set"));
                           return OK;
                       }))));
     }
@@ -84,11 +84,11 @@ public class RateLimiterCommand extends Command {
     @Override
     public void defaultEmbed(Embed embed) {
         embed
-            .addField("Login", toggleStr(CONFIG.server.loginRateLimiter.enabled))
-            .addField("Login Rate Limit", CONFIG.server.loginRateLimiter.rateLimitSeconds + "s")
-            .addField("Packet", toggleStr(CONFIG.server.packetRateLimiter.enabled))
-            .addField("Packet Interval", CONFIG.server.packetRateLimiter.intervalSeconds + "s")
-            .addField("Packet Rate Limit", CONFIG.server.packetRateLimiter.maxPacketsPerInterval)
+            .addField(Lang.t("Inicio de Sesion", "Login"), toggleStr(CONFIG.server.loginRateLimiter.enabled))
+            .addField(Lang.t("Limite de Tasa de Inicio de Sesion", "Login Rate Limit"), CONFIG.server.loginRateLimiter.rateLimitSeconds + "s")
+            .addField(Lang.t("Paquete", "Packet"), toggleStr(CONFIG.server.packetRateLimiter.enabled))
+            .addField(Lang.t("Intervalo de Paquetes", "Packet Interval"), CONFIG.server.packetRateLimiter.intervalSeconds + "s")
+            .addField(Lang.t("Limite de Tasa de Paquetes", "Packet Rate Limit"), CONFIG.server.packetRateLimiter.maxPacketsPerInterval)
             .primaryColor();
     }
 }

@@ -9,6 +9,7 @@ import com.zenith.discord.Embed;
 import com.zenith.module.impl.Spook;
 import com.zenith.util.config.Config;
 
+import com.zenith.Lang;
 import static com.zenith.Globals.CONFIG;
 import static com.zenith.Globals.MODULE;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
@@ -39,7 +40,7 @@ public class SpookCommand extends Command {
                 CONFIG.client.extra.spook.enabled = getToggle(c, "toggle");
                 MODULE.get(Spook.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
-                    .title("Spook " + toggleStrCaps(CONFIG.client.extra.spook.enabled));
+                    .title(Lang.t("Espantar ", "Spook ") + toggleStrCaps(CONFIG.client.extra.spook.enabled));
                 return OK;
             }))
             .then(literal("mode").then(argument("modeArg", enumStrings("nearest", "visualRange")).executes(c -> {
@@ -51,12 +52,12 @@ public class SpookCommand extends Command {
                 };
                 if (mode == null) {
                     c.getSource().getEmbed()
-                        .title("Invalid mode: " + arg);
+                        .title(Lang.t("Modo inválido: ", "Invalid mode: ") + arg);
                     return ERROR;
                 }
                 CONFIG.client.extra.spook.spookTargetingMode = mode;
                 c.getSource().getEmbed()
-                    .title("Spook Mode Updated!");
+                    .title(Lang.t("¡Modo Espantar Actualizado!", "Spook Mode Updated!"));
                 return OK;
             })));
     }
@@ -64,8 +65,8 @@ public class SpookCommand extends Command {
     @Override
     public void defaultEmbed(final Embed builder) {
         builder
-            .addField("Spook", toggleStr(CONFIG.client.extra.spook.enabled), false)
-            .addField("Mode", CONFIG.client.extra.spook.spookTargetingMode.toString().toLowerCase(), false)
+            .addField(Lang.t("Espantar", "Spook"), toggleStr(CONFIG.client.extra.spook.enabled), false)
+            .addField(Lang.t("Modo", "Mode"), CONFIG.client.extra.spook.spookTargetingMode.toString().toLowerCase(), false)
             .primaryColor();
     }
 }

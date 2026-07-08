@@ -1,6 +1,7 @@
 package com.zenith.command.impl;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.command.api.Command;
 import com.zenith.command.api.CommandCategory;
@@ -46,14 +47,14 @@ public class CommandConfigCommand extends Command {
                     final String newPrefix = c.getArgument("prefix", String.class);
                     if (newPrefix.isBlank()) {
                         c.getSource().getEmbed()
-                            .title("Error")
-                            .description("Prefix must be at least one character");
+                            .title(Lang.t("Error", "Error"))
+                            .description(Lang.t("El prefijo debe tener al menos un caracter", "Prefix must be at least one character"));
                         return OK;
                     }
                     CONFIG.discord.prefix = newPrefix;
                     c.getSource().getEmbed()
-                        .title("Command Config")
-                        .description("Set discord prefix to " + CONFIG.discord.prefix);
+                        .title(Lang.t("Configuracion de Comandos", "Command Config"))
+                        .description(Lang.t("Prefijo de discord establecido a ", "Set discord prefix to ") + CONFIG.discord.prefix);
                     return OK;
                 }))))
             .then(literal("ingame")
@@ -83,14 +84,14 @@ public class CommandConfigCommand extends Command {
                     final String newPrefix = c.getArgument("prefix", String.class);
                     if (newPrefix.isBlank()) {
                         c.getSource().getEmbed()
-                            .title("Error")
-                            .description("Prefix must be at least one character");
+                            .title(Lang.t("Error", "Error"))
+                            .description(Lang.t("El prefijo debe tener al menos un caracter", "Prefix must be at least one character"));
                         return ERROR;
                     } else {
                         CONFIG.inGameCommands.prefix = newPrefix;
                         c.getSource().getEmbed()
-                            .title("Command Config")
-                            .description("Set ingame prefix to " + CONFIG.inGameCommands.prefix);
+                            .title(Lang.t("Configuracion de Comandos", "Command Config"))
+                            .description(Lang.t("Prefijo en el juego establecido a ", "Set ingame prefix to ") + CONFIG.inGameCommands.prefix);
                         return OK;
                     }
                 })))

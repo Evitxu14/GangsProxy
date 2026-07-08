@@ -46,40 +46,40 @@ public class QueueWarningCommand extends Command {
             .then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.queueWarning.enabled = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Queue Warning " + toggleStrCaps(CONFIG.client.extra.queueWarning.enabled));
+                    .title(Lang.t("Advertencia de Cola " + toggleStrCaps(CONFIG.client.extra.queueWarning.enabled), "Queue Warning " + toggleStrCaps(CONFIG.client.extra.queueWarning.enabled)));
                 MODULE.get(QueueWarning.class).syncEnabledFromConfig();
                 return OK;
             }))
             .then(literal("list").executes(c -> {
                 c.getSource().getEmbed()
-                    .title("Queue Warning List");
+                    .title(Lang.t("Lista de Advertencias de Cola", "Queue Warning List"));
                 return OK;
             }))
             .then(literal("clear").executes(c -> {
                 CONFIG.client.extra.queueWarning.warningPositions.clear();
                 CONFIG.client.extra.queueWarning.mentionPositions.clear();
-                c.getSource().getEmbed().title("Cleared All Positions");
+                c.getSource().getEmbed().title(Lang.t("Todas las Posiciones Borradas", "Cleared All Positions"));
                 return OK;
             }))
             .then(literal("add").then(argument("pos", integer(1, 1000)).executes(c -> {
                 int pos = getInteger(c, "pos");
                 CONFIG.client.extra.queueWarning.warningPositions.add(pos);
                 CONFIG.client.extra.queueWarning.mentionPositions.remove(pos);
-                c.getSource().getEmbed().title("Added " + pos);
+                c.getSource().getEmbed().title(Lang.t("Anadida ", "Added ") + pos);
                 return OK;
             })
                 .then(literal("mention").executes(c -> {
                     int pos = getInteger(c, "pos");
                     CONFIG.client.extra.queueWarning.warningPositions.add(pos);
                     CONFIG.client.extra.queueWarning.mentionPositions.add(pos);
-                    c.getSource().getEmbed().title("Added " + pos);
+                c.getSource().getEmbed().title(Lang.t("Anadida ", "Added ") + pos);
                     return OK;
                 }))))
             .then(literal("del").then(argument("pos", integer(1, 1000)).executes(c -> {
                 int pos = getInteger(c, "pos");
                 CONFIG.client.extra.queueWarning.warningPositions.remove(pos);
                 CONFIG.client.extra.queueWarning.mentionPositions.remove(pos);
-                c.getSource().getEmbed().title("Deleted " + pos);
+                c.getSource().getEmbed().title(Lang.t("Eliminada ", "Deleted ") + pos);
                 return OK;
             })));
     }
@@ -94,7 +94,7 @@ public class QueueWarningCommand extends Command {
 
     private String getWarnListStr() {
         return CONFIG.client.extra.queueWarning.warningPositions.isEmpty()
-            ? "Empty"
+            ? Lang.t("Vacio", "Empty")
             : CONFIG.client.extra.queueWarning.warningPositions.intStream()
                 .sorted()
                 .mapToObj(pos -> pos + (CONFIG.client.extra.queueWarning.mentionPositions.contains(pos) ? " (m)" : ""))

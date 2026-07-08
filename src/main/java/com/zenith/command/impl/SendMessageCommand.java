@@ -1,6 +1,7 @@
 package com.zenith.command.impl;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.command.api.*;
 import com.zenith.event.message.PrivateMessageSendEvent;
@@ -47,21 +48,21 @@ public class SendMessageCommand extends Command {
                               if (CONFIG.server.spectator.spectatorPublicChatEnabled) {
                                   Proxy.getInstance().getClient().sendAsync(new ServerboundChatPacket(message));
                                   c.getSource().getEmbed()
-                                      .title("Sent Message!")
+                                      .title(Lang.t("Mensaje Enviado!", "Sent Message!"))
                                       .description(message);
                               } else {
-                                  session.sendAsyncMessage(minimessage("<red>Spectator chat disabled"));
+                                  session.sendAsyncMessage(minimessage(Lang.t("<red>Chat de espectador deshabilitado", "<red>Spectator chat disabled")));
                                   c.getSource().setNoOutput(true);
                               }
                           } else {
                               if (Proxy.getInstance().isConnected() && !message.isBlank()) {
                                   Proxy.getInstance().getClient().sendAsync(new ServerboundChatPacket(message));
                                   c.getSource().getEmbed()
-                                      .title("Sent Message!")
+                                      .title(Lang.t("Mensaje Enviado!", "Sent Message!"))
                                       .description(message);
                               } else {
                                   c.getSource().getEmbed()
-                                      .title("Failed to send message");
+                                      .title(Lang.t("Error al enviar el mensaje", "Failed to send message"));
                               }
                           }
                           return OK;

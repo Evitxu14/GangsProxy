@@ -41,9 +41,9 @@ public class IgnoreCommand extends Command {
                 String player = c.getArgument("player", String.class);
                 PLAYER_LISTS.getIgnoreList().add(player).ifPresentOrElse(
                     ignored -> c.getSource().getEmbed()
-                        .title(escape(ignored.getUsername()) + " ignored!"),
+                        .title(escape(ignored.getUsername()) + Lang.t(" ignorado!", " ignored!")),
                     () -> c.getSource().getEmbed()
-                        .title("Failed to add " + escape(player) + " to ignore list. Unable to lookup profile.")
+                        .title(Lang.t("Error al anadir ", "Failed to add ") + escape(player) + Lang.t(" a la lista de ignorados. No se puede buscar el perfil.", " to ignore list. Unable to lookup profile."))
                         .errorColor());
                 return OK;
             })))
@@ -52,8 +52,8 @@ public class IgnoreCommand extends Command {
                 String[] split = playerList.split(",");
                 if (split.length == 0) {
                     c.getSource().getEmbed()
-                        .title("Invalid Input")
-                        .description("Each player name must be delimited by `,`");
+                        .title(Lang.t("Entrada Invalida", "Invalid Input"))
+                        .description(Lang.t("Cada nombre de jugador debe estar delimitado por `,`", "Each player name must be delimited by `,`"));
                     return ERROR;
                 }
                 List<String> addErrors = new ArrayList<>();
@@ -63,11 +63,11 @@ public class IgnoreCommand extends Command {
                     }
                 }
                 c.getSource().getEmbed()
-                    .title("Added Players")
-                    .addField("Added Player Count", split.length - addErrors.size());
+                    .title(Lang.t("Jugadores Anadidos", "Added Players"))
+                    .addField(Lang.t("Contador de Jugadores Anadidos", "Added Player Count"), split.length - addErrors.size());
                 if (!addErrors.isEmpty()) {
                     c.getSource().getEmbed()
-                        .description("Failed adding " + addErrors.size() + " players: " + String.join(", ", addErrors));
+                        .description(Lang.t("Error al anadir ", "Failed adding ") + addErrors.size() + Lang.t(" jugadores: ", " players: ") + String.join(", ", addErrors));
                 }
                 return OK;
             })))
@@ -75,23 +75,23 @@ public class IgnoreCommand extends Command {
                 String player = c.getArgument("player", String.class);
                 PLAYER_LISTS.getIgnoreList().remove(player);
                 c.getSource().getEmbed()
-                    .title(escape(player) + " removed from ignore list!");
+                    .title(escape(player) + Lang.t(" eliminado de la lista de ignorados!", " removed from ignore list!"));
             })))
             .then(literal("list").executes(c -> {
                 c.getSource().getEmbed()
-                    .title("Ignore List");
+                    .title(Lang.t("Lista de Ignorados", "Ignore List"));
             }))
             .then(literal("clear").executes(c -> {
                 PLAYER_LISTS.getIgnoreList().clear();
                 c.getSource().getEmbed()
-                    .title("Ignore list cleared!");
+                    .title(Lang.t("Lista de ignorados borrada!", "Ignore list cleared!"));
             }));
     }
 
     @Override
     public void defaultEmbed(final Embed builder) {
         builder
-            .description("**Ignore List**\n" + playerListToString(PLAYER_LISTS.getIgnoreList()))
+            .description(Lang.t("**Lista de Ignorados**\n", "**Ignore List**\n") + playerListToString(PLAYER_LISTS.getIgnoreList()))
             .primaryColor();
     }
 }

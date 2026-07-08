@@ -1,6 +1,7 @@
 package com.zenith.discord;
 
 import com.github.rfresh2.SimpleEventBus;
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.command.api.CommandContext;
 import com.zenith.command.api.CommandOutputHelper;
@@ -68,11 +69,11 @@ public class DiscordBot {
         jdaEventBus.subscribe(
             this,
             of(MessageReceivedEvent.class, this::onMessageReceived),
-            of(SessionRecreateEvent.class, e -> DISCORD_LOG.info("Session recreated")),
-            of(SessionResumeEvent.class, e -> DISCORD_LOG.info("Session resumed")),
-            of(ReadyEvent.class, e -> DISCORD_LOG.info("JDA ready")),
-            of(SessionDisconnectEvent.class, e -> DISCORD_LOG.info("Session disconnected")),
-            of(SessionInvalidateEvent.class, e -> DISCORD_LOG.info("Session invalidated")),
+            of(SessionRecreateEvent.class, e -> DISCORD_LOG.info(Lang.t("Sesion recreada", "Session recreated"))),
+            of(SessionResumeEvent.class, e -> DISCORD_LOG.info(Lang.t("Sesion reanudada", "Session resumed"))),
+            of(ReadyEvent.class, e -> DISCORD_LOG.info(Lang.t("JDA listo", "JDA ready"))),
+            of(SessionDisconnectEvent.class, e -> DISCORD_LOG.info(Lang.t("Sesion desconectada", "Session disconnected"))),
+            of(SessionInvalidateEvent.class, e -> DISCORD_LOG.info(Lang.t("Sesion invalidada", "Session invalidated"))),
             of(StatusChangeEvent.class, e -> DISCORD_LOG.debug("JDA Status: {}", e.getNewStatus()))
         );
         EVENT_BUS.subscribe(
@@ -115,7 +116,7 @@ public class DiscordBot {
             }
             jda.awaitShutdown(Duration.ofSeconds(20));
         } catch (final Exception e) {
-            DISCORD_LOG.warn("Exception during JDA shutdown", e);
+            DISCORD_LOG.warn(Lang.t("Excepcion durante el apagado de JDA", "Exception during JDA shutdown"), e);
         }
     }
 
@@ -146,7 +147,7 @@ public class DiscordBot {
         JDABuilder builder = JDABuilder.createLight(
                 CONFIG.discord.token,
                 asList(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES))
-            .setActivity(Activity.customStatus("Disconnected"))
+            .setActivity(Activity.customStatus(Lang.t("Desconectado", "Disconnected")))
             .setStatus(OnlineStatus.DO_NOT_DISTURB)
             .addEventListeners(new SimpleEventBusListener(jdaEventBus));
         this.jda = builder.build();
@@ -200,7 +201,7 @@ public class DiscordBot {
             var jdaEvent = event.event();
             var author = event.event().getAuthor();
             var inputMessage = event.message().substring(CONFIG.discord.prefix.length());
-            DISCORD_LOG.info("{} ({}) executed discord command: {}", author.getName(), author.getId(), inputMessage);
+            DISCORD_LOG.info(Lang.t("{} ({}) ejecuto comando de discord: {}", "{} ({}) executed discord command: {}"), author.getName(), author.getId(), inputMessage);
             final CommandContext context = DiscordCommandContext.create(inputMessage, jdaEvent);
             COMMAND.execute(context);
             final MessageCreateData request = commandEmbedOutputToMessage(context);
@@ -215,7 +216,7 @@ public class DiscordBot {
                 CommandOutputHelper.logMultiLineOutputToTerminal(context.getMultiLineOutput());
             }
         } catch (final Exception e) {
-            DISCORD_LOG.error("Failed processing discord command: {}", event.message(), e);
+            DISCORD_LOG.error(Lang.t("Error al procesar comando de discord: {}", "Failed processing discord command: {}"), event.message(), e);
         }
     }
 
@@ -239,7 +240,7 @@ public class DiscordBot {
         try {
             return MentionUtil.forRole(roleId);
         } catch (final NumberFormatException e) {
-            DISCORD_LOG.error("Unable to generate mention for role ID: {}", roleId, e);
+            DISCORD_LOG.error(Lang.t("No se pudo generar mencion para el ID de rol: {}", "Unable to generate mention for role ID: {}"), roleId, e);
             return "";
         }
     }
@@ -250,11 +251,11 @@ public class DiscordBot {
             if (nick.equals(mainChannel.getGuild().getSelfMember().getNickname())) return;
             mainChannel.getGuild().getSelfMember().modifyNickname(nick).complete();
         } catch (PermissionException e) {
-            DISCORD_LOG.warn("Failed updating bot's nickname. Check that the bot has correct permissions: {}", e.getMessage());
-            DISCORD_LOG.debug("Failed updating bot's nickname. Check that the bot has correct permissions", e);
+            DISCORD_LOG.warn(Lang.t("Error al actualizar el apodo del bot. Verifica que el bot tenga los permisos correctos: {}", "Failed updating bot's nickname. Check that the bot has correct permissions: {}"), e.getMessage());
+            DISCORD_LOG.debug(Lang.t("Error al actualizar el apodo del bot. Verifica que el bot tenga los permisos correctos", "Failed updating bot's nickname. Check that the bot has correct permissions"), e);
         } catch (final Exception e) {
-            DISCORD_LOG.warn("Failed updating bot's nickname: {}", e.getMessage());
-            DISCORD_LOG.debug("Failed updating bot's nickname", e);
+            DISCORD_LOG.warn(Lang.t("Error al actualizar el apodo del bot: {}", "Failed updating bot's nickname: {}"), e.getMessage());
+            DISCORD_LOG.debug(Lang.t("Error al actualizar el apodo del bot", "Failed updating bot's nickname"), e);
         }
     }
 
@@ -263,8 +264,8 @@ public class DiscordBot {
         try {
             jda.getApplicationManager().setDescription(description).complete();
         } catch (final Exception e) {
-            DISCORD_LOG.warn("Failed updating bot's description: {}", e.getMessage());
-            DISCORD_LOG.debug("Failed updating bot's description", e);
+            DISCORD_LOG.warn(Lang.t("Error al actualizar la descripcion del bot: {}", "Failed updating bot's description: {}"), e.getMessage());
+            DISCORD_LOG.debug(Lang.t("Error al actualizar la descripcion del bot", "Failed updating bot's description"), e);
         }
     }
 
@@ -272,12 +273,12 @@ public class DiscordBot {
         CONFIG.discord.isUpdating = false;
         saveConfigAsync();
         var embed = Embed.builder()
-            .title("Update complete!")
-            .description("Current Version: `" + escape(LAUNCH_CONFIG.version) + "`")
+            .title(Lang.t("Actualizacion completa!", "Update complete!"))
+            .description(Lang.t("Version Actual: `", "Current Version: `") + escape(LAUNCH_CONFIG.version) + "`")
             .successColor();
         if (!LAUNCH_CONFIG.auto_update) {
             embed
-                .title("Restart complete!");
+                .title(Lang.t("Reinicio completo!", "Restart complete!"));
         }
         sendEmbedMessage(embed);
     }
@@ -303,12 +304,12 @@ public class DiscordBot {
                                 ? OnlineStatus.IDLE
                                 : OnlineStatus.ONLINE
                             : OnlineStatus.DO_NOT_DISTURB,
-                        Activity.customStatus("Update Available" + autoUpdater.getNewVersion().map(v -> ": " + v).orElse(""))
+                        Activity.customStatus(Lang.t("Actualizacion Disponible", "Update Available") + autoUpdater.getNewVersion().map(v -> ": " + v).orElse(""))
                     );
                 }
             }
             if (MODULE.get(AutoReconnect.class).autoReconnectIsInProgress()) {
-                jda.getPresence().setPresence(OnlineStatus.IDLE, Activity.customStatus("AutoReconnecting..."));
+                jda.getPresence().setPresence(OnlineStatus.IDLE, Activity.customStatus(Lang.t("AutoReconectando...", "AutoReconnecting...")));
                 return;
             }
             if (Proxy.getInstance().isInQueue()) {
@@ -316,14 +317,16 @@ public class DiscordBot {
             } else if (Proxy.getInstance().isConnected()) {
                 jda.getPresence().setPresence(
                     OnlineStatus.ONLINE,
-                    Activity.customStatus((Proxy.getInstance().isOn2b2t() ? "2b2t" : CONFIG.client.server.address)
-                                              + " [" + Proxy.getInstance().getOnlineTimeString() + "]"));
+                    Activity.customStatus(Lang.t((Proxy.getInstance().isOn2b2t() ? "2b2t" : CONFIG.client.server.address)
+                                              + " [" + Proxy.getInstance().getOnlineTimeString() + "]",
+                                              (Proxy.getInstance().isOn2b2t() ? "2b2t" : CONFIG.client.server.address)
+                                              + " [" + Proxy.getInstance().getOnlineTimeString() + "]")));
             } else {
-                jda.getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB, Activity.customStatus("Disconnected"));
+                jda.getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB, Activity.customStatus(Lang.t("Desconectado", "Disconnected")));
             }
         } catch (final Throwable e) {
-            DISCORD_LOG.error("Failed updating discord presence. Check that the bot has correct permissions: {}", e.getMessage());
-            DISCORD_LOG.debug("Failed updating discord presence. Check that the bot has correct permissions.", e);
+            DISCORD_LOG.error(Lang.t("Error al actualizar presencia de discord. Verifica que el bot tenga los permisos correctos: {}", "Failed updating discord presence. Check that the bot has correct permissions: {}"), e.getMessage());
+            DISCORD_LOG.debug(Lang.t("Error al actualizar presencia de discord. Verifica que el bot tenga los permisos correctos.", "Failed updating discord presence. Check that the bot has correct permissions."), e);
         }
     }
 
@@ -369,14 +372,14 @@ public class DiscordBot {
             jda.getSelfUser().getManager().setAvatar(Icon.from(imageBytes)).complete();
         } catch (ErrorResponseException e) {
             if (e.getErrorResponse() == ErrorResponse.INVALID_FORM_BODY) {
-                DISCORD_LOG.debug("Rate limited while updating discord profile image.", e);
+                DISCORD_LOG.debug(Lang.t("Limite de tasa alcanzado al actualizar la imagen de perfil de discord.", "Rate limited while updating discord profile image."), e);
                 return;
             }
-            DISCORD_LOG.warn("Failed updating discord profile image: {}", e.getMessage());
-            DISCORD_LOG.debug("Failed updating discord profile image", e);
+            DISCORD_LOG.warn(Lang.t("Error al actualizar la imagen de perfil de discord: {}", "Failed updating discord profile image: {}"), e.getMessage());
+            DISCORD_LOG.debug(Lang.t("Error al actualizar la imagen de perfil de discord", "Failed updating discord profile image"), e);
         } catch (final Exception e) {
-            DISCORD_LOG.warn("Failed updating discord profile image: {}", e.getMessage());
-            DISCORD_LOG.debug("Failed updating discord profile image", e);
+            DISCORD_LOG.warn(Lang.t("Error al actualizar la imagen de perfil de discord: {}", "Failed updating discord profile image: {}"), e.getMessage());
+            DISCORD_LOG.debug(Lang.t("Error al actualizar la imagen de perfil de discord", "Failed updating discord profile image"), e);
         }
     }
 
@@ -396,7 +399,7 @@ public class DiscordBot {
                 }
                 channel.sendMessage(msgBuilder.build()).queue();
             } catch (final Exception e) {
-                DISCORD_LOG.error("Failed sending embed message", e);
+                DISCORD_LOG.error(Lang.t("Error al enviar mensaje embed", "Failed sending embed message"), e);
             }
         }
         if (message != null) TERMINAL_LOG.info(message);
@@ -429,7 +432,7 @@ public class DiscordBot {
                         .build())
                     .queue();
             } catch (Exception e) {
-                DISCORD_LOG.error("Failed sending message: {}", e.getMessage());
+                DISCORD_LOG.error(Lang.t("Error al enviar mensaje: {}", "Failed sending message: {}"), e.getMessage());
             }
         }
     }
@@ -461,7 +464,7 @@ public class DiscordBot {
                     .timeout(timeout)
                     .subscribe(eventConsumer);
             } catch (final Exception e) {
-                DISCORD_LOG.error("Failed sending embed message with buttons to discord", e);
+                DISCORD_LOG.error(Lang.t("Error al enviar mensaje embed con botones a discord", "Failed sending embed message with buttons to discord"), e);
             }
         }
     }

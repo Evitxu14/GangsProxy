@@ -1,5 +1,6 @@
 package com.zenith.discord;
 
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +48,7 @@ public class DiscordRPC {
             try {
                 String pipePath = getPipePath(i);
                 pipe = new RandomAccessFile(pipePath, "rw");
-                LOG.info("Gang'sProxy RPC conectado / connected to Discord pipe {}", i);
+                LOG.info(Lang.t("Gang'sProxy RPC conectado al pipe de Discord {}", "Gang'sProxy RPC connected to Discord pipe {}"), i);
                 handshake();
                 startTimestamp = System.currentTimeMillis() / 1000L;
                 updateTask = scheduler.scheduleAtFixedRate(this::updatePresence, 0, 15, TimeUnit.SECONDS);
@@ -56,7 +57,7 @@ public class DiscordRPC {
                 // try next pipe
             }
         }
-        LOG.warn("Gang'sProxy RPC: No se pudo conectar a Discord / Could not connect to Discord pipe");
+        LOG.warn(Lang.t("Gang'sProxy RPC: No se pudo conectar al pipe de Discord", "Gang'sProxy RPC: Could not connect to Discord pipe"));
     }
 
     private String getPipePath(int i) {
@@ -92,7 +93,7 @@ public class DiscordRPC {
             write(1, payload);
             read();
         } catch (Exception e) {
-            LOG.warn("Gang'sProxy RPC: Error actualizando / Error updating presence: {}", e.getMessage());
+            LOG.warn(Lang.t("Gang'sProxy RPC: Error actualizando presencia: {}", "Gang'sProxy RPC: Error updating presence: {}"), e.getMessage());
             connected = false;
             scheduler.schedule(this::connect, 30, TimeUnit.SECONDS);
         }

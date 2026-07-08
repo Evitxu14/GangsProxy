@@ -58,7 +58,7 @@ public class WaypointsCommand extends Command {
                     waypoints.add(new Waypoint(id, dimension.name(), pos.x(), pos.y(), pos.z()));
                     waypoints.sort(Waypoint::compareTo);
                     c.getSource().getEmbed()
-                        .title("Waypoint Added");
+                        .title(Lang.t("Punto de Referencia Añadido", "Waypoint Added"));
                 })))
                 .then(argument("pos", blockPos()).executes(c -> {
                     String id = getString(c, "id");
@@ -69,22 +69,22 @@ public class WaypointsCommand extends Command {
                     waypoints.add(new Waypoint(id, dimension.name(), pos.x(), pos.y(), pos.z()));
                     waypoints.sort(Waypoint::compareTo);
                     c.getSource().getEmbed()
-                        .title("Waypoint Added");
+                        .title(Lang.t("Punto de Referencia Añadido", "Waypoint Added"));
                 }))))
             .then(literal("del").then(argument("id", wordWithChars()).executes(c -> {
                 String id = getString(c, "id");
                 CONFIG.client.extra.waypoints.waypoints.removeIf(wp -> wp.id().equalsIgnoreCase(id));
                 c.getSource().getEmbed()
-                    .title("Waypoint Removed");
+                    .title(Lang.t("Punto de Referencia Eliminado", "Waypoint Removed"));
             })))
             .then(literal("clear").executes(c -> {
                 CONFIG.client.extra.waypoints.waypoints.clear();
                 c.getSource().getEmbed()
-                    .title("Waypoints Cleared");
+                    .title(Lang.t("Puntos de Referencia Borrados", "Waypoints Cleared"));
             }))
             .then(literal("list").executes(c -> {
                 c.getSource().getEmbed()
-                    .title("Waypoints List");
+                    .title(Lang.t("Lista de Puntos de Referencia", "Waypoints List"));
             }));
     }
 
@@ -99,7 +99,7 @@ public class WaypointsCommand extends Command {
         StringBuilder sb = new StringBuilder();
         ArrayList<Waypoint> waypoints = CONFIG.client.extra.waypoints.waypoints;
         if (waypoints.isEmpty()) {
-            return "No waypoints.";
+            return Lang.t("No hay puntos de referencia.", "No waypoints.");
         }
         for (int i = 0; i < waypoints.size(); i++) {
             final Waypoint waypoint = waypoints.get(i);

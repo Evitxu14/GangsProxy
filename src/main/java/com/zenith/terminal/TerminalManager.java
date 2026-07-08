@@ -1,5 +1,6 @@
 package com.zenith.terminal;
 
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.command.api.CommandContext;
 import com.zenith.command.api.CommandOutputHelper;
@@ -24,14 +25,14 @@ public class TerminalManager {
         if (isRunning.compareAndSet(false, true)) {
             Terminal terminal = TerminalConsoleAppender.getTerminal();
             if (terminal == null) {
-                TERMINAL_LOG.warn("Unable to initialize interactive terminal");
+                TERMINAL_LOG.warn(Lang.t("No se pudo iniciar la terminal interactiva", "Unable to initialize interactive terminal"));
                 return;
             }
             if (terminal instanceof DumbTerminal && !CONFIG.interactiveTerminal.allowDumbTerminal) {
-                TERMINAL_LOG.warn("Dumb terminal initialized but is disabled by config");
+                TERMINAL_LOG.warn(Lang.t("Terminal basica inicializada pero desactivada en config", "Dumb terminal initialized but is disabled by config"));
                 return;
             }
-            TERMINAL_LOG.info("Starting Interactive Terminal...");
+            TERMINAL_LOG.info(Lang.t("Iniciando Terminal Interactiva...", "Starting Interactive Terminal..."));
             this.lineReader = LineReaderBuilder.builder()
                 .terminal(terminal)
                 .appName("Gang'sProxy")
@@ -66,17 +67,17 @@ public class TerminalManager {
                 eofCount = 0;
             } catch (final EndOfFileException e) {
                 if (eofCount++ > 20) {
-                    TERMINAL_LOG.warn("Detected misconfigured terminal input, disabling interactive terminal");
+                    TERMINAL_LOG.warn(Lang.t("Detectada entrada de terminal mal configurada, desactivando terminal interactiva", "Detected misconfigured terminal input, disabling interactive terminal"));
                     return;
                 }
             } catch (final UserInterruptException e) {
-                TERMINAL_LOG.info("Exiting...");
+                TERMINAL_LOG.info(Lang.t("Saliendo...", "Exiting..."));
                 EXECUTOR.execute(() -> {
                     Proxy.getInstance().stop(false);
                 });
                 break;
             } catch (final Exception e) {
-                TERMINAL_LOG.error("Error while reading terminal input", e);
+                TERMINAL_LOG.error(Lang.t("Error leyendo entrada de terminal", "Error while reading terminal input"), e);
             }
         }
     };
@@ -84,7 +85,7 @@ public class TerminalManager {
     private void handleTerminalCommand(final String command) {
         switch (command) {
             case "exit" -> {
-                TERMINAL_LOG.info("Exiting...");
+                TERMINAL_LOG.info(Lang.t("Saliendo...", "Exiting..."));
                 Proxy.getInstance().stop(false);
             }
             default -> executeDiscordCommand(command);

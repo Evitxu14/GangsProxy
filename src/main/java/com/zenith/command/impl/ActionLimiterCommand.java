@@ -24,6 +24,7 @@ import static com.zenith.command.brigadier.ItemArgument.getItem;
 import static com.zenith.command.brigadier.ItemArgument.item;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class ActionLimiterCommand extends Command {
     @Override
@@ -123,14 +124,14 @@ public class ActionLimiterCommand extends Command {
                     String id = itemData.name();
                     CONFIG.client.extra.actionLimiter.itemsBlacklist.add(id);
                     c.getSource().getEmbed()
-                        .description(id + " added");
+                        .description(Lang.t(id + " añadido", id + " added"));
                 })))
                 .then(literal("addAll").then(argument("items", wordWithChars()).executes(c -> {
                     String itemsListStr = getString(c, "items");
                     String[] items = itemsListStr.split(",");
                     if (items.length == 0) {
                         c.getSource().getEmbed()
-                            .title("No items provided");
+                            .title(Lang.t("No se proporcionaron objetos", "No items provided"));
                     }
                     for (String item : items) {
                         if (item.isBlank()) continue;
@@ -142,19 +143,19 @@ public class ActionLimiterCommand extends Command {
                         CONFIG.client.extra.actionLimiter.itemsBlacklist.add(itemData.name());
                     }
                     c.getSource().getEmbed()
-                        .description("Items added");
+                        .description(Lang.t("Objetos añadidos", "Items added"));
                 })))
                 .then(literal("del").then(argument("item", item()).executes(c -> {
                     ItemData itemData = getItem(c, "item");
                     String id = itemData.name();
                     CONFIG.client.extra.actionLimiter.itemsBlacklist.remove(id);
                     c.getSource().getEmbed()
-                        .description(id + " removed");
+                        .description(Lang.t(id + " eliminado", id + " removed"));
                 })))
                 .then(literal("clear").executes(c -> {
                     CONFIG.client.extra.actionLimiter.itemsBlacklist.clear();
                     c.getSource().getEmbed()
-                        .description("Cleared");
+                        .description(Lang.t("Limpiado", "Cleared"));
                 }))
                 .then(literal("list").executes(c -> {
                     var items = new ArrayList<>(CONFIG.client.extra.actionLimiter.itemsBlacklist);
@@ -171,25 +172,25 @@ public class ActionLimiterCommand extends Command {
     @Override
     public void defaultEmbed(final Embed builder) {
         builder
-            .title("Action Limiter")
+            .title(Lang.t("Limitador de acciones", "Action Limiter"))
             .primaryColor();
         if (!builder.isDescriptionPresent()) {
             builder
-                .addField("Action Limiter", toggleStr(CONFIG.client.extra.actionLimiter.enabled))
-                .addField("Allow Movement", toggleStr(CONFIG.client.extra.actionLimiter.allowMovement))
-                .addField("Movement Distance", String.valueOf(CONFIG.client.extra.actionLimiter.movementDistance))
-                .addField("Movement Home", String.format("%d, %d", CONFIG.client.extra.actionLimiter.movementHomeX, CONFIG.client.extra.actionLimiter.movementHomeZ))
-                .addField("Movement Min Y", String.valueOf(CONFIG.client.extra.actionLimiter.movementMinY))
-                .addField("Allow Inventory", toggleStr(CONFIG.client.extra.actionLimiter.allowInventory))
-                .addField("Allow Block Breaking", toggleStr(CONFIG.client.extra.actionLimiter.allowBlockBreaking))
-                .addField("Allow Interact", toggleStr(CONFIG.client.extra.actionLimiter.allowInteract))
-                .addField("Allow Ender Chest", toggleStr(CONFIG.client.extra.actionLimiter.allowEnderChest))
-                .addField("Allow Use Item", toggleStr(CONFIG.client.extra.actionLimiter.allowUseItem))
-                .addField("Allow Book Signing", toggleStr(CONFIG.client.extra.actionLimiter.allowBookSigning))
-                .addField("Allow Chat", toggleStr(CONFIG.client.extra.actionLimiter.allowChat))
-                .addField("Allow Server Commands", toggleStr(CONFIG.client.extra.actionLimiter.allowServerCommands))
-                .addField("Allow Respawn", toggleStr(CONFIG.client.extra.actionLimiter.allowRespawn))
-                .addField("Items Blacklist", toggleStr(CONFIG.client.extra.actionLimiter.itemsBlacklistEnabled));
+                .addField(Lang.t("Limitador de acciones", "Action Limiter"), toggleStr(CONFIG.client.extra.actionLimiter.enabled))
+                .addField(Lang.t("Permitir movimiento", "Allow Movement"), toggleStr(CONFIG.client.extra.actionLimiter.allowMovement))
+                .addField(Lang.t("Distancia de movimiento", "Movement Distance"), String.valueOf(CONFIG.client.extra.actionLimiter.movementDistance))
+                .addField(Lang.t("Inicio de movimiento", "Movement Home"), String.format("%d, %d", CONFIG.client.extra.actionLimiter.movementHomeX, CONFIG.client.extra.actionLimiter.movementHomeZ))
+                .addField(Lang.t("Movimiento mínimo Y", "Movement Min Y"), String.valueOf(CONFIG.client.extra.actionLimiter.movementMinY))
+                .addField(Lang.t("Permitir inventario", "Allow Inventory"), toggleStr(CONFIG.client.extra.actionLimiter.allowInventory))
+                .addField(Lang.t("Permitir romper bloques", "Allow Block Breaking"), toggleStr(CONFIG.client.extra.actionLimiter.allowBlockBreaking))
+                .addField(Lang.t("Permitir interactuar", "Allow Interact"), toggleStr(CONFIG.client.extra.actionLimiter.allowInteract))
+                .addField(Lang.t("Permitir cofre de Ender", "Allow Ender Chest"), toggleStr(CONFIG.client.extra.actionLimiter.allowEnderChest))
+                .addField(Lang.t("Permitir usar objeto", "Allow Use Item"), toggleStr(CONFIG.client.extra.actionLimiter.allowUseItem))
+                .addField(Lang.t("Permitir firmar libros", "Allow Book Signing"), toggleStr(CONFIG.client.extra.actionLimiter.allowBookSigning))
+                .addField(Lang.t("Permitir chat", "Allow Chat"), toggleStr(CONFIG.client.extra.actionLimiter.allowChat))
+                .addField(Lang.t("Permitir comandos del servidor", "Allow Server Commands"), toggleStr(CONFIG.client.extra.actionLimiter.allowServerCommands))
+                .addField(Lang.t("Permitir reaparecer", "Allow Respawn"), toggleStr(CONFIG.client.extra.actionLimiter.allowRespawn))
+                .addField(Lang.t("Lista negra de objetos", "Items Blacklist"), toggleStr(CONFIG.client.extra.actionLimiter.itemsBlacklistEnabled));
         }
     }
 }

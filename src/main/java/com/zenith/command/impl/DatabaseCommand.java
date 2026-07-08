@@ -60,7 +60,7 @@ public class DatabaseCommand extends Command {
                 if (CONFIG.database.enabled) DATABASE.start();
                 else DATABASE.stop();
                 c.getSource().getEmbed()
-                    .title("Databases " + toggleStrCaps(CONFIG.database.enabled));
+                    .title(Lang.t("Bases de Datos ", "Databases ") + toggleStrCaps(CONFIG.database.enabled));
                 return OK;
             }))
             .then(literal("host").then(argument("hostArg", wordWithChars()).executes(c -> {
@@ -70,7 +70,7 @@ public class DatabaseCommand extends Command {
                     DATABASE.start();
                 }
                 c.getSource().getEmbed()
-                    .title("Host Set");
+                    .title(Lang.t("Host Establecido", "Host Set"));
             })))
             .then(literal("port").then(argument("portArg", integer(1, 65535)).executes(c -> {
                 CONFIG.database.port = getInteger(c, "portArg");
@@ -79,7 +79,7 @@ public class DatabaseCommand extends Command {
                     DATABASE.start();
                 }
                 c.getSource().getEmbed()
-                    .title("Port Set");
+                    .title(Lang.t("Puerto Establecido", "Port Set"));
             })))
             .then(literal("username").then(argument("usernameArg", wordWithChars()).executes(c -> {
                 CONFIG.database.username = getString(c, "usernameArg");
@@ -88,7 +88,7 @@ public class DatabaseCommand extends Command {
                     DATABASE.start();
                 }
                 c.getSource().getEmbed()
-                    .title("Username Set");
+                    .title(Lang.t("Nombre de Usuario Establecido", "Username Set"));
             })))
             .then(literal("password").then(argument("passwordArg", wordWithChars()).executes(c -> {
                 CONFIG.database.password = getString(c, "passwordArg");
@@ -98,7 +98,7 @@ public class DatabaseCommand extends Command {
                 }
                 c.getSource().setSensitiveInput(true);
                 c.getSource().getEmbed()
-                    .title("Password Set");
+                    .title(Lang.t("Contraseña Establecida", "Password Set"));
             })))
             .then(literal("redis")
                 .then(literal("address").then(argument("redisAddress", wordWithChars()).executes(c -> {
@@ -108,7 +108,7 @@ public class DatabaseCommand extends Command {
                         DATABASE.start();
                     }
                     c.getSource().getEmbed()
-                        .title("Redis Address Set");
+                        .title(Lang.t("Dirección Redis Establecida", "Redis Address Set"));
                 })))
                 .then(literal("username").then(argument("redisUsername", wordWithChars()).executes(c -> {
                     CONFIG.database.lock.redisUsername = getString(c, "redisUsername");
@@ -117,7 +117,7 @@ public class DatabaseCommand extends Command {
                         DATABASE.start();
                     }
                     c.getSource().getEmbed()
-                        .title("Redis Username Set");
+                        .title(Lang.t("Nombre de Usuario Redis Establecido", "Redis Username Set"));
                 })))
                 .then(literal("password").then(argument("redisPassword", wordWithChars()).executes(c -> {
                     CONFIG.database.lock.redisPassword = getString(c, "redisPassword");
@@ -127,7 +127,7 @@ public class DatabaseCommand extends Command {
                     }
                     c.getSource().setSensitiveInput(true);
                     c.getSource().getEmbed()
-                        .title("Redis Password Set");
+                        .title(Lang.t("Contraseña Redis Establecida", "Redis Password Set"));
                 }))))
             .then(literal("queueWait")
                       .then(argument("toggle", toggle()).executes(c -> {
@@ -135,7 +135,7 @@ public class DatabaseCommand extends Command {
                           if (CONFIG.database.queueWaitEnabled) DATABASE.startQueueWaitDatabase();
                           else DATABASE.stopQueueWaitDatabase();
                           c.getSource().getEmbed()
-                              .title("Queue Wait Database " + toggleStrCaps(CONFIG.database.queueWaitEnabled));
+                              .title(Lang.t("Base de Datos de Espera de Cola ", "Queue Wait Database ") + toggleStrCaps(CONFIG.database.queueWaitEnabled));
                           return OK;
                       })))
             .then(literal("queueLength")
@@ -144,7 +144,7 @@ public class DatabaseCommand extends Command {
                           if (CONFIG.database.queueLengthEnabled) DATABASE.startQueueLengthDatabase();
                           else DATABASE.stopQueueLengthDatabase();
                           c.getSource().getEmbed()
-                              .title("Queue Length Database " + toggleStrCaps(CONFIG.database.queueLengthEnabled));
+                              .title(Lang.t("Base de Datos de Longitud de Cola ", "Queue Length Database ") + toggleStrCaps(CONFIG.database.queueLengthEnabled));
                           return OK;
                       })))
             .then(literal("publicChat")
@@ -153,7 +153,7 @@ public class DatabaseCommand extends Command {
                           if (CONFIG.database.chatsEnabled) DATABASE.startChatsDatabase();
                           else DATABASE.stopChatsDatabase();
                           c.getSource().getEmbed()
-                              .title("Public Chat Database " + toggleStrCaps(CONFIG.database.chatsEnabled));
+                              .title(Lang.t("Base de Datos de Chat Público ", "Public Chat Database ") + toggleStrCaps(CONFIG.database.chatsEnabled));
                           return OK;
                       })))
             .then(literal("joinLeave")
@@ -162,7 +162,7 @@ public class DatabaseCommand extends Command {
                           if (CONFIG.database.connectionsEnabled) DATABASE.startConnectionsDatabase();
                           else DATABASE.stopConnectionsDatabase();
                           c.getSource().getEmbed()
-                              .title("Connections Database " + toggleStrCaps(CONFIG.database.connectionsEnabled));
+                              .title(Lang.t("Base de Datos de Conexiones ", "Connections Database ") + toggleStrCaps(CONFIG.database.connectionsEnabled));
                           return OK;
                       })))
             .then(literal("deathMessages")
@@ -171,7 +171,7 @@ public class DatabaseCommand extends Command {
                           if (CONFIG.database.deathsEnabled) DATABASE.startDeathsDatabase();
                           else DATABASE.stopDeathsDatabase();
                           c.getSource().getEmbed()
-                              .title("Death Messages Database " + toggleStrCaps(CONFIG.database.deathsEnabled));
+                              .title(Lang.t("Base de Datos de Mensajes de Muerte ", "Death Messages Database ") + toggleStrCaps(CONFIG.database.deathsEnabled));
                           return OK;
                       })))
             .then(literal("restarts")
@@ -180,7 +180,7 @@ public class DatabaseCommand extends Command {
                           if (CONFIG.database.restartsEnabled) DATABASE.startRestartsDatabase();
                           else DATABASE.stopRestartsDatabase();
                           c.getSource().getEmbed()
-                              .title("Restarts Database " + toggleStrCaps(CONFIG.database.restartsEnabled));
+                              .title(Lang.t("Base de Datos de Reinicios ", "Restarts Database ") + toggleStrCaps(CONFIG.database.restartsEnabled));
                           return OK;
                       })))
             .then(literal("playerCount")
@@ -189,7 +189,7 @@ public class DatabaseCommand extends Command {
                           if (CONFIG.database.playerCountEnabled) DATABASE.startPlayerCountDatabase();
                           else DATABASE.stopPlayerCountDatabase();
                           c.getSource().getEmbed()
-                              .title("Player Count Database " + toggleStrCaps(CONFIG.database.playerCountEnabled));
+                              .title(Lang.t("Base de Datos de Conteo de Jugadores ", "Player Count Database ") + toggleStrCaps(CONFIG.database.playerCountEnabled));
                           return OK;
                       })))
             .then(literal("tablist")
@@ -198,7 +198,7 @@ public class DatabaseCommand extends Command {
                           if (CONFIG.database.tablistEnabled) DATABASE.startTablistDatabase();
                           else DATABASE.stopTablistDatabase();
                           c.getSource().getEmbed()
-                              .title("Tablist Database " + toggleStrCaps(CONFIG.database.tablistEnabled));
+                              .title(Lang.t("Base de Datos de Tablist ", "Tablist Database ") + toggleStrCaps(CONFIG.database.tablistEnabled));
                           return OK;
                       })))
             .then(literal("playtime")
@@ -207,7 +207,7 @@ public class DatabaseCommand extends Command {
                           if (CONFIG.database.playtimeEnabled) DATABASE.startPlaytimeDatabase();
                           else DATABASE.stopPlaytimeDatabase();
                           c.getSource().getEmbed()
-                              .title("Playtime Database " + toggleStrCaps(CONFIG.database.playtimeEnabled));
+                              .title(Lang.t("Base de Datos de Tiempo de Juego ", "Playtime Database ") + toggleStrCaps(CONFIG.database.playtimeEnabled));
                           return OK;
                       })))
             .then(literal("time")
@@ -216,7 +216,7 @@ public class DatabaseCommand extends Command {
                             if (CONFIG.database.timeEnabled) DATABASE.startTimeDatabase();
                             else DATABASE.stopTimeDatabase();
                             c.getSource().getEmbed()
-                                .title("Time Database " + toggleStrCaps(CONFIG.database.timeEnabled));
+                                .title(Lang.t("Base de Datos de Tiempo ", "Time Database ") + toggleStrCaps(CONFIG.database.timeEnabled));
                             return OK;
                       })));
     }
@@ -224,16 +224,16 @@ public class DatabaseCommand extends Command {
     @Override
     public void defaultEmbed(final Embed builder) {
         builder
-            .addField("Queue Wait", toggleStr(CONFIG.database.queueWaitEnabled), false)
-            .addField("Queue Length", toggleStr(CONFIG.database.queueLengthEnabled), false)
-            .addField("Public Chat", toggleStr(CONFIG.database.chatsEnabled), false)
-            .addField("Join/Leave", toggleStr(CONFIG.database.connectionsEnabled), false)
-            .addField("Death Messages", toggleStr(CONFIG.database.deathsEnabled), false)
-            .addField("Restarts", toggleStr(CONFIG.database.restartsEnabled), false)
-            .addField("Player Count", toggleStr(CONFIG.database.playerCountEnabled), false)
-            .addField("Tablist", toggleStr(CONFIG.database.tablistEnabled), false)
-            .addField("Playtime", toggleStr(CONFIG.database.playtimeEnabled), false)
-            .addField("Time", toggleStr(CONFIG.database.timeEnabled), false)
+            .addField(Lang.t("Espera de Cola", "Queue Wait"), toggleStr(CONFIG.database.queueWaitEnabled), false)
+            .addField(Lang.t("Longitud de Cola", "Queue Length"), toggleStr(CONFIG.database.queueLengthEnabled), false)
+            .addField(Lang.t("Chat Público", "Public Chat"), toggleStr(CONFIG.database.chatsEnabled), false)
+            .addField(Lang.t("Entrada/Salida", "Join/Leave"), toggleStr(CONFIG.database.connectionsEnabled), false)
+            .addField(Lang.t("Mensajes de Muerte", "Death Messages"), toggleStr(CONFIG.database.deathsEnabled), false)
+            .addField(Lang.t("Reinicios", "Restarts"), toggleStr(CONFIG.database.restartsEnabled), false)
+            .addField(Lang.t("Conteo de Jugadores", "Player Count"), toggleStr(CONFIG.database.playerCountEnabled), false)
+            .addField(Lang.t("Tablist", "Tablist"), toggleStr(CONFIG.database.tablistEnabled), false)
+            .addField(Lang.t("Tiempo de Juego", "Playtime"), toggleStr(CONFIG.database.playtimeEnabled), false)
+            .addField(Lang.t("Tiempo", "Time"), toggleStr(CONFIG.database.timeEnabled), false)
             .primaryColor();
     }
 }

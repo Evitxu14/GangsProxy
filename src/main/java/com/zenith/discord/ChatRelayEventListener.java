@@ -2,6 +2,7 @@ package com.zenith.discord;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.event.chat.DeathMessageChatEvent;
 import com.zenith.event.chat.PublicChatEvent;
@@ -89,7 +90,7 @@ public class ChatRelayEventListener {
                     }
                 }
             } catch (final Exception e) {
-                DISCORD_LOG.error("Error performing chat relay reply", e);
+                DISCORD_LOG.error(Lang.t("Error al realizar respuesta de relevo de chat", "Error performing chat relay reply"), e);
             }
         } else {
             if (event.message().startsWith(CONFIG.discord.prefix)) { // send as private message
@@ -150,7 +151,7 @@ public class ChatRelayEventListener {
                 sendRelayEmbedMessage(ping, embed);
             }
         } catch (final Throwable e) {
-            DISCORD_LOG.error("Error processing WhisperChatEvent", e);
+            DISCORD_LOG.error(Lang.t("Error al procesar WhisperChatEvent", "Error processing WhisperChatEvent"), e);
         }
     }
 
@@ -168,7 +169,7 @@ public class ChatRelayEventListener {
                 .color(Color.MOON_YELLOW);
             sendRelayEmbedMessage(embed);
         } catch (final Throwable e) {
-            DISCORD_LOG.error("Error processing SystemChatEvent", e);
+            DISCORD_LOG.error(Lang.t("Error al procesar SystemChatEvent", "Error processing SystemChatEvent"), e);
         }
     }
 
@@ -202,7 +203,7 @@ public class ChatRelayEventListener {
                 sendRelayEmbedMessage(ping, embed);
             }
         } catch (final Throwable e) {
-            DISCORD_LOG.error("Error processing PublicChatEvent", e);
+            DISCORD_LOG.error(Lang.t("Error al procesar PublicChatEvent", "Error processing PublicChatEvent"), e);
         }
     }
 
@@ -243,7 +244,7 @@ public class ChatRelayEventListener {
                 .color(Color.RUBY);
             sendRelayEmbedMessage(embed);
         } catch (final Throwable e) {
-            DISCORD_LOG.error("Error processing DeathMessageChatEvent", e);
+            DISCORD_LOG.error(Lang.t("Error al procesar DeathMessageChatEvent", "Error processing DeathMessageChatEvent"), e);
         }
     }
 
@@ -283,7 +284,7 @@ public class ChatRelayEventListener {
                 continue;
             }
             if (pattern.matcher(contents).find()) {
-                DISCORD_LOG.debug("Filtering relay message: '{}' matched regex: '{}'", contents, regex);
+                DISCORD_LOG.debug(Lang.t("Filtrando mensaje de relevo: '{}' coincide con regex: '{}'", "Filtering relay message: '{}' matched regex: '{}'"), contents, regex);
                 return true;
             }
         }

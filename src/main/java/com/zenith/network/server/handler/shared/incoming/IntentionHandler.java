@@ -1,5 +1,6 @@
 package com.zenith.network.server.handler.shared.incoming;
 
+import com.zenith.Lang;
 import com.zenith.network.codec.PacketHandler;
 import com.zenith.network.server.ServerSession;
 import com.zenith.via.ZenithViaInitializer;
@@ -31,7 +32,7 @@ public class IntentionHandler implements PacketHandler<ClientIntentionPacket, Se
                 if (handleLogin(packet, session, protocol)) return null;
             }
             case TRANSFER -> {
-                SERVER_LOG.info("Transfer request from {}", session.getRemoteAddress());
+                SERVER_LOG.info(Lang.t("Solicitud de transferencia de {}", "Transfer request from {}"), session.getRemoteAddress());
                 session.setTransferring(true);
                 if (!CONFIG.server.acceptTransfers) {
                     session.disconnect("Transfers are disabled.");
@@ -72,17 +73,17 @@ public class IntentionHandler implements PacketHandler<ClientIntentionPacket, Se
     private boolean handleLogin(final ClientIntentionPacket packet, final ServerSession session, final MinecraftProtocol protocol) {
         protocol.setOutboundState(ProtocolState.LOGIN);
         if (CONFIG.server.loginRateLimiter.enabled && ServerSession.LOGIN_RATE_LIMITER.isRateLimited(session)) {
-            SERVER_LOG.info("Disconnecting {} due to rate limiting.", session.getRemoteAddress());
+            SERVER_LOG.info(Lang.t("Desconectando {} por límite de tasa.", "Disconnecting {} due to rate limiting."), session.getRemoteAddress());
             session.disconnect("Login Rate Limited.");
             return true;
         }
         if (packet.getProtocolVersion() > protocol.getCodec().getProtocolVersion()) {
-            SERVER_LOG.info("Disconnecting {} due to outdated server version.", session.getRemoteAddress());
+            SERVER_LOG.info(Lang.t("Desconectando {} por versión de servidor desactualizada.", "Disconnecting {} due to outdated server version."), session.getRemoteAddress());
             session.disconnect("Outdated server! I'm still on " + protocol.getCodec()
                 .getMinecraftVersion() + ".");
             return true;
         } else if (packet.getProtocolVersion() < protocol.getCodec().getProtocolVersion()) {
-            SERVER_LOG.info("Disconnecting {} due to outdated client version.", session.getRemoteAddress());
+            SERVER_LOG.info(Lang.t("Desconectando {} por versión de cliente desactualizada.", "Disconnecting {} due to outdated client version."), session.getRemoteAddress());
             session.disconnect("Outdated client! Please use " + protocol.getCodec()
                 .getMinecraftVersion() + ".");
             return true;

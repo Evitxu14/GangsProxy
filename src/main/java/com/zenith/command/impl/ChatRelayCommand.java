@@ -68,15 +68,15 @@ public class ChatRelayCommand extends Command {
                 CONFIG.discord.chatRelay.enable = getToggle(c, "toggle");
                 if (CONFIG.discord.chatRelay.enable && CONFIG.discord.chatRelay.channelId.isEmpty()) {
                     c.getSource().getEmbed()
-                        .title("Error")
-                        .description("Chat Relay channel must be set: `chatRelay channel <channelId>`")
+                        .title(Lang.t("Error", "Error"))
+                        .description(Lang.t("El canal de Chat Relay debe configurarse: `chatRelay channel <channelId>`", "Chat Relay channel must be set: `chatRelay channel <channelId>`"))
                         .errorColor();
                     CONFIG.discord.chatRelay.enable = false;
                     return OK;
                 }
                 EXECUTOR.execute(this::restartDiscordBot);
                 c.getSource().getEmbed()
-                    .title("Chat Relay " + toggleStrCaps(CONFIG.discord.chatRelay.enable));
+                    .title(Lang.t("Chat Relay ", "Chat Relay ") + toggleStrCaps(CONFIG.discord.chatRelay.enable));
                 return OK;
             }))
             .then(literal("channel").requires(Command::validateAccountOwner).then(argument("channelId", wordWithChars()).executes(c -> {
@@ -88,23 +88,23 @@ public class ChatRelayCommand extends Command {
                 } catch (final Exception e) {
                     // invalid id
                     c.getSource().getEmbed()
-                        .title("Invalid Channel ID")
-                        .description("The channel ID provided is invalid")
+                        .title(Lang.t("ID de Canal Inválido", "Invalid Channel ID"))
+                        .description(Lang.t("El ID de canal proporcionado no es válido", "The channel ID provided is invalid"))
                         .errorColor();
                     return OK;
                 }
                 if (channelId.equals(CONFIG.discord.channelId)) {
                     c.getSource().getEmbed()
-                        .title("Invalid Channel ID")
-                        .description("Cannot use the same channel ID for both the relay and main channel")
+                        .title(Lang.t("ID de Canal Inválido", "Invalid Channel ID"))
+                        .description(Lang.t("No se puede usar el mismo ID de canal para el relay y el canal principal", "Cannot use the same channel ID for both the relay and main channel"))
                         .errorColor();
                     return OK;
                 }
                 CONFIG.discord.chatRelay.channelId = channelId;
                 c.getSource().getEmbed()
-                    .title("Channel set!")
+                    .title(Lang.t("¡Canal configurado!", "Channel set!"))
                     .primaryColor()
-                    .description("Discord bot will now restart if enabled");
+                    .description(Lang.t("El bot de Discord se reiniciará ahora si está habilitado", "Discord bot will now restart if enabled"));
                 if (DISCORD.isRunning())
                     EXECUTOR.schedule(this::restartDiscordBot, 3, TimeUnit.SECONDS);
                 return OK;
@@ -113,61 +113,61 @@ public class ChatRelayCommand extends Command {
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.discord.chatRelay.connectionMessages = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Connection Messages " + toggleStrCaps(CONFIG.discord.chatRelay.connectionMessages));
+                        .title(Lang.t("Mensajes de Conexión ", "Connection Messages ") + toggleStrCaps(CONFIG.discord.chatRelay.connectionMessages));
                 })))
             .then(literal("whispers")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.discord.chatRelay.whispers = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Whispers " + toggleStrCaps(CONFIG.discord.chatRelay.whispers));
+                        .title(Lang.t("Susurros ", "Whispers ") + toggleStrCaps(CONFIG.discord.chatRelay.whispers));
                 })))
             .then(literal("publicChat")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.discord.chatRelay.publicChats = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Public Chat " + toggleStrCaps(CONFIG.discord.chatRelay.publicChats));
+                        .title(Lang.t("Chat Público ", "Public Chat ") + toggleStrCaps(CONFIG.discord.chatRelay.publicChats));
                 })))
             .then(literal("deathMessages")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.discord.chatRelay.deathMessages = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Death Messages " + toggleStrCaps(CONFIG.discord.chatRelay.deathMessages));
+                        .title(Lang.t("Mensajes de Muerte ", "Death Messages ") + toggleStrCaps(CONFIG.discord.chatRelay.deathMessages));
                 })))
             .then(literal("serverMessages")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.discord.chatRelay.serverMessages = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Server Messages " + toggleStrCaps(CONFIG.discord.chatRelay.serverMessages));
+                        .title(Lang.t("Mensajes del Servidor ", "Server Messages ") + toggleStrCaps(CONFIG.discord.chatRelay.serverMessages));
                 })))
             .then(literal("whisperMentions")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.discord.chatRelay.mentionRoleOnWhisper = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Whisper Mentions " + toggleStrCaps(CONFIG.discord.chatRelay.mentionRoleOnWhisper));
+                        .title(Lang.t("Menciones de Susurro ", "Whisper Mentions ") + toggleStrCaps(CONFIG.discord.chatRelay.mentionRoleOnWhisper));
                 })))
             .then(literal("nameMentions")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.discord.chatRelay.mentionRoleOnNameMention = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Name Mentions " + toggleStrCaps(CONFIG.discord.chatRelay.mentionRoleOnNameMention));
+                        .title(Lang.t("Menciones de Nombre ", "Name Mentions ") + toggleStrCaps(CONFIG.discord.chatRelay.mentionRoleOnNameMention));
                 })))
             .then(literal("mentionsWhileConnected")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.discord.chatRelay.mentionWhileConnected = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Mentions While Connected " + toggleStrCaps(CONFIG.discord.chatRelay.mentionWhileConnected));
+                        .title(Lang.t("Menciones Mientras Conectado ", "Mentions While Connected ") + toggleStrCaps(CONFIG.discord.chatRelay.mentionWhileConnected));
                 })))
             .then(literal("ignoreQueue")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.discord.chatRelay.ignoreQueue = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Ignore Queue " + toggleStrCaps(CONFIG.discord.chatRelay.ignoreQueue));
+                        .title(Lang.t("Ignurar Cola ", "Ignore Queue ") + toggleStrCaps(CONFIG.discord.chatRelay.ignoreQueue));
                 })))
             .then(literal("sendMessages")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.discord.chatRelay.sendMessages = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Send Messages " + toggleStrCaps(CONFIG.discord.chatRelay.sendMessages));
+                        .title(Lang.t("Enviar Mensajes ", "Send Messages ") + toggleStrCaps(CONFIG.discord.chatRelay.sendMessages));
                 })))
             .then(literal("ignoreRegex")
                 .then(literal("add").then(argument("regex", greedyString()).executes(c -> {
@@ -177,13 +177,13 @@ public class ChatRelayCommand extends Command {
                         Pattern.compile(regexInput);
                     } catch (Exception e) {
                         c.getSource().getEmbed()
-                            .title("Invalid Regex")
+                            .title(Lang.t("Regex Inválido", "Invalid Regex"))
                             .description(e.toString());
                         return ERROR;
                     }
                     CONFIG.discord.chatRelay.ignoreRegex.add(regexInput);
                     c.getSource().getEmbed()
-                        .title("Regex Added");
+                        .title(Lang.t("Regex Añadido", "Regex Added"));
                     return OK;
                 })))
                 .then(literal("del").then(argument("index", integer(0)).executes(c -> {
@@ -191,20 +191,20 @@ public class ChatRelayCommand extends Command {
                     int index = getInteger(c, "index");
                     if (index < 0 || index >= CONFIG.discord.chatRelay.ignoreRegex.size()) {
                         c.getSource().getEmbed()
-                            .title("Invalid Index")
-                            .description("Index out of bounds");
+                            .title(Lang.t("Índice Inválido", "Invalid Index"))
+                            .description(Lang.t("Índice fuera de límites", "Index out of bounds"));
                         return ERROR;
                     }
                     CONFIG.discord.chatRelay.ignoreRegex.remove(index);
                     c.getSource().getEmbed()
-                        .title("Regex Removed");
+                        .title(Lang.t("Regex Eliminado", "Regex Removed"));
                     return OK;
                 })))
                 .then(literal("clear").executes(c -> {
                     c.getSource().getData().put("noDefaultEmbed", true);
                     CONFIG.discord.chatRelay.ignoreRegex.clear();
                     c.getSource().getEmbed()
-                        .title("Ignore Regex Cleared");
+                        .title(Lang.t("Ignurar Regex Borrado", "Ignore Regex Cleared"));
                 }))
                 .then(literal("list").executes(c -> {
                     c.getSource().getData().put("noDefaultEmbed", true);
@@ -219,7 +219,7 @@ public class ChatRelayCommand extends Command {
                             .append("`\n");
                     }
                     c.getSource().getEmbed()
-                        .title("Ignore Regex List")
+                        .title(Lang.t("Ignurar Regex Lista", "Ignore Regex List"))
                         .description(sb.toString());
                 })));
     }
@@ -228,18 +228,18 @@ public class ChatRelayCommand extends Command {
     public void defaultHandler(final CommandContext c) {
         if (!c.getData().containsKey("noDefaultEmbed")) {
             c.getEmbed()
-                .addField("Chat Relay", toggleStr(CONFIG.discord.chatRelay.enable))
-                .addField("Channel", getChannelMention(CONFIG.discord.chatRelay.channelId))
-                .addField("Connection Messages", toggleStr(CONFIG.discord.chatRelay.connectionMessages))
-                .addField("Public Chats", toggleStr(CONFIG.discord.chatRelay.publicChats))
-                .addField("Whispers", toggleStr(CONFIG.discord.chatRelay.whispers))
-                .addField("Death Messages", toggleStr(CONFIG.discord.chatRelay.deathMessages))
-                .addField("Server Messages", toggleStr(CONFIG.discord.chatRelay.serverMessages))
-                .addField("Whisper Mentions", toggleStr(CONFIG.discord.chatRelay.mentionRoleOnWhisper))
-                .addField("Name Mentions", toggleStr(CONFIG.discord.chatRelay.mentionRoleOnNameMention))
-                .addField("Mentions While Connected", toggleStr(CONFIG.discord.chatRelay.mentionWhileConnected))
-                .addField("Ignore Queue", toggleStr(CONFIG.discord.chatRelay.ignoreQueue))
-                .addField("Send Messages", toggleStr(CONFIG.discord.chatRelay.sendMessages));
+                .addField(Lang.t("Chat Relay", "Chat Relay"), toggleStr(CONFIG.discord.chatRelay.enable))
+                .addField(Lang.t("Canal", "Channel"), getChannelMention(CONFIG.discord.chatRelay.channelId))
+                .addField(Lang.t("Mensajes de Conexión", "Connection Messages"), toggleStr(CONFIG.discord.chatRelay.connectionMessages))
+                .addField(Lang.t("Chats Públicos", "Public Chats"), toggleStr(CONFIG.discord.chatRelay.publicChats))
+                .addField(Lang.t("Susurros", "Whispers"), toggleStr(CONFIG.discord.chatRelay.whispers))
+                .addField(Lang.t("Mensajes de Muerte", "Death Messages"), toggleStr(CONFIG.discord.chatRelay.deathMessages))
+                .addField(Lang.t("Mensajes del Servidor", "Server Messages"), toggleStr(CONFIG.discord.chatRelay.serverMessages))
+                .addField(Lang.t("Menciones de Susurro", "Whisper Mentions"), toggleStr(CONFIG.discord.chatRelay.mentionRoleOnWhisper))
+                .addField(Lang.t("Menciones de Nombre", "Name Mentions"), toggleStr(CONFIG.discord.chatRelay.mentionRoleOnNameMention))
+                .addField(Lang.t("Menciones Mientras Conectado", "Mentions While Connected"), toggleStr(CONFIG.discord.chatRelay.mentionWhileConnected))
+                .addField(Lang.t("Ignurar Cola", "Ignore Queue"), toggleStr(CONFIG.discord.chatRelay.ignoreQueue))
+                .addField(Lang.t("Enviar Mensajes", "Send Messages"), toggleStr(CONFIG.discord.chatRelay.sendMessages));
         }
         c.getEmbed()
             .primaryColor();
@@ -256,19 +256,19 @@ public class ChatRelayCommand extends Command {
     }
 
     private void restartDiscordBot() {
-        DISCORD_LOG.info("Restarting discord bot");
+        DISCORD_LOG.info(Lang.t("Reiniciando bot de discord", "Restarting discord bot"));
         try {
             DISCORD.stop(false);
             if (CONFIG.discord.enable) {
                 DISCORD.start();
                 DISCORD.sendEmbedMessage(Embed.builder()
-                    .title("Discord Bot Restarted")
+                    .title(Lang.t("Bot de Discord Reiniciado", "Discord Bot Restarted"))
                     .successColor());
             } else {
-                DISCORD_LOG.info("Discord bot is disabled, not starting");
+                DISCORD_LOG.info(Lang.t("El bot de Discord está deshabilitado, no iniciando", "Discord bot is disabled, not starting"));
             }
         } catch (final Exception e) {
-            DISCORD_LOG.error("Failed to restart discord bot", e);
+            DISCORD_LOG.error(Lang.t("Error al reiniciar el bot de discord", "Failed to restart discord bot"), e);
         }
     }
 }

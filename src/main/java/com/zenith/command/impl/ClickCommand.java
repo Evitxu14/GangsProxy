@@ -1,6 +1,7 @@
 package com.zenith.command.impl;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.cache.data.inventory.Container;
 import com.zenith.command.api.Command;
@@ -79,14 +80,14 @@ public class ClickCommand extends Command {
                 CONFIG.client.extra.click.holdLeftClick = false;
                 CONFIG.client.extra.click.holdRightClick = false;
                 c.getSource().getEmbed()
-                    .title("Click Hold Off")
+                    .title(Lang.t("Mantener Clic Desactivado", "Click Hold Off"))
                     .primaryColor();
             }))
             .then(literal("left").executes(c -> {
                     if (!Proxy.getInstance().isConnected()) {
                         c.getSource().getEmbed()
-                            .title("Not Connected")
-                            .description("Must be connected to click");
+                            .title(Lang.t("No Conectado", "Not Connected"))
+                            .description(Lang.t("Debe estar conectado para hacer clic", "Must be connected to click"));
                         return ERROR;
                     }
                     INPUTS.submit(InputRequest.builder()
@@ -97,15 +98,15 @@ public class ClickCommand extends Command {
                         .priority(PRIORITY)
                         .build());
                     c.getSource().getEmbed()
-                        .title("Left Clicked")
+                        .title(Lang.t("Clic Izquierdo", "Left Clicked"))
                         .primaryColor();
                     return OK;
                 })
                 .then(literal("target").then(argument("targetType", enumStrings(HoldClickTarget.values())).executes(c -> {
                     if (!Proxy.getInstance().isConnected()) {
                         c.getSource().getEmbed()
-                            .title("Not Connected")
-                            .description("Must be connected to click");
+                            .title(Lang.t("No Conectado", "Not Connected"))
+                            .description(Lang.t("Debe estar conectado para hacer clic", "Must be connected to click"));
                         return ERROR;
                     }
                     var target = HoldClickTarget.valueOf(getString(c, "targetType").toUpperCase());
@@ -124,7 +125,7 @@ public class ClickCommand extends Command {
                         .priority(PRIORITY)
                         .build());
                     c.getSource().getEmbed()
-                        .title("Left Clicked")
+                        .title(Lang.t("Clic Izquierdo", "Left Clicked"))
                         .primaryColor();
                     return OK;
                 })))
@@ -132,22 +133,22 @@ public class ClickCommand extends Command {
                         CONFIG.client.extra.click.holdLeftClick = true;
                         CONFIG.client.extra.click.holdRightClick = false;
                         c.getSource().getEmbed()
-                            .title("Left Click Hold")
+                            .title(Lang.t("Mantener Clic Izquierdo", "Left Click Hold"))
                             .primaryColor();
                         return OK;
                     })
                     .then(literal("interval").then(argument("interval", integer(0, 100)).executes(c -> {
                         CONFIG.client.extra.click.holdLeftClickInterval = getInteger(c, "interval");
                         c.getSource().getEmbed()
-                            .title("Left Click Hold Interval Set")
+                            .title(Lang.t("Intervalo de Mantener Clic Izquierdo Establecido", "Left Click Hold Interval Set"))
                             .primaryColor();
                         return OK;
                     })))))
             .then(literal("right").executes(c -> {
                     if (!Proxy.getInstance().isConnected()) {
                         c.getSource().getEmbed()
-                            .title("Not Connected")
-                            .description("Must be connected to click");
+                            .title(Lang.t("No Conectado", "Not Connected"))
+                            .description(Lang.t("Debe estar conectado para hacer clic", "Must be connected to click"));
                         return ERROR;
                     }
                     INPUTS.submit(InputRequest.builder()
@@ -158,32 +159,32 @@ public class ClickCommand extends Command {
                         .priority(PRIORITY)
                         .build());
                     c.getSource().getEmbed()
-                        .title("Right Clicked")
+                        .title(Lang.t("Clic Derecho", "Right Clicked"))
                         .primaryColor();
                     return OK;
                 })
                 .then(literal("useItem").executes(c -> {
                     if (!Proxy.getInstance().isConnected()) {
                         c.getSource().getEmbed()
-                            .title("Not Connected")
-                            .description("Must be connected to click");
+                            .title(Lang.t("No Conectado", "Not Connected"))
+                            .description(Lang.t("Debe estar conectado para hacer clic", "Must be connected to click"));
                         return ERROR;
                     }
                     var itemInMainhand = CACHE.getPlayerCache().getEquipment(EquipmentSlot.MAIN_HAND);
                     var itemInOffhand = CACHE.getPlayerCache().getEquipment(EquipmentSlot.OFF_HAND);
                     if (itemInMainhand == Container.EMPTY_STACK && itemInOffhand == Container.EMPTY_STACK) {
                         c.getSource().getEmbed()
-                            .title("No Item")
-                            .description("Must have an item in mainHand or offHand");
+                            .title(Lang.t("Sin Objeto", "No Item"))
+                            .description(Lang.t("Debe tener un objeto en la mano principal o secundaria", "Must have an item in mainHand or offHand"));
                         return ERROR;
                     }
                     var itemToUse = itemInMainhand != Container.EMPTY_STACK ? itemInMainhand : itemInOffhand;
                     var hand = itemToUse == itemInMainhand ? Hand.MAIN_HAND : Hand.OFF_HAND;
                     useItem(hand, itemToUse);
                     c.getSource().getEmbed()
-                        .title("Using Item")
-                        .addField("Hand", hand.toString().toLowerCase())
-                        .addField("Item", ItemRegistry.REGISTRY.get(itemToUse.getId()).name())
+                        .title(Lang.t("Usando Objeto", "Using Item"))
+                        .addField(Lang.t("Mano", "Hand"), hand.toString().toLowerCase())
+                        .addField(Lang.t("Objeto", "Item"), ItemRegistry.REGISTRY.get(itemToUse.getId()).name())
                         .primaryColor();
                     return OK;
                 })
@@ -197,13 +198,13 @@ public class ClickCommand extends Command {
                         var itemInMainhand = CACHE.getPlayerCache().getEquipment(EquipmentSlot.MAIN_HAND);
                         if (itemInMainhand == Container.EMPTY_STACK) {
                             c.getSource().getEmbed()
-                                .title("No Item")
-                                .description("Must have an item in mainHand");
+                            .title(Lang.t("Sin Objeto", "No Item"))
+                            .description(Lang.t("Debe tener un objeto en la mano principal", "Must have an item in mainHand"));
                             return ERROR;
                         }
                         useItem(Hand.MAIN_HAND, itemInMainhand);
                         c.getSource().getEmbed()
-                            .title("Using Item")
+                            .title(Lang.t("Usando Objeto", "Using Item"))
                             .addField("Hand", Hand.MAIN_HAND.toString().toLowerCase())
                             .addField("Item", ItemRegistry.REGISTRY.get(itemInMainhand.getId()).name())
                             .primaryColor();
@@ -219,13 +220,13 @@ public class ClickCommand extends Command {
                         var itemInOffHand = CACHE.getPlayerCache().getEquipment(EquipmentSlot.OFF_HAND);
                         if (itemInOffHand == Container.EMPTY_STACK) {
                             c.getSource().getEmbed()
-                                .title("No Item")
-                                .description("Must have an item in offHand");
+                            .title(Lang.t("Sin Objeto", "No Item"))
+                            .description(Lang.t("Debe tener un objeto en la mano secundaria", "Must have an item in offHand"));
                             return ERROR;
                         }
                         useItem(Hand.OFF_HAND, itemInOffHand);
                         c.getSource().getEmbed()
-                            .title("Using Item")
+                            .title(Lang.t("Usando Objeto", "Using Item"))
                             .addField("Hand", Hand.MAIN_HAND.toString().toLowerCase())
                             .addField("Item", ItemRegistry.REGISTRY.get(itemInOffHand.getId()).name())
                             .primaryColor();
@@ -234,8 +235,8 @@ public class ClickCommand extends Command {
                 .then(literal("target").then(argument("targetType", enumStrings(HoldClickTarget.values())).executes(c -> {
                     if (!Proxy.getInstance().isConnected()) {
                         c.getSource().getEmbed()
-                            .title("Not Connected")
-                            .description("Must be connected to click");
+                            .title(Lang.t("No Conectado", "Not Connected"))
+                            .description(Lang.t("Debe estar conectado para hacer clic", "Must be connected to click"));
                         return ERROR;
                     }
                     var target = HoldClickTarget.valueOf(getString(c, "targetType").toUpperCase());
@@ -254,7 +255,7 @@ public class ClickCommand extends Command {
                         .priority(PRIORITY)
                         .build());
                     c.getSource().getEmbed()
-                        .title("Right Clicked")
+                        .title(Lang.t("Clic Derecho", "Right Clicked"))
                         .primaryColor();
                     return OK;
                 })))
@@ -264,7 +265,7 @@ public class ClickCommand extends Command {
                         CONFIG.client.extra.click.holdRightClick = true;
                         CONFIG.client.extra.click.holdRightClickMode = HoldRightClickMode.MAIN_HAND;
                         c.getSource().getEmbed()
-                            .title("Right Click Hold")
+                            .title(Lang.t("Mantener Clic Derecho", "Right Click Hold"))
                             .primaryColor();
                     })
                     .then(literal("mainHand").executes(c -> {
@@ -272,7 +273,7 @@ public class ClickCommand extends Command {
                         CONFIG.client.extra.click.holdRightClick = true;
                         CONFIG.client.extra.click.holdRightClickMode = HoldRightClickMode.MAIN_HAND;
                         c.getSource().getEmbed()
-                            .title("Right Click Hold (Main Hand)")
+                            .title(Lang.t("Mantener Clic Derecho (Mano Principal)", "Right Click Hold (Main Hand)"))
                             .primaryColor();
                     }))
                     .then(literal("offHand").executes(c -> {
@@ -280,7 +281,7 @@ public class ClickCommand extends Command {
                         CONFIG.client.extra.click.holdRightClick = true;
                         CONFIG.client.extra.click.holdRightClickMode = HoldRightClickMode.OFF_HAND;
                         c.getSource().getEmbed()
-                            .title("Right Click Hold (Offhand)")
+                            .title(Lang.t("Mantener Clic Derecho (Mano Secundaria)", "Right Click Hold (Offhand)"))
                             .primaryColor();
                     }))
                     .then(literal("alternate").executes(c -> {
@@ -288,25 +289,25 @@ public class ClickCommand extends Command {
                         CONFIG.client.extra.click.holdRightClick = true;
                         CONFIG.client.extra.click.holdRightClickMode = HoldRightClickMode.ALTERNATE_HANDS;
                         c.getSource().getEmbed()
-                            .title("Right Click Hold (Alternate)")
+                            .title(Lang.t("Mantener Clic Derecho (Alternar)", "Right Click Hold (Alternate)"))
                             .primaryColor();
                     }))
                     .then(literal("interval").then(argument("ticks", time(0, 100)).executes(c -> {
                         CONFIG.client.extra.click.holdRightClickInterval = getInteger(c, "ticks");
                         c.getSource().getEmbed()
-                            .title("Right Click Hold Interval Set")
+                            .title(Lang.t("Intervalo de Mantener Clic Derecho Establecido", "Right Click Hold Interval Set"))
                             .primaryColor();
                     })))))
             .then(literal("addedBlockReach").then(argument("reach", floatArg(-10, 10)).executes(c -> {
                 CONFIG.client.extra.click.additionalBlockReach = getFloat(c, "reach");
                 c.getSource().getEmbed()
-                    .title("Additional Block Reach Set")
+                    .title(Lang.t("Alcance de Bloque Adicional Establecido", "Additional Block Reach Set"))
                     .primaryColor();
             })))
             .then(literal("addedEntityReach").then(argument("reach", floatArg(-10, 10)).executes(c -> {
                 CONFIG.client.extra.click.additionalEntityReach = getFloat(c, "reach");
                 c.getSource().getEmbed()
-                    .title("Additional Entity Reach Set")
+                    .title(Lang.t("Alcance de Entidad Adicional Establecido", "Additional Entity Reach Set"))
                     .primaryColor();
             })))
             .then(literal("hold")
@@ -314,14 +315,14 @@ public class ClickCommand extends Command {
                     .then(argument("toggle", toggle()).executes(c -> {
                         CONFIG.client.extra.click.hasRotation = getToggle(c, "toggle");
                         c.getSource().getEmbed()
-                            .title("Hold Force Rotation Set")
+                            .title(Lang.t("Forzar Rotacion al Mantener Establecida", "Hold Force Rotation Set"))
                             .primaryColor();
                     }))
                     .then(argument("yaw", floatArg(-180, 180)).then(argument("pitch", floatArg(-90, 90)).executes(c -> {
                         CONFIG.client.extra.click.rotationYaw = getFloat(c, "yaw");
                         CONFIG.client.extra.click.rotationPitch = getFloat(c, "pitch");
                         c.getSource().getEmbed()
-                            .title("Hold Force Rotation Set")
+                            .title(Lang.t("Forzar Rotacion al Mantener Establecida", "Hold Force Rotation Set"))
                             .primaryColor();
                     })))
                     .then(literal("sync").executes(c -> {
@@ -329,13 +330,13 @@ public class ClickCommand extends Command {
                         CONFIG.client.extra.click.rotationYaw = MathHelper.wrapYaw(CACHE.getPlayerCache().getYaw());
                         CONFIG.client.extra.click.rotationPitch = MathHelper.wrapPitch(CACHE.getPlayerCache().getPitch());
                         c.getSource().getEmbed()
-                            .title("Hold Force Rotation Set")
+                            .title(Lang.t("Forzar Rotacion al Mantener Establecida", "Hold Force Rotation Set"))
                             .primaryColor();
                     })))
                 .then(literal("sneak").then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.click.holdSneak = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Hold Sneak Set")
+                        .title(Lang.t("Agacharse al Mantener Establecido", "Hold Sneak Set"))
                         .primaryColor();
                 })))
                 .then(literal("target")
@@ -343,7 +344,7 @@ public class ClickCommand extends Command {
                         String targetString = getString(c, "targetType");
                         CONFIG.client.extra.click.holdClickTarget = HoldClickTarget.valueOf(targetString.toUpperCase());
                         c.getSource().getEmbed()
-                            .title("Hold Target Set")
+                            .title(Lang.t("Objetivo al Mantener Establecido", "Hold Target Set"))
                             .primaryColor();
                     }))));
     }
@@ -387,18 +388,18 @@ public class ClickCommand extends Command {
     @Override
     public void defaultEmbed(Embed embed) {
         embed
-            .addField("Click Hold", CONFIG.client.extra.click.holdLeftClick ? "Left" : CONFIG.client.extra.click.holdRightClick ? "Right" : "off")
-            .addField("Click Hold Force Rotation", toggleStr(CONFIG.client.extra.click.hasRotation) + (
+            .addField(Lang.t("Mantener Clic", "Click Hold"), CONFIG.client.extra.click.holdLeftClick ? "Left" : CONFIG.client.extra.click.holdRightClick ? "Right" : "off")
+            .addField(Lang.t("Forzar Rotacion al Mantener", "Click Hold Force Rotation"), toggleStr(CONFIG.client.extra.click.hasRotation) + (
                 CONFIG.client.extra.click.hasRotation
                     ? " [" + String.format("%.2f", CONFIG.client.extra.click.rotationYaw) + ", " + String.format("%.2f", CONFIG.client.extra.click.rotationPitch) + "]"
                     : ""))
-            .addField("Click Hold Sneak", toggleStr(CONFIG.client.extra.click.holdSneak))
-            .addField("Click Hold Target", CONFIG.client.extra.click.holdClickTarget.toString().toLowerCase())
-            .addField("Left Click Hold Interval", CONFIG.client.extra.click.holdLeftClickInterval + " ticks")
-            .addField("Right Click Hold Mode", rightClickHoldModeToString(CONFIG.client.extra.click.holdRightClickMode))
-            .addField("Right Click Hold Interval", CONFIG.client.extra.click.holdRightClickInterval + " ticks")
-            .addField("Added Block Reach", CONFIG.client.extra.click.additionalBlockReach)
-            .addField("Added Entity Reach", CONFIG.client.extra.click.additionalEntityReach)
+            .addField(Lang.t("Agacharse al Mantener", "Click Hold Sneak"), toggleStr(CONFIG.client.extra.click.holdSneak))
+            .addField(Lang.t("Objetivo al Mantener", "Click Hold Target"), CONFIG.client.extra.click.holdClickTarget.toString().toLowerCase())
+            .addField(Lang.t("Intervalo de Clic Izquierdo Mantenido", "Left Click Hold Interval"), CONFIG.client.extra.click.holdLeftClickInterval + " ticks")
+            .addField(Lang.t("Modo de Clic Derecho Mantenido", "Right Click Hold Mode"), rightClickHoldModeToString(CONFIG.client.extra.click.holdRightClickMode))
+            .addField(Lang.t("Intervalo de Clic Derecho Mantenido", "Right Click Hold Interval"), CONFIG.client.extra.click.holdRightClickInterval + " ticks")
+            .addField(Lang.t("Alcance de Bloque Anadido", "Added Block Reach"), CONFIG.client.extra.click.additionalBlockReach)
+            .addField(Lang.t("Alcance de Entidad Anadido", "Added Entity Reach"), CONFIG.client.extra.click.additionalEntityReach)
             .primaryColor();
     }
 

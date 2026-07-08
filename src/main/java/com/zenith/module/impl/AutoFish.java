@@ -4,6 +4,7 @@ import com.github.rfresh2.EventConsumer;
 import com.zenith.cache.data.entity.Entity;
 import com.zenith.cache.data.entity.EntityStandard;
 import com.zenith.cache.data.inventory.Container;
+import com.zenith.Lang;
 import com.zenith.discord.Embed;
 import com.zenith.event.client.ClientBotTick;
 import com.zenith.event.module.EntityFishHookSpawnEvent;
@@ -138,12 +139,12 @@ public class AutoFish extends AbstractInventoryModule {
         }
         if (isFishing() && Instant.now().getEpochSecond() - castTime.getEpochSecond() > 60) {
             // something's wrong, probably don't have hook in water
-            warn("Probably don't have hook in water. reeling in");
+            warn(Lang.t("Probablemente no tienes el anzuelo en el agua. recogiendo", "Probably don't have hook in water. reeling in"));
             fishTimeoutCounter++;
             if (fishTimeoutCounter > 0 && fishTimeoutCounter % 5 == 0) {
                 discordNotification(Embed.builder()
-                    .title("Warning")
-                    .description("Fishing timed out, probably don't have hook in water")
+                    .title(Lang.t("Advertencia", "Warning"))
+                    .description(Lang.t("La pesca ha excedido el tiempo de espera, probablemente no tienes el anzuelo en el agua", "Fishing timed out, probably don't have hook in water"))
                     .errorColor());
             }
             fishHookEntityId = -1;

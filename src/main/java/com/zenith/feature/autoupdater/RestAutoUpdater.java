@@ -1,5 +1,6 @@
 package com.zenith.feature.autoupdater;
 
+import com.zenith.Lang;
 import com.zenith.util.struct.Pair;
 import tools.jackson.databind.JsonNode;
 
@@ -64,17 +65,18 @@ public class RestAutoUpdater extends AutoUpdater {
             if (versionLooksCorrect(releaseIdToTag.right())) {
                 if (!Objects.equals(LAUNCH_CONFIG.version, releaseIdToTag.right()) && versionIsNewerThanCurrent(LAUNCH_CONFIG.version, releaseIdToTag.right())) {
                     if (!getUpdateAvailable()) {
-                        DEFAULT_LOG.info(
-                            "New update on release channel {}! Current: {} New: {}!",
+                        DEFAULT_LOG.info(Lang.t(
+                            "Nueva actualizacion en el canal {}! Actual: {} Nueva: {}!",
+                            "New update on release channel {}! Current: {} New: {}!"),
                             LAUNCH_CONFIG.release_channel,
                             LAUNCH_CONFIG.version,
                             releaseIdToTag.right());
                     }
                     setUpdateAvailable(true, releaseIdToTag.right());
                 }
-            } else DEFAULT_LOG.warn("Invalid version on release: '{}'", releaseIdToTag.right());
+            } else DEFAULT_LOG.warn(Lang.t("Version invalida en la version: '{}'", "Invalid version on release: '{}'"), releaseIdToTag.right());
         } catch (Exception e) {
-            DEFAULT_LOG.error("Failed to check for updates: {}", e.getMessage());
+            DEFAULT_LOG.error(Lang.t("Error al buscar actualizaciones: {}", "Failed to check for updates: {}"), e.getMessage());
         }
     }
 

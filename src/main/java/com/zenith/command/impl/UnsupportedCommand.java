@@ -6,6 +6,7 @@ import com.zenith.command.api.*;
 import com.zenith.discord.Embed;
 import com.zenith.network.client.Authenticator;
 
+import com.zenith.Lang;
 import static com.zenith.Globals.CONFIG;
 import static com.zenith.command.brigadier.CustomStringArgumentType.getString;
 import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
@@ -46,33 +47,33 @@ public class UnsupportedCommand extends Command {
             .then(literal("whitelist").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.server.extra.whitelist.enable = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Whitelist " + toggleStrCaps(CONFIG.server.extra.whitelist.enable));
+                    .title(Lang.t("Lista Blanca ", "Whitelist ") + toggleStrCaps(CONFIG.server.extra.whitelist.enable));
                 return OK;
             })))
             .then(literal("spectatorWhitelist").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.server.spectator.whitelistEnabled = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Spectator Whitelist " + toggleStrCaps(CONFIG.server.spectator.whitelistEnabled));
+                    .title(Lang.t("Lista Blanca de Espectadores ", "Spectator Whitelist ") + toggleStrCaps(CONFIG.server.spectator.whitelistEnabled));
                 return OK;
             })))
             .then(literal("allowOfflinePlayers").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.server.verifyUsers = !getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Allow Offline Players " + toggleStrCaps(!CONFIG.server.verifyUsers));
+                    .title(Lang.t("Permitir Jugadores Offline ", "Allow Offline Players ") + toggleStrCaps(!CONFIG.server.verifyUsers));
                 return OK;
             })))
             .then(literal("auth")
                 .then(literal("type").then(literal("offline").executes(c -> {
                     CONFIG.authentication.accountType = OFFLINE;
                     c.getSource().getEmbed()
-                        .title("Authentication Type Set");
+                        .title(Lang.t("Tipo de Autenticación Establecido", "Authentication Type Set"));
                     Proxy.getInstance().cancelLogin();
                     Authenticator.INSTANCE.clearAuthCache();
                 })))
                 .then(literal("offlineUsername").then(argument("username", wordWithChars()).executes(c -> {
                     CONFIG.authentication.username = getString(c, "username");
                     c.getSource().getEmbed()
-                        .title("Offline Username Set");
+                        .title(Lang.t("Nombre de Usuario Offline Establecido", "Offline Username Set"));
                     Proxy.getInstance().cancelLogin();
                     Authenticator.INSTANCE.clearAuthCache();
                     return OK;
@@ -82,11 +83,11 @@ public class UnsupportedCommand extends Command {
     @Override
     public void defaultEmbed(Embed builder) {
         builder
-            .addField("Whitelist", toggleStr(CONFIG.server.extra.whitelist.enable))
-            .addField("Spectator Whitelist", toggleStr(CONFIG.server.spectator.whitelistEnabled))
-            .addField("Allow Offline Players", toggleStr(!CONFIG.server.verifyUsers))
-            .addField("Offline Authentication", toggleStr(CONFIG.authentication.accountType == OFFLINE))
-            .addField("Offline Username", escape(CONFIG.authentication.username))
+            .addField(Lang.t("Lista Blanca", "Whitelist"), toggleStr(CONFIG.server.extra.whitelist.enable))
+            .addField(Lang.t("Lista Blanca de Espectadores", "Spectator Whitelist"), toggleStr(CONFIG.server.spectator.whitelistEnabled))
+            .addField(Lang.t("Permitir Jugadores Offline", "Allow Offline Players"), toggleStr(!CONFIG.server.verifyUsers))
+            .addField(Lang.t("Autenticación Offline", "Offline Authentication"), toggleStr(CONFIG.authentication.accountType == OFFLINE))
+            .addField(Lang.t("Nombre de Usuario Offline", "Offline Username"), escape(CONFIG.authentication.username))
             .primaryColor();
     }
 }

@@ -61,112 +61,112 @@ public class AntiAFKCommand extends Command {
                 CONFIG.client.extra.antiafk.enabled = getToggle(c, "toggle");
                 MODULE.get(AntiAFK.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
-                    .title("AntiAFK " + toggleStrCaps(CONFIG.client.extra.antiafk.enabled));
+                    .title(Lang.t("AntiAFK " + toggleStrCaps(CONFIG.client.extra.antiafk.enabled), "AntiAFK " + toggleStrCaps(CONFIG.client.extra.antiafk.enabled)));
                 return OK;
             }))
             .then(literal("rotate")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.antiafk.actions.rotate = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Rotate " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.rotate));
+                        .title(Lang.t("Rotar " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.rotate), "Rotate " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.rotate)));
                     return OK;
                 }))
                 .then(literal("delay").then(argument("delay", time(0, 50000)).executes(c -> {
                     CONFIG.client.extra.antiafk.actions.rotateDelayTicks = getInteger(c, "delay");
                     c.getSource().getEmbed()
-                        .title("Rotate Delay Set!");
+                        .title(Lang.t("¡Retardo de rotación establecido!", "Rotate Delay Set!"));
                     return OK;
                 }))))
             .then(literal("swing")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.antiafk.actions.swingHand = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Swing " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.swingHand));
+                        .title(Lang.t("Balanceo " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.swingHand), "Swing " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.swingHand)));
                     return OK;
                 }))
                 .then(literal("delay").then(argument("delay", time(0, 50000)).executes(c -> {
                     CONFIG.client.extra.antiafk.actions.swingDelayTicks = getInteger(c, "delay");
                     c.getSource().getEmbed()
-                        .title("Swing Delay Set!");
+                        .title(Lang.t("¡Retardo de balanceo establecido!", "Swing Delay Set!"));
                     return OK;
                 }))))
             .then(literal("walk")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.antiafk.actions.walk = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Walk " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.walk));
+                        .title(Lang.t("Caminar " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.walk), "Walk " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.walk)));
                     return OK;
                 }))
                 .then(literal("delay").then(argument("delay", time(0, 50000)).executes(c -> {
                     CONFIG.client.extra.antiafk.actions.walkDelayTicks = getInteger(c, "delay");
                     c.getSource().getEmbed()
-                        .title("Walk Delay Set!");
+                        .title(Lang.t("¡Retardo de caminata establecido!", "Walk Delay Set!"));
                     return OK;
                 }))))
             .then(literal("safeWalk")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.antiafk.actions.safeWalk = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("SafeWalk " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.safeWalk));
+                        .title(Lang.t("Caminata segura " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.safeWalk), "SafeWalk " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.safeWalk)));
                     return OK;
                 })))
             .then(literal("walkDistance")
                 .then(argument("walkdist", integer(1)).executes(c -> {
                     CONFIG.client.extra.antiafk.actions.walkDistance = getInteger(c, "walkdist");
                     c.getSource().getEmbed()
-                        .title("Walk Distance Set!");
+                        .title(Lang.t("¡Distancia de caminata establecida!", "Walk Distance Set!"));
                     return OK;
                 })))
             .then(literal("jump")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.antiafk.actions.jump = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Jump " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.jump));
+                        .title(Lang.t("Saltar " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.jump), "Jump " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.jump)));
                     return OK;
                 }))
                 .then(literal("onlyInWater").then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.antiafk.actions.jumpOnlyInWater = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Jump Only In Water " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.jumpOnlyInWater));
+                        .title(Lang.t("Saltar solo en agua " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.jumpOnlyInWater), "Jump Only In Water " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.jumpOnlyInWater)));
                     return OK;
                 })))
                 .then(literal("delay").then(argument("delay", time(0, 50000)).executes(c -> {
                     CONFIG.client.extra.antiafk.actions.jumpDelayTicks = getInteger(c, "delay");
                     c.getSource().getEmbed()
-                        .title("Jump Delay Set!");
+                        .title(Lang.t("¡Retardo de salto establecido!", "Jump Delay Set!"));
                     return OK;
                 }))))
             .then(literal("sneak")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.antiafk.actions.sneak = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Sneak " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.sneak));
+                        .title(Lang.t("Agacharse " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.sneak), "Sneak " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.sneak)));
                     return OK;
                 }))
                 .then(literal("delay").then(argument("delay", time(0, 50000)).executes(c -> {
                     CONFIG.client.extra.antiafk.actions.sneakDelayTicks = getInteger(c, "delay");
                     c.getSource().getEmbed()
-                        .title("Sneak Delay Set!");
+                        .title(Lang.t("¡Retardo de agacharse establecido!", "Sneak Delay Set!"));
                 }))));
     }
 
     @Override
     public void defaultEmbed(final Embed embedBuilder) {
         embedBuilder
-            .addField("AntiAFK", toggleStr(CONFIG.client.extra.antiafk.enabled))
-            .addField("Rotate", toggleStr(CONFIG.client.extra.antiafk.actions.rotate)
-                + " - Delay: " + CONFIG.client.extra.antiafk.actions.rotateDelayTicks)
-            .addField("Swing", toggleStr(CONFIG.client.extra.antiafk.actions.swingHand)
-                + " - Delay: " + CONFIG.client.extra.antiafk.actions.swingDelayTicks)
-            .addField("Walk", toggleStr(CONFIG.client.extra.antiafk.actions.walk)
-                + " - Delay: " + CONFIG.client.extra.antiafk.actions.walkDelayTicks)
-            .addField("Safe Walk", toggleStr(CONFIG.client.extra.antiafk.actions.safeWalk))
-            .addField("Walk Distance", CONFIG.client.extra.antiafk.actions.walkDistance)
-            .addField("Jump", toggleStr(CONFIG.client.extra.antiafk.actions.jump)
-                + " - Only In Water: " + toggleStr(CONFIG.client.extra.antiafk.actions.jumpOnlyInWater)
-                + " - Delay: " + CONFIG.client.extra.antiafk.actions.jumpDelayTicks)
-            .addField("Sneak", toggleStr(CONFIG.client.extra.antiafk.actions.sneak)
-                + " - Delay: " + CONFIG.client.extra.antiafk.actions.sneakDelayTicks)
+            .addField(Lang.t("AntiAFK", "AntiAFK"), toggleStr(CONFIG.client.extra.antiafk.enabled))
+            .addField(Lang.t("Rotar", "Rotate"), toggleStr(CONFIG.client.extra.antiafk.actions.rotate)
+                + " - " + Lang.t("Retardo: ", "Delay: ") + CONFIG.client.extra.antiafk.actions.rotateDelayTicks)
+            .addField(Lang.t("Balanceo", "Swing"), toggleStr(CONFIG.client.extra.antiafk.actions.swingHand)
+                + " - " + Lang.t("Retardo: ", "Delay: ") + CONFIG.client.extra.antiafk.actions.swingDelayTicks)
+            .addField(Lang.t("Caminar", "Walk"), toggleStr(CONFIG.client.extra.antiafk.actions.walk)
+                + " - " + Lang.t("Retardo: ", "Delay: ") + CONFIG.client.extra.antiafk.actions.walkDelayTicks)
+            .addField(Lang.t("Caminata segura", "Safe Walk"), toggleStr(CONFIG.client.extra.antiafk.actions.safeWalk))
+            .addField(Lang.t("Distancia de caminata", "Walk Distance"), CONFIG.client.extra.antiafk.actions.walkDistance)
+            .addField(Lang.t("Saltar", "Jump"), toggleStr(CONFIG.client.extra.antiafk.actions.jump)
+                + " - " + Lang.t("Solo en agua: ", "Only In Water: ") + toggleStr(CONFIG.client.extra.antiafk.actions.jumpOnlyInWater)
+                + " - " + Lang.t("Retardo: ", "Delay: ") + CONFIG.client.extra.antiafk.actions.jumpDelayTicks)
+            .addField(Lang.t("Agacharse", "Sneak"), toggleStr(CONFIG.client.extra.antiafk.actions.sneak)
+                + " - " + Lang.t("Retardo: ", "Delay: ") + CONFIG.client.extra.antiafk.actions.sneakDelayTicks)
             .primaryColor();
     }
 }

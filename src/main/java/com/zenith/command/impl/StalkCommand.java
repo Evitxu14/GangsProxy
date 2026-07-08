@@ -40,27 +40,27 @@ public class StalkCommand extends Command {
             .then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.stalk.enabled = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Stalk " + toggleStrCaps(CONFIG.client.extra.stalk.enabled));
+                    .title(Lang.t("Vigilar ", "Stalk ") + toggleStrCaps(CONFIG.client.extra.stalk.enabled));
                 return OK;
             }))
             .then(literal("list").executes(c -> {
                 c.getSource().getEmbed()
-                    .title("Stalk List");
+                    .title(Lang.t("Lista de Vigilancia", "Stalk List"));
             }))
             .then(literal("add").then(argument("player", string()).executes(c -> {
                 final String player = StringArgumentType.getString(c, "player");
                 PLAYER_LISTS.getStalkList().add(player).ifPresentOrElse(e ->
                     c.getSource().getEmbed()
-                            .title("Added player: " + escape(e.getUsername()) + " To Stalk List"),
+                            .title(Lang.t("Jugador añadido: ", "Added player: ") + escape(e.getUsername()) + Lang.t(" A la Lista de Vigilancia", " To Stalk List")),
                         () -> c.getSource().getEmbed()
-                            .title("Failed to add player: " + escape(player) + " to stalk list. Unable to lookup profile."));
+                            .title(Lang.t("Error al añadir jugador: ", "Failed to add player: ") + escape(player) + Lang.t(". No se pudo buscar el perfil.", " to stalk list. Unable to lookup profile.")));
                 return OK;
             })))
             .then(literal("del").then(argument("player", string()).executes(c -> {
                 final String player = StringArgumentType.getString(c, "player");
                 PLAYER_LISTS.getStalkList().remove(player);
                 c.getSource().getEmbed()
-                    .title("Removed player: " + escape(player) + " From Stalk List");
+                    .title(Lang.t("Jugador eliminado: ", "Removed player: ") + escape(player) + Lang.t(" De la Lista de Vigilancia", " From Stalk List"));
                 return OK;
             })));
     }
@@ -68,8 +68,8 @@ public class StalkCommand extends Command {
     @Override
     public void defaultEmbed(final Embed builder) {
         builder
-            .addField("Stalk", toggleStr(CONFIG.client.extra.stalk.enabled), false)
-            .description("**Stalk List**\n" + playerListToString(PLAYER_LISTS.getStalkList()))
+            .addField(Lang.t("Vigilar", "Stalk"), toggleStr(CONFIG.client.extra.stalk.enabled), false)
+            .description(Lang.t("**Lista de Vigilancia**\n", "**Stalk List**\n") + playerListToString(PLAYER_LISTS.getStalkList()))
             .primaryColor();
     }
 }

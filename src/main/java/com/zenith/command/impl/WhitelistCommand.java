@@ -19,6 +19,7 @@ import static com.zenith.command.api.CommandOutputHelper.playerListToString;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
 import static com.zenith.discord.DiscordBot.escape;
+import com.zenith.Lang;
 
 public class WhitelistCommand extends Command {
     @Override
@@ -55,17 +56,17 @@ public class WhitelistCommand extends Command {
                 final String player = StringArgumentType.getString(c, "player");
                 PLAYER_LISTS.getWhitelist().add(player).ifPresentOrElse(e ->
                         c.getSource().getEmbed()
-                            .title("Added user: " + escape(e.getUsername()) + " To Whitelist"),
+                            .title(Lang.t("Usuario añadido: " + escape(e.getUsername()) + " a la lista blanca", "Added user: " + escape(e.getUsername()) + " To Whitelist")),
                     () -> c.getSource().getEmbed()
-                        .title("Failed to add user: " + escape(player) + " to whitelist. Unable to lookup profile."));
+                        .title(Lang.t("Error al añadir usuario: " + escape(player) + " a la lista blanca. No se pudo buscar el perfil.", "Failed to add user: " + escape(player) + " to whitelist. Unable to lookup profile.")));
             })))
             .then(literal("addAll").requires(Command::validateAccountOwner).then(argument("playerList", greedyString()).executes(c -> {
                 String playerList = getString(c, "playerList");
                 String[] split = playerList.split(",");
                 if (split.length == 0) {
                     c.getSource().getEmbed()
-                        .title("Invalid Input")
-                        .description("Each player name must be delimited by `,`");
+                        .title(Lang.t("Entrada inválida", "Invalid Input"))
+                        .description(Lang.t("Cada nombre de jugador debe estar delimitado por `,`", "Each player name must be delimited by `,`"));
                     return ERROR;
                 }
                 List<String> addErrors = new ArrayList<>();
@@ -75,11 +76,11 @@ public class WhitelistCommand extends Command {
                     }
                 }
                 c.getSource().getEmbed()
-                    .title("Added Players")
+                    .title(Lang.t("Jugadores añadidos", "Added Players"))
                     .addField("Added Player Count", split.length - addErrors.size());
                 if (!addErrors.isEmpty()) {
                     c.getSource().getEmbed()
-                        .description("Failed adding " + addErrors.size() + " players: " + String.join(", ", addErrors));
+                        .description(Lang.t("Error al añadir " + addErrors.size() + " jugadores: " + String.join(", ", addErrors), "Failed adding " + addErrors.size() + " players: " + String.join(", ", addErrors)));
                 }
                 return OK;
             })))
@@ -87,45 +88,45 @@ public class WhitelistCommand extends Command {
                 final String player = StringArgumentType.getString(c, "player");
                 PLAYER_LISTS.getWhitelist().remove(player);
                 c.getSource().getEmbed()
-                    .title("Removed user: " + escape(player) + " From Whitelist");
+                    .title(Lang.t("Usuario eliminado: " + escape(player) + " de la lista blanca", "Removed user: " + escape(player) + " From Whitelist"));
                 Proxy.getInstance().kickNonWhitelistedPlayers();
             })))
             .then(literal("list").executes(c -> {
                 c.getSource().getEmbed()
-                    .title("Whitelist List");
+                    .title(Lang.t("Lista blanca", "Whitelist List"));
             }))
             .then(literal("clear").requires(Command::validateAccountOwner).executes(c -> {
                 PLAYER_LISTS.getWhitelist().clear();
                 c.getSource().getEmbed()
-                    .title("Whitelist Cleared");
+                    .title(Lang.t("Lista blanca limpiada", "Whitelist Cleared"));
                 Proxy.getInstance().kickNonWhitelistedPlayers();
             }))
             .then(literal("autoAddZenithAccount").requires(Command::validateAccountOwner)
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.server.extra.whitelist.autoAddClient = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Auto Add Zenith Account " + toggleStrCaps(CONFIG.server.extra.whitelist.autoAddClient));
+                        .title(Lang.t("Añadir automáticamente cuenta Zenith " + toggleStrCaps(CONFIG.server.extra.whitelist.autoAddClient), "Auto Add Zenith Account " + toggleStrCaps(CONFIG.server.extra.whitelist.autoAddClient)));
                 })))
             .then(literal("blacklist").requires(Command::validateAccountOwner)
                 .then(literal("add").then(argument("player", string()).executes(c -> {
                     final String player = StringArgumentType.getString(c, "player");
                     PLAYER_LISTS.getBlacklist().add(player).ifPresentOrElse(e ->
                             c.getSource().getEmbed()
-                                .title("Added user: " + escape(e.getUsername()) + " To Blacklist"),
+                                .title(Lang.t("Usuario añadido: " + escape(e.getUsername()) + " a la lista negra", "Added user: " + escape(e.getUsername()) + " To Blacklist")),
                         () -> c.getSource().getEmbed()
-                            .title("Failed to add user: " + escape(player) + " to blacklist. Unable to lookup profile."));
+                                .title(Lang.t("Error al añadir usuario: " + escape(player) + " a la lista negra. No se pudo buscar el perfil.", "Failed to add user: " + escape(player) + " to blacklist. Unable to lookup profile.")));
                 })))
                 .then(literal("del").then(argument("player", string()).executes(c -> {
                     final String player = StringArgumentType.getString(c, "player");
                     PLAYER_LISTS.getBlacklist().remove(player);
                     c.getSource().getEmbed()
-                        .title("Removed user: " + escape(player) + " From Blacklist");
+                        .title(Lang.t("Usuario eliminado: " + escape(player) + " de la lista negra", "Removed user: " + escape(player) + " From Blacklist"));
                     Proxy.getInstance().kickNonWhitelistedPlayers();
                 })))
                 .then(literal("clear").executes(c -> {
                     PLAYER_LISTS.getBlacklist().clear();
                     c.getSource().getEmbed()
-                        .title("Blacklist Cleared");
+                        .title(Lang.t("Lista negra limpiada", "Blacklist Cleared"));
                     Proxy.getInstance().kickNonWhitelistedPlayers();
                 })));
     }

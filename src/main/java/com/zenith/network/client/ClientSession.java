@@ -1,6 +1,7 @@
 package com.zenith.network.client;
 
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.event.client.ClientConnectEvent;
 import com.zenith.event.client.ClientDisconnectEvent;
@@ -178,7 +179,7 @@ public class ClientSession extends TcpClientSession {
 
     @Override
     public void callConnected() {
-        CLIENT_LOG.info("Connected to {}!", getRemoteAddress());
+        CLIENT_LOG.info(Lang.t("Conectado a {}!", "Connected to {}!"), getRemoteAddress());
         this.setDisconnected(false);
         switchInboundState(ProtocolState.LOGIN);
         send(new ClientIntentionPacket(getPacketProtocol().getCodec().getProtocolVersion(), getHost(), getPort(), HandshakeIntent.LOGIN));
@@ -206,7 +207,7 @@ public class ClientSession extends TcpClientSession {
     @Override
     public void callDisconnecting(Component reason, Throwable cause) {
         try {
-            CLIENT_LOG.info("Disconnecting from server...");
+            CLIENT_LOG.info(Lang.t("Desconectando del servidor...", "Disconnecting from server..."));
             CLIENT_LOG.trace("Disconnect reason: {}", reason);
             // reason can be malformed for MC parser the logger uses
             var connections = Proxy.getInstance().getActiveConnections().getArray();
@@ -228,10 +229,10 @@ public class ClientSession extends TcpClientSession {
         try {
             reasonStr = ComponentSerializer.serializePlain(reason);
         } catch (final Exception e) {
-            CLIENT_LOG.warn("Unable to parse disconnect reason: {}", reason, e);
+            CLIENT_LOG.warn(Lang.t("No se pudo analizar la razon de desconexion: {}", "Unable to parse disconnect reason: {}"), reason, e);
             reasonStr = isNull(reason) ? "Disconnected" : ComponentSerializer.serializeJson(reason);
         }
-        CLIENT_LOG.info("Disconnected: {}", reason != null ? reason : reasonStr);
+        CLIENT_LOG.info(Lang.t("Desconectado: {}", "Disconnected: {}"), reason != null ? reason : reasonStr);
         var onlineDuration = Duration.ofSeconds(Proxy.getInstance().getOnlineTimeSeconds());
         var onlineDurationWithQueueSkip = Duration.ofSeconds(Proxy.getInstance().getOnlineTimeSecondsWithQueueSkip());
         try {

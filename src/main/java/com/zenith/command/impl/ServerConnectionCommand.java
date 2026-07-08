@@ -76,7 +76,7 @@ public class ServerConnectionCommand extends Command {
                 CONFIG.server.bind.port = getInteger(context, "port");
                 context.getSource().getEmbed()
                     .title("Port Set")
-                    .description("Restarting server...");
+                    .description(Lang.t("Reiniciando servidor...", "Restarting server..."));
                 EXECUTOR.execute(() -> {
                     Proxy.getInstance().stopServer();
                     Proxy.getInstance().startServer();

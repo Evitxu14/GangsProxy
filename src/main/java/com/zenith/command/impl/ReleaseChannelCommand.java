@@ -113,22 +113,30 @@ public class ReleaseChannelCommand extends Command {
     private void setChannel(com.mojang.brigadier.context.CommandContext<CommandContext> c, String platform, String minecraft_version, boolean pre, boolean force) {
         if (!PLATFORMS.contains(platform) && !force) {
             c.getSource().getEmbed()
-                .title("Invalid Platform!")
-                .description("Available platforms: " + PLATFORMS)
+                .title(Lang.t("Plataforma Invalida!", "Invalid Platform!"))
+                .description(Lang.t("Plataformas disponibles: ", "Available platforms: ") + PLATFORMS)
                 .errorColor();
             return;
         }
         if (!MINECRAFT_VERSIONS.contains(minecraft_version) && !force) {
             c.getSource().getEmbed()
-                .title("Invalid Minecraft Version!")
-                .description("Available versions: " + MINECRAFT_VERSIONS)
+                .title(Lang.t("Version de Minecraft Invalida!", "Invalid Minecraft Version!"))
+                .description(Lang.t("Versiones disponibles: ", "Available versions: ") + MINECRAFT_VERSIONS)
                 .errorColor();
             return;
         }
         if (!LAUNCH_CONFIG.auto_update && !force) {
             c.getSource().getEmbed()
-                .title("Error: AutoUpdate Disabled")
-                .description("""
+                .title(Lang.t("Error: AutoActualizacion Deshabilitada", "Error: AutoUpdate Disabled"))
+                .description(Lang.t("""
+                    No puedes cambiar los canales de lanzamiento mientras AutoUpdate esta deshabilitado.
+
+                    gangsproxy no podra reiniciarse.
+
+                    `autoUpdate on` y luego intenta de nuevo.
+
+                    o anula esta comprobacion con el argumento `force`: `channel set <platform> <minecraft_version> force`
+                    """, """
                     You cannot change release channels while AutoUpdate is disabled.
 
                     gangsproxy will be unable to restart.
@@ -136,15 +144,15 @@ public class ReleaseChannelCommand extends Command {
                     `autoUpdate on` then try again.
 
                     or override this check with the `force` arg: `channel set <platform> <minecraft_version> force`
-                    """)
+                    """))
                 .errorColor();
             return;
         }
         if (platform.equals("linux") && !force) {
             if (!validateLinuxPlatform()) {
                 c.getSource().getEmbed()
-                    .title("Invalid Platform!")
-                    .description("Invalid system for linux channel")
+                    .title(Lang.t("Plataforma Invalida!", "Invalid Platform!"))
+                    .description(Lang.t("Sistema invalido para el canal linux", "Invalid system for linux channel"))
                     .errorColor();
                 return;
             }
@@ -169,14 +177,14 @@ public class ReleaseChannelCommand extends Command {
         // Check if we're running on linux OS
         boolean isLinuxOs = System.getProperty("os.name").toLowerCase().contains("linux");
         if (!isLinuxOs) {
-            DEFAULT_LOG.warn("Linux release channel selected but not running on Linux OS.");
+            DEFAULT_LOG.warn(Lang.t("Canal de lanzamiento linux seleccionado pero no se esta ejecutando en un SO Linux.", "Linux release channel selected but not running on Linux OS."));
             return false;
         }
 
         // check cpu is x86_64
         boolean isAmd64Cpu = System.getProperty("os.arch").equals("amd64");
         if (!isAmd64Cpu) {
-            DEFAULT_LOG.warn("Linux release channel selected but not running on x86_64 CPU.");
+            DEFAULT_LOG.warn(Lang.t("Canal de lanzamiento linux seleccionado pero no se esta ejecutando en una CPU x86_64.", "Linux release channel selected but not running on x86_64 CPU."));
             return false;
         }
         // check if we have the required CPU flags
@@ -188,12 +196,12 @@ public class ReleaseChannelCommand extends Command {
                 .toList();
             for (String reqFlag : amd64CpuFlags) {
                 if (!flags.contains(reqFlag)) {
-                    DEFAULT_LOG.warn("Linux release channel selected but CPU does not have required flag: {}", reqFlag);
+                    DEFAULT_LOG.warn(Lang.t("Canal de lanzamiento linux seleccionado pero la CPU no tiene el flag requerido: {}", "Linux release channel selected but CPU does not have required flag: {}"), reqFlag);
                     return false;
                 }
             }
         } catch (final Throwable e) {
-            DEFAULT_LOG.warn("Error validating linux channel. Failed to read /proc/cpuinfo", e);
+            DEFAULT_LOG.warn(Lang.t("Error validando el canal linux. No se pudo leer /proc/cpuinfo", "Error validating linux channel. Failed to read /proc/cpuinfo"), e);
             return false;
         }
 
@@ -218,11 +226,11 @@ public class ReleaseChannelCommand extends Command {
                 ? 31
                 : 35;
             if (major != 2 || minor < minorVersionMin) {
-                DEFAULT_LOG.warn("Linux release channel selected but glibc version is less than 2.{}", minorVersionMin);
+                DEFAULT_LOG.warn(Lang.t("Canal de lanzamiento linux seleccionado pero la version de glibc es menor a 2.{}", "Linux release channel selected but glibc version is less than 2.{}"), minorVersionMin);
                 return false;
             }
         } catch (final Throwable e) {
-            DEFAULT_LOG.warn("Error validating linux channel. Failed to determine glibc version", e);
+            DEFAULT_LOG.warn(Lang.t("Error validando el canal linux. No se pudo determinar la version de glibc", "Error validating linux channel. Failed to determine glibc version"), e);
             return false;
         }
         return true;

@@ -1,5 +1,6 @@
 package com.zenith.network.client.handler.incoming;
 
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.cache.CacheResetType;
 import com.zenith.event.client.ClientOnlineEvent;
@@ -58,16 +59,16 @@ public class LoginHandler implements PacketHandler<ClientboundLoginPacket, Clien
                         chatSession.getPlayerCertificates().getKeyPair().getPublic(),
                         chatSession.getPlayerCertificates().getPublicKeySignature()
                     ));
-                    CLIENT_LOG.info("Server enforces secure chat, chat signing enabled");
+                    CLIENT_LOG.info(Lang.t("El servidor exige chat seguro, chat firmado activado", "Server enforces secure chat, chat signing enabled"));
                 } else {
-                    CLIENT_LOG.warn("Server enforces secure chat, but we cannot sign chat messages");
+                    CLIENT_LOG.warn(Lang.t("El servidor exige chat seguro, pero no podemos firmar mensajes", "Server enforces secure chat, but we cannot sign chat messages"));
                 }
             } else {
-                CLIENT_LOG.info("Server does not enforce secure chat, chat signing disabled");
+                CLIENT_LOG.info(Lang.t("El servidor no exige chat seguro, chat firmado desactivado", "Server does not enforce secure chat, chat signing disabled"));
             }
         } else {
             if (packet.isEnforcesSecureChat()) {
-                CLIENT_LOG.warn("Server enforces secure chat, but chat signing is disabled");
+                CLIENT_LOG.warn(Lang.t("El servidor exige chat seguro, pero el chat firmado esta desactivado", "Server enforces secure chat, but chat signing is disabled"));
             }
             CACHE.getChatCache().setEnforcesSecureChat(packet.isEnforcesSecureChat());
         }

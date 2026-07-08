@@ -1,6 +1,7 @@
 package com.zenith.network.client;
 
 import com.google.gson.JsonObject;
+import com.zenith.Lang;
 import com.zenith.event.client.MsaDeviceCodeLoginEvent;
 import com.zenith.util.WebBrowserHelper;
 import lombok.Getter;
@@ -57,7 +58,7 @@ public class Authenticator {
 
     public MinecraftProtocol login()  {
         if (CONFIG.authentication.accountType == OFFLINE) {
-            AUTH_LOG.warn("Using offline account: '{}'. Offline accounts will not receive user support.", CONFIG.authentication.username);
+            AUTH_LOG.warn(Lang.t("Usando cuenta offline: '{}'. Las cuentas offline no recibiran soporte de usuario.", "Using offline account: '{}'. Offline accounts will not receive user support."), CONFIG.authentication.username);
             return createMinecraftProtocol(new MinecraftProfile(UUID.randomUUID(), CONFIG.authentication.username), null, null);
         }
         var authSession = loadAuthCache()
@@ -127,7 +128,7 @@ public class Authenticator {
 
     private void executeAuthCacheRefresh() {
         try {
-            AUTH_LOG.info("Running background auth token refresh..");
+            AUTH_LOG.info(Lang.t("Ejecutando actualizacion de token de autenticacion en segundo plano..", "Running background auth token refresh.."));
             var authCache = loadAuthCache();
             if (authCache.isEmpty()) {
                 AUTH_LOG.error("No auth cache found to background refresh");
@@ -138,7 +139,7 @@ public class Authenticator {
                 javaAuthManager.getMinecraftToken().refresh();
                 javaAuthManager.getMinecraftProfile().refresh();
                 javaAuthManager.getMinecraftPlayerCertificates().refresh();
-                AUTH_LOG.info("Refreshed profile: {} [{}]", javaAuthManager.getMinecraftProfile().getCached().getName(), javaAuthManager.getMinecraftProfile().getCached().getId());
+                AUTH_LOG.info(Lang.t("Perfil actualizado: {} [{}]", "Refreshed profile: {} [{}]"), javaAuthManager.getMinecraftProfile().getCached().getName(), javaAuthManager.getMinecraftProfile().getCached().getId());
                 updateConfig(javaAuthManager);
                 saveAuthCacheAsync(javaAuthManager);
             } catch (final Exception e) {
@@ -207,7 +208,7 @@ public class Authenticator {
             saveAuthCache(javaAuthManager);
             return JavaAuthManager.toJson(javaAuthManager);
         } catch (Exception e) {
-            AUTH_LOG.warn("Failed upgrading auth cache!", e);
+            AUTH_LOG.warn(Lang.t("Error al actualizar cache de autenticacion!", "Failed upgrading auth cache!"), e);
             return json;
         }
     }
@@ -218,7 +219,7 @@ public class Authenticator {
             .map(MinecraftProfile::getName)
             .orElse(null);
         if (name == null || !name.equals(CONFIG.authentication.username)) {
-            AUTH_LOG.info("Cached auth username does not match config username, clearing cache");
+            AUTH_LOG.info(Lang.t("El nombre de usuario en cache no coincide con el config, limpiando cache", "Cached auth username does not match config username, clearing cache"));
             clearAuthCache();
             return Optional.empty();
         }
@@ -226,7 +227,7 @@ public class Authenticator {
     }
 
     private void onDeviceCodeLogin(MsaDeviceCode code) {
-        AUTH_LOG.error("Login Here: {} with code: {}", code.getDirectVerificationUri(), code.getUserCode());
+        AUTH_LOG.error(Lang.t("Inicia sesion aqui: {} con codigo: {}", "Login Here: {} with code: {}"), code.getDirectVerificationUri(), code.getUserCode());
         EVENT_BUS.postAsync(new MsaDeviceCodeLoginEvent(code));
         if (CONFIG.authentication.openBrowserOnLogin) tryOpenBrowser(code.getDirectVerificationUri());
     }

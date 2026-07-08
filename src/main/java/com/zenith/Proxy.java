@@ -138,22 +138,22 @@ public class Proxy {
 
     public void start() {
         Lang.reload();
-        DEFAULT_LOG.info(Lang.t("Iniciando Gang'sProxy-{}", Lang.t("Iniciando Gang'sProxy-{}", "Starting Gang'sProxy-{}")), VERSION);
+        DEFAULT_LOG.info(Lang.t("Iniciando Gang'sProxy-{}", "Starting Gang'sProxy-{}"), VERSION);
         var exeReleaseVersion = getExecutableReleaseVersion();
         if (exeReleaseVersion == null) {
-            DEFAULT_LOG.warn(Lang.t("Build de desarrollo no oficial detectado!", Lang.t("Build de desarrollo no oficial detectado!", "Detected unofficial Gang'sProxy development build!")));
+            DEFAULT_LOG.warn(Lang.t("Build de desarrollo no oficial detectado!", "Detected unofficial Gang'sProxy development build!"));
         } else if (!LAUNCH_CONFIG.version.split("\\+")[0].equals(exeReleaseVersion.split("\\+")[0])) {
-            DEFAULT_LOG.warn(Lang.t("La version de launch_config.json: {} y la version embebida de Gang'sProxy: {} no coinciden!", Lang.t("La version de launch_config.json: {} y la version embebida de Gang'sProxy: {} no coinciden!", "launch_config.json version: {} and embedded Gang'sProxy version: {} do not match!")), LAUNCH_CONFIG.version, exeReleaseVersion);
+            DEFAULT_LOG.warn(Lang.t("La version de launch_config.json: {} y la version embebida de Gang'sProxy: {} no coinciden!", "launch_config.json version: {} and embedded Gang'sProxy version: {} do not match!"), LAUNCH_CONFIG.version, exeReleaseVersion);
             if (inDevEnv() && !ImageInfo.inImageRuntimeCode()) {
                 var correctedVersion = exeReleaseVersion.split("\\+")[0] + "+java." + exeReleaseVersion.split("\\+")[1];
                 LAUNCH_CONFIG.version = correctedVersion;
                 LAUNCH_CONFIG.local_version = correctedVersion;
                 saveLaunchConfig();
-                DEFAULT_LOG.warn(Lang.t("Version actualizada para coincidir con la version embebida: {}", Lang.t("Version actualizada para coincidir con la version embebida: {}", "Updated version to match embedded Gang'sProxy version: {}")), exeReleaseVersion);
+                DEFAULT_LOG.warn(Lang.t("Version actualizada para coincidir con la version embebida: {}", "Updated version to match embedded Gang'sProxy version: {}"), exeReleaseVersion);
             } else if (LAUNCH_CONFIG.auto_update && !inDevEnv()) {
-                DEFAULT_LOG.warn("AutoUpdater is enabled but will break!");
+                DEFAULT_LOG.warn(Lang.t("AutoUpdater activado pero se rompera!", "AutoUpdater is enabled but will break!"));
             }
-            DEFAULT_LOG.warn("Use the official launcher: https://github.com/Evitxu14/GangsProxy/releases/tag/launcher-v3");
+            DEFAULT_LOG.warn(Lang.t("Usa el lanzador oficial: ", "Use the official launcher: ") + "https://github.com/Evitxu14/GangsProxy/releases/tag/launcher-v3");
         }
         initEventHandlers();
         try {
@@ -165,12 +165,12 @@ public class Proxy {
             this.tcpManager = new TcpConnectionManager();
             if (CONFIG.database.enabled) {
                 DATABASE.start();
-                DEFAULT_LOG.info("Started Databases");
+                DEFAULT_LOG.info(Lang.t("Bases de datos iniciadas", "Started Databases"));
             }
             if (CONFIG.discord.enable) {
                 try {
                     DISCORD.start();
-                    DISCORD_LOG.info("Started Discord Bot");
+                    DISCORD_LOG.info(Lang.t("Bot de Discord iniciado", "Started Discord Bot"));
                 } catch (final Throwable e) {
                     DISCORD_LOG.error("Failed starting discord bot: {}", e.getMessage());
                     DISCORD_LOG.debug("Failed starting discord bot", e);
@@ -212,9 +212,9 @@ public class Proxy {
                     ? NoOpAutoUpdater.INSTANCE
                     : new RestAutoUpdater();
                 autoUpdater.start();
-                DEFAULT_LOG.info(Lang.t("AutoUpdater iniciado", Lang.t("AutoUpdater iniciado", "Started AutoUpdater")));
+                DEFAULT_LOG.info(Lang.t("AutoUpdater iniciado", "Started AutoUpdater"));
             }
-            DEFAULT_LOG.info(Lang.t("Gang'sProxy iniciado!", Lang.t("Gang'sProxy iniciado!", "Gang'sProxy started!")));
+            DEFAULT_LOG.info(Lang.t("Gang'sProxy iniciado!", "Gang'sProxy started!"));
             if (LAUNCH_CONFIG.release_channel.endsWith(".pre")) {
                 DISCORD.sendEmbedMessage(
                     Embed.builder()
@@ -229,15 +229,15 @@ public class Proxy {
                             """));
             }
             if (!connected) {
-                DEFAULT_LOG.info("Commands Help: https://github.com/Evitxu14/GangsProxy/wiki/Commands");
-                DEFAULT_LOG.info(Lang.t("IP del Proxy: {}", Lang.t("IP del Proxy: {}", "Proxy IP: {}")), CONFIG.server.getProxyAddress());
-                DEFAULT_LOG.info(Lang.t("Usa el comando `conectar` para iniciar sesion!", Lang.t("Usa el comando `conectar` para iniciar sesion!", "Use the `connect` command to log in!")));
+                DEFAULT_LOG.info(Lang.t("Ayuda de comandos: ", "Commands Help: ") + "https://github.com/Evitxu14/GangsProxy/wiki/Commands");
+                DEFAULT_LOG.info(Lang.t("IP del Proxy: {}", "Proxy IP: {}"), CONFIG.server.getProxyAddress());
+                DEFAULT_LOG.info(Lang.t("Usa el comando `conectar` para iniciar sesion!", "Use the `connect` command to log in!"));
             }
             Wait.waitSpinLoop();
         } catch (Exception e) {
             DEFAULT_LOG.error("", e);
         } finally {
-            DEFAULT_LOG.info("Shutting down...");
+                DEFAULT_LOG.info(Lang.t("Apagando...", "Shutting down..."));
             if (this.server != null) this.server.close(true);
             saveConfig();
         }
@@ -306,16 +306,22 @@ public class Proxy {
         this.startServer();
         EXECUTOR.schedule(() -> {
             if (server == null || !server.isListening()) {
-                var errorMessage = """
+                var errorMessage = Lang.t("""
+                    El servidor MC de gangsproxy no pudo iniciarse correctamente.
+
+                    Lo mas probable es que tengas dos o mas instancias de gangsproxy ejecutandose en el mismo puerto configurado: %s.
+
+                    Cierra las instancias duplicadas o cambia el puerto configurado: `serverConnection port <port>`
+                    """, """
                     The gangsproxy MC server was unable to start correctly.
 
                     Most likely you have two or more gangsproxy instance running on the same configured port: %s.
 
                     Shut down duplicate instances, or change the configured port: `serverConnection port <port>`
-                    """.formatted(CONFIG.server.bind.port);
+                    """).formatted(CONFIG.server.bind.port);
                 DISCORD.sendEmbedMessage(
                     Embed.builder()
-                        .title("gangsproxy Server Error")
+                        .title(Lang.t("Error del Servidor de gangsproxy", "gangsproxy Server Error"))
                         .description(errorMessage)
                         .errorColor());
             }
@@ -337,8 +343,17 @@ public class Proxy {
                 if (response.online()) {
                     SERVER_LOG.debug("Connection test successful: {}", address);
                 } else {
-                    SERVER_LOG.error(
-                        """
+                    SERVER_LOG.error(Lang.t("""
+                        No se puede hacer ping a la `proxyIP` configurada: {}
+
+                        Si realmente puedes conectarte a gangsproxy, puedes deshabilitar esta prueba: `connectionTest testOnStart off`
+
+                        Es probable que esta prueba este fallando debido a que es necesario deshabilitar un firewall.
+
+                        Si la `proxyIP` es incorrecta, configura `serverConnection proxyIP <ip>` con la IP correcta.
+
+                        Para obtener instrucciones sobre como deshabilitar el firewall, consulta con tu proveedor de VPS. Cada proveedor varia en los pasos y el termino que usan para referirse a los firewalls.
+                        """, """
                         Unable to ping the configured `proxyIP`: {}
 
                         If you are actually able to connect to gangsproxy you can disable this test: `connectionTest testOnStart off`
@@ -348,7 +363,7 @@ public class Proxy {
                         If the `proxyIP` is incorrect, set `serverConnection proxyIP <ip>` with the correct IP.
 
                         For instructions on how to disable the firewall consult with your VPS provider. Each provider varies in steps and what word they refer to firewalls with.
-                        """, address);
+                        """), address);
                 }
             }, () -> {
                 SERVER_LOG.debug("Failed trying to perform connection test");
@@ -358,7 +373,7 @@ public class Proxy {
 
     private void maxPlaytimeTick() {
         if (CONFIG.client.maxPlaytimeReconnect && isOnlineForAtLeastDuration(Duration.ofMinutes(CONFIG.client.maxPlaytimeReconnectMins))) {
-            CLIENT_LOG.info("Max playtime minutes reached: {}, reconnecting...", CONFIG.client.maxPlaytimeReconnectMins);
+            CLIENT_LOG.info(Lang.t("Minutos de tiempo de juego maximo alcanzados: {}, reconectando...", "Max playtime minutes reached: {}, reconnecting..."), CONFIG.client.maxPlaytimeReconnectMins);
             disconnect(MAX_PT_DISCONNECT);
             MODULE.get(AutoReconnect.class).cancelAutoReconnect();
             connect();
@@ -384,7 +399,7 @@ public class Proxy {
     }
 
     public void stop(boolean restart) {
-        DEFAULT_LOG.info("Shutting Down...");
+                DEFAULT_LOG.info(Lang.t("Apagando...", "Shutting Down..."));
         try {
             CompletableFuture.runAsync(() -> {
                 if (nonNull(this.client)) this.client.disconnect(SERVER_CLOSING_MESSAGE);
@@ -431,7 +446,7 @@ public class Proxy {
         try {
             client.send(new ServerboundCookieResponsePacket(Key.key("minecraft", "pls_kick"), null)).get();
         } catch (final Exception e) {
-            CLIENT_LOG.error("Error performing kick disconnect", e);
+            CLIENT_LOG.error(Lang.t("Error al realizar la desconexion por kick", "Error performing kick disconnect"), e);
         }
         // note: this will occur before the server sends us back a disconnect packet, but before our channel close is received by the server
         client.disconnect(reason, cause);
@@ -470,7 +485,7 @@ public class Proxy {
             EXECUTOR.schedule(() -> EVENT_BUS.post(new ClientDisconnectEvent(LOGIN_FAILED)), 1L, TimeUnit.SECONDS);
             return;
         }
-        CLIENT_LOG.info("Connecting to {}:{}...", address, port);
+        CLIENT_LOG.info(Lang.t("Conectando a {}:{}...", "Connecting to {}:{}..."), address, port);
         this.client = new ClientSession(address, port, CONFIG.client.bindAddress, minecraftProtocol, getClientProxyInfo(), tcpManager);
         this.client.setReadTimeout(CONFIG.client.timeout.enable ? CONFIG.client.timeout.seconds : 0);
         this.client.setFlag(MinecraftConstants.CLIENT_CHANNEL_INITIALIZER, ZenithClientChannelInitializer.FACTORY);
@@ -508,7 +523,7 @@ public class Proxy {
         try (var out = Files.newOutputStream(serverIconFilePath)) {
             out.write(serverIcon);
         } catch (Exception e) {
-            DEFAULT_LOG.error("Error writing server icon", e);
+            DEFAULT_LOG.error(Lang.t("Error al escribir el icono del servidor", "Error writing server icon"), e);
         }
     }
 
@@ -520,12 +535,12 @@ public class Proxy {
             var iconBytes = Files.readAllBytes(serverIconFilePath);
             var pngReader = new PngReader(new ByteArrayInputStream(iconBytes));
             if (pngReader.imgInfo.rows != 64 || pngReader.imgInfo.cols != 64) {
-                DEFAULT_LOG.error("Server icon must be 64x64, currently {}x{}", pngReader.imgInfo.cols, pngReader.imgInfo.rows);
+                DEFAULT_LOG.error(Lang.t("El icono del servidor debe ser 64x64, actualmente {}x{}", "Server icon must be 64x64, currently {}x{}"), pngReader.imgInfo.cols, pngReader.imgInfo.rows);
                 return Optional.empty();
             }
             return Optional.of(iconBytes);
         } catch (Exception e) {
-            DEFAULT_LOG.error("Error loading server icon file", e);
+            DEFAULT_LOG.error(Lang.t("Error al cargar el archivo del icono del servidor", "Error loading server icon file"), e);
             return Optional.empty();
         }
     }
@@ -534,7 +549,7 @@ public class Proxy {
         try (InputStream in = getClass().getClassLoader().getResourceAsStream("server-icon.png")) {
             return in.readAllBytes();
         } catch (final Exception e) {
-            SERVER_LOG.error("Failed loading server icon", e);
+            SERVER_LOG.error(Lang.t("Error al cargar el icono del servidor", "Failed loading server icon"), e);
             return new byte[0];
         }
     }
@@ -546,7 +561,7 @@ public class Proxy {
         if (!CONFIG.server.enabled) return;
         var address = CONFIG.server.bind.address;
         var port = CONFIG.server.bind.port;
-        SERVER_LOG.info("Starting server on {}:{}...", address, port);
+                SERVER_LOG.info(Lang.t("Iniciando servidor en {}:{}...", "Starting server on {}:{}..."), address, port);
         this.server = new TcpServer(address, port, MinecraftProtocol::new, tcpManager, (socketAddress) -> new ServerSession(socketAddress.getHostName(), socketAddress.getPort(), (MinecraftProtocol) server.createPacketProtocol(), server));
         this.server.setGlobalFlag(MinecraftConstants.SERVER_CHANNEL_INITIALIZER, ZenithServerChannelInitializer.FACTORY);
         if (this.lanBroadcaster == null && CONFIG.server.ping.lanBroadcast) {
@@ -564,9 +579,9 @@ public class Proxy {
         try {
             if (UPnP4J.isUPnPAvailable()) {
                 if (UPnP4J.open(server.getPort(), Protocol.TCP)) {
-                    SERVER_LOG.info("Opened UPnP address: {}:{}", UPnP4J.getExternalIP(), server.getPort());
+                    SERVER_LOG.info(Lang.t("Direccion UPnP abierta: {}:{}", "Opened UPnP address: {}:{}"), UPnP4J.getExternalIP(), server.getPort());
                 } else {
-                    SERVER_LOG.info("Failed to open UPnP address: {}:{}", UPnP4J.getExternalIP(), server.getPort());
+                    SERVER_LOG.info(Lang.t("Error al abrir direccion UPnP: {}:{}", "Failed to open UPnP address: {}:{}"), UPnP4J.getExternalIP(), server.getPort());
                 }
             } else {
                 SERVER_LOG.debug("UPnP not available!");
@@ -580,9 +595,9 @@ public class Proxy {
         try {
             if (UPnP4J.isUPnPAvailable()) {
                 if (UPnP4J.close(server.getPort(), Protocol.TCP)) {
-                    SERVER_LOG.info("Closed UPnP address: {}:{}", UPnP4J.getExternalIP(), server.getPort());
+                    SERVER_LOG.info(Lang.t("Direccion UPnP cerrada: {}:{}", "Closed UPnP address: {}:{}"), UPnP4J.getExternalIP(), server.getPort());
                 } else {
-                    SERVER_LOG.info("Failed to close UPnP address: {}:{}", UPnP4J.getExternalIP(), server.getPort());
+                    SERVER_LOG.info(Lang.t("Error al cerrar direccion UPnP: {}:{}", "Failed to close UPnP address: {}:{}"), UPnP4J.getExternalIP(), server.getPort());
                 }
             } else {
                 SERVER_LOG.debug("UPnP not available!");
@@ -593,7 +608,7 @@ public class Proxy {
     }
 
     public synchronized void stopServer() {
-        SERVER_LOG.info("Stopping server...");
+        SERVER_LOG.info(Lang.t("Deteniendo servidor...", "Stopping server..."));
         if (this.server != null && this.server.isListening()) this.server.close(true);
         if (this.lanBroadcaster != null) {
             this.lanBroadcaster.stop();
@@ -606,12 +621,12 @@ public class Proxy {
 
     public synchronized @NonNull MinecraftProtocol logIn() {
         if (!loggingIn.compareAndSet(false, true)) throw new RuntimeException("Already logging in!");
-        AUTH_LOG.info("Logging in {}...", CONFIG.authentication.username);
+        AUTH_LOG.info(Lang.t("Iniciando sesion {}...", "Logging in {}..."), CONFIG.authentication.username);
         MinecraftProtocol minecraftProtocol = null;
         for (int tries = 0; tries < 3; tries++) {
             minecraftProtocol = retrieveLoginTaskResult(loginTask());
             if (minecraftProtocol != null || !loggingIn.get()) break;
-            AUTH_LOG.warn("Failed login attempt {}", tries + 1);
+            AUTH_LOG.warn(Lang.t("Intento de inicio de sesion fallido {}", "Failed login attempt {}"), tries + 1);
             Wait.wait(ThreadLocalRandom.current().nextInt(3, 8));
         }
         if (!loggingIn.compareAndSet(true, false)) throw new RuntimeException("Login Cancelled");
@@ -619,10 +634,10 @@ public class Proxy {
         var username = minecraftProtocol.getProfile().getName();
         var uuid = minecraftProtocol.getProfile().getId();
         CACHE.getChatCache().setPlayerCertificates(minecraftProtocol.getProfile().getPlayerCertificates());
-        AUTH_LOG.info("Logged in as {} [{}].", username, uuid);
+        AUTH_LOG.info(Lang.t("Sesion iniciada como {} [{}].", "Logged in as {} [{}]."), username, uuid);
         if (CONFIG.server.extra.whitelist.autoAddClient && CONFIG.authentication.accountType != OFFLINE)
             if (PLAYER_LISTS.getWhitelist().add(username, uuid))
-                SERVER_LOG.info("Auto added {} [{}] to whitelist", username, uuid);
+                SERVER_LOG.info(Lang.t("Auto agregado {} [{}] a la lista blanca", "Auto added {} [{}] to whitelist"), username, uuid);
         if (CONFIG.server.updateServerIcon) {
             final GameProfile profile = minecraftProtocol.getProfile();
             EXECUTOR.execute(() -> {
@@ -644,7 +659,7 @@ public class Proxy {
                 if (e instanceof InterruptedException) {
                     return null;
                 }
-                CLIENT_LOG.error("Login failed", e);
+                CLIENT_LOG.error(Lang.t("Inicio de sesion fallido", "Login failed"), e);
                 EVENT_BUS.postAsync(new ClientLoginFailedEvent(e));
                 if (e instanceof MinecraftRequestException mre) {
                     if (mre.getResponse().getStatusCode() == 404) {
@@ -687,7 +702,7 @@ public class Proxy {
         try {
             return URI.create(String.format("https://minotar.net/helm/%s/64", playerName)).toURL();
         } catch (MalformedURLException e) {
-            SERVER_LOG.error("Failed to get player head URL for: {}", playerName, e);
+            SERVER_LOG.error(Lang.t("Error al obtener la URL de la cabeza del jugador para: {}", "Failed to get player head URL for: {}"), playerName, e);
             throw new UncheckedIOException(e);
         }
     }
@@ -696,7 +711,7 @@ public class Proxy {
         try {
             return URI.create(String.format("https://api.mineatar.io/body/full/%s", uuid)).toURL();
         } catch (MalformedURLException e) {
-            SERVER_LOG.error("Failed to get player body URL for: {}", uuid, e);
+            SERVER_LOG.error(Lang.t("Error al obtener la URL del cuerpo del jugador para: {}", "Failed to get player body URL for: {}"), uuid, e);
             throw new UncheckedIOException(e);
         }
     }
@@ -777,7 +792,7 @@ public class Proxy {
             this.serverIcon = event.getIcon();
             writeServerIconFile();
         } catch (final Throwable e) {
-            SERVER_LOG.error("Failed updating server icon");
+            SERVER_LOG.error(Lang.t("Error al actualizar el icono del servidor", "Failed updating server icon"));
             SERVER_LOG.debug("Failed updating server icon", e);
         }
     }
@@ -822,7 +837,7 @@ public class Proxy {
         if (isOn2b2t()) EXECUTOR.execute(Queue::updateQueueStatusNow);
         else {
             if (!ChatSchemaParser.hasCustomSchema()) {
-                CLIENT_LOG.warn("No custom chat schema found for server: {}, setting one may be required for chats and whispers to parse correctly: `help chatSchema`", ChatSchemaParser.getServerAddress());
+                CLIENT_LOG.warn(Lang.t("No se encontro un schema de chat personalizado para el servidor: {}, puede ser necesario configurar uno para que los chats y susurros se analicen correctamente: `help chatSchema`", "No custom chat schema found for server: {}, setting one may be required for chats and whispers to parse correctly: `help chatSchema`"), ChatSchemaParser.getServerAddress());
             }
         }
     }

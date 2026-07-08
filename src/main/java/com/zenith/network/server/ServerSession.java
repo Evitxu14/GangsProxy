@@ -1,6 +1,7 @@
 package com.zenith.network.server;
 
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.cache.data.PlayerCache;
 import com.zenith.cache.data.ServerProfileCache;
@@ -170,7 +171,7 @@ public class ServerSession extends TcpServerSession {
                 Proxy.getInstance().getClient().sendAsync(p);
             }
         } catch (final Exception e) {
-            SERVER_LOG.error("Failed handling Received packet: {}", packet.getClass().getSimpleName(), e);
+            SERVER_LOG.error(Lang.t("Error al manejar el paquete recibido: {}", "Failed handling Received packet: {}"), packet.getClass().getSimpleName(), e);
         }
     }
 
@@ -179,7 +180,7 @@ public class ServerSession extends TcpServerSession {
         try {
             return PacketCodecRegistries.SERVER_REGISTRY.handleOutgoing(packet, this);
         } catch (final Exception e) {
-            SERVER_LOG.error("Failed handling packet sending: {}", packet.getClass().getSimpleName(), e);
+            SERVER_LOG.error(Lang.t("Error al manejar el envio del paquete: {}", "Failed handling packet sending: {}"), packet.getClass().getSimpleName(), e);
         }
         return packet;
     }
@@ -189,7 +190,7 @@ public class ServerSession extends TcpServerSession {
         try {
             PacketCodecRegistries.SERVER_REGISTRY.handlePostOutgoing(packet, this);
         } catch (final Exception e) {
-            SERVER_LOG.error("Failed handling PostOutgoing packet: {}", packet.getClass().getSimpleName(), e);
+            SERVER_LOG.error(Lang.t("Error al manejar el paquete PostOutgoing: {}", "Failed handling PostOutgoing packet: {}"), packet.getClass().getSimpleName(), e);
         }
     }
 
@@ -222,11 +223,12 @@ public class ServerSession extends TcpServerSession {
                 // any scanners or TCP connections established result in a lot of these coming in even when they are not speaking mc protocol
                 return;
             }
-            SERVER_LOG.info("Connection disconnected: {} : {}", getRemoteAddress(), reasonStr, cause);
+            SERVER_LOG.info(Lang.t("Conexion desconectada: {} : {}", "Connection disconnected: {} : {}"), getRemoteAddress(), reasonStr, cause);
             return;
         }
         if (!isSpectator()) {
-            SERVER_LOG.info("Player disconnected: UUID: {}, Username: {}, Address: {}, Reason {}",
+            SERVER_LOG.info(Lang.t("Jugador desconectado: UUID: {}, Usuario: {}, Direccion: {}, Razon {}",
+                "Player disconnected: UUID: {}, Username: {}, Address: {}, Reason {}"),
                 getUUID(),
                 getName(),
                 getRemoteAddress(),
@@ -235,7 +237,7 @@ public class ServerSession extends TcpServerSession {
             try {
                 EVENT_BUS.post(new PlayerDisconnectedEvent(reasonStr, this, profileCache.getProfile()));
             } catch (final Throwable e) {
-                SERVER_LOG.info("Could not get game profile of disconnecting player");
+                SERVER_LOG.info(Lang.t("No se pudo obtener el perfil del jugador desconectado", "Could not get game profile of disconnecting player"));
                 EVENT_BUS.post(new PlayerDisconnectedEvent(reasonStr, this));
             }
             Proxy.getInstance().getSpectatorConnections().forEach(s -> {
@@ -243,7 +245,8 @@ public class ServerSession extends TcpServerSession {
             });
             Proxy.getInstance().getClient().sendAsync(CACHE.getClientInfoCache().getClientInfoPacket());
         } else {
-            SERVER_LOG.info("Spectator disconnected: UUID: {}, Username: {}, Address: {}, Reason {}",
+            SERVER_LOG.info(Lang.t("Espectador desconectado: UUID: {}, Usuario: {}, Direccion: {}, Razon {}",
+                "Spectator disconnected: UUID: {}, Username: {}, Address: {}, Reason {}"),
                 getUUID(),
                 getName(),
                 getRemoteAddress(),

@@ -1,6 +1,7 @@
 package com.zenith.network.server;
 
 import com.google.common.base.Suppliers;
+import com.zenith.Lang;
 import com.zenith.util.ComponentSerializer;
 
 import java.net.DatagramPacket;
@@ -50,7 +51,7 @@ public class LanBroadcaster {
     public void start() {
         errorCount.set(0);
         broadcastFuture = EXECUTOR.scheduleAtFixedRate(this::broadcast, 0, 5, TimeUnit.SECONDS);
-        SERVER_LOG.info("Started LAN server broadcaster");
+        SERVER_LOG.info(Lang.t("Iniciado broadcaster LAN", "Started LAN server broadcaster"));
     }
 
     public void stop() {
@@ -68,10 +69,10 @@ public class LanBroadcaster {
             datagramSocket.send(motdSupplier.get());
             this.errorCount.set(0);
         } catch (final Exception e) {
-            SERVER_LOG.error("Error broadcasting LAN server", e);
+            SERVER_LOG.error(Lang.t("Error al transmitir el servidor LAN", "Error broadcasting LAN server"), e);
             var count = errorCount.incrementAndGet();
             if (count >= 5) {
-                SERVER_LOG.error("Too many errors broadcasting LAN server, stopping broadcaster");
+                SERVER_LOG.error(Lang.t("Demasiados errores al transmitir el servidor LAN, deteniendo broadcaster", "Too many errors broadcasting LAN server, stopping broadcaster"));
                 stop();
             }
         }

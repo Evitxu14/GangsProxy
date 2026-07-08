@@ -14,6 +14,7 @@ import static com.zenith.Globals.CONFIG;
 import static com.zenith.Globals.MODULE;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
+import com.zenith.Lang;
 
 public class AntiKickCommand extends Command {
     @Override
@@ -41,21 +42,21 @@ public class AntiKickCommand extends Command {
                 CONFIG.client.extra.antiKick.enabled = getToggle(c, "toggle");
                 MODULE.get(AntiKick.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
-                    .title("AntiKick " + toggleStrCaps(CONFIG.client.extra.antiKick.enabled));
+                    .title(Lang.t("AntiKick " + toggleStrCaps(CONFIG.client.extra.antiKick.enabled), "AntiKick " + toggleStrCaps(CONFIG.client.extra.antiKick.enabled)));
                 return OK;
             }))
             .then(literal("playerInactivityKickMins")
                       .then(argument("minutes", integer(1, 30)).executes(c -> {
                           CONFIG.client.extra.antiKick.playerInactivityKickMins = getInteger(c, "minutes");
                           c.getSource().getEmbed()
-                              .title("Inactivity Time Set!");
+                               .title(Lang.t("¡Tiempo de inactividad establecido!", "Inactivity Time Set!"));
                           return OK;
                       })))
             .then(literal("minWalkDistance")
                       .then(argument("blocks", integer(1, 100)).executes(c -> {
                           CONFIG.client.extra.antiKick.minWalkDistance = getInteger(c, "blocks");
                           c.getSource().getEmbed()
-                              .title("Min Walk Distance Set!");
+                               .title(Lang.t("¡Distancia mínima de caminata establecida!", "Min Walk Distance Set!"));
                           return OK;
                       })));
     }
@@ -64,8 +65,8 @@ public class AntiKickCommand extends Command {
     public void defaultEmbed(final Embed builder) {
         builder
             .primaryColor()
-            .addField("Enabled", toggleStrCaps(CONFIG.client.extra.antiKick.enabled), false)
-            .addField("Player Inactivity Minutes", CONFIG.client.extra.antiKick.playerInactivityKickMins, false)
-            .addField("Min Walk Distance", CONFIG.client.extra.antiKick.minWalkDistance, false);
+            .addField(Lang.t("Activado", "Enabled"), toggleStrCaps(CONFIG.client.extra.antiKick.enabled), false)
+            .addField(Lang.t("Minutos de inactividad del jugador", "Player Inactivity Minutes"), CONFIG.client.extra.antiKick.playerInactivityKickMins, false)
+            .addField(Lang.t("Distancia mínima de caminata", "Min Walk Distance"), CONFIG.client.extra.antiKick.minWalkDistance, false);
     }
 }

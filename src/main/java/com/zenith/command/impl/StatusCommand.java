@@ -48,7 +48,7 @@ public class StatusCommand extends Command {
                     + MathHelper.floorI(entity.getZ())
                     + "]||";
         } else {
-            return "Coords disabled";
+            return Lang.t("Coordenadas desactivadas", "Coords disabled");
         }
     }
 
@@ -57,7 +57,7 @@ public class StatusCommand extends Command {
         if (nonNull(currentConnection)) {
             return currentConnection.getName() + " [" + currentConnection.getPing() + "ms]";
         } else {
-            return "None";
+            return Lang.t("Ninguno", "None");
         }
     }
 
@@ -71,11 +71,11 @@ public class StatusCommand extends Command {
         if (Proxy.getInstance().isConnected()) {
             if (Proxy.getInstance().isInQueue()) {
                 if (Proxy.getInstance().isPrio()) {
-                    return "In Prio Queue [" + Proxy.getInstance().getQueuePosition() + " / " + Queue.getQueueStatus().prio() + "]\n"
+                    return Lang.t("En cola prioritaria", "In Prio Queue") + " [" + Proxy.getInstance().getQueuePosition() + " / " + Queue.getQueueStatus().prio() + "]\n"
                         + "ETA: " + Queue.getQueueEta(Proxy.getInstance().getQueuePosition()) + "\n"
                         + "(" + TimeFormat.DATE_TIME_SHORT.format(Instant.now().plus(Duration.ofSeconds(Queue.getQueueWait(Proxy.getInstance().getQueuePosition())))) +")";
                 } else {
-                    return "In Queue [" + Proxy.getInstance().getQueuePosition() + " / " + Queue.getQueueStatus().regular() + "]\n"
+                    return Lang.t("En cola", "In Queue") + " [" + Proxy.getInstance().getQueuePosition() + " / " + Queue.getQueueStatus().regular() + "]\n"
                         + "ETA: " + Queue.getQueueEta(Proxy.getInstance().getQueuePosition()) + "\n"
                         + "(" + TimeFormat.DATE_TIME_SHORT.format(Instant.now().plus(Duration.ofSeconds(Queue.getQueueWait(Proxy.getInstance().getQueuePosition())))) +")";
                 }
@@ -83,19 +83,19 @@ public class StatusCommand extends Command {
                 return Lang.t("En Linea", "Online");
             }
         } else {
-            return "Disconnected";
+            return Lang.t("Desconectado", "Disconnected");
         }
     }
 
     private String getQueueStatus() {
-        return "Priority: " + Queue.getQueueStatus().prio() + " [" + Queue.getQueueEta(Queue.getQueueStatus().prio()) + "]"
-                + "\nRegular: " + Queue.getQueueStatus().regular() + " [" + Queue.getQueueEta(Queue.getQueueStatus().regular()) + "]";
+        return Lang.t("Prioritaria: ", "Priority: ") + Queue.getQueueStatus().prio() + " [" + Queue.getQueueEta(Queue.getQueueStatus().prio()) + "]"
+                + "\n" + Lang.t("Normal: ", "Regular: ") + Queue.getQueueStatus().regular() + " [" + Queue.getQueueEta(Queue.getQueueStatus().regular()) + "]";
     }
 
     public String getOnlineTime() {
         return Proxy.getInstance().isConnected()
             ? Proxy.getInstance().getOnlineTimeString()
-            : "Not Online!";
+            : Lang.t("No en linea!", "Not Online!");
     }
 
     @Override
@@ -103,40 +103,40 @@ public class StatusCommand extends Command {
         return command("status")
             .then(literal("modules").executes(c -> {
                 c.getSource().getEmbed()
-                    .title("gangsproxy " + VERSION + " - " + CONFIG.authentication.username)
+                    .title(Lang.t("gangsproxy ", "gangsproxy ") + VERSION + " - " + CONFIG.authentication.username)
                     .color(Proxy.getInstance().isConnected()
                                ? (Proxy.getInstance().isInQueue()
                                     ? CONFIG.theme.inQueue.discord()
                                     : CONFIG.theme.success.discord())
                                : CONFIG.theme.error.discord())
                     .thumbnail(getThumbnailImage())
-                    .addField("Plugins", ImageInfo.inImageCode() ? "N/A (`java` required)" : toggleStr(CONFIG.plugins.enabled), true)
-                    .addField("AutoDisconnect", toggleStr(MODULE.get(AutoDisconnect.class).isEnabled()), true)
-                    .addField("AutoReconnect", toggleStr(MODULE.get(AutoReconnect.class).isEnabled()), true)
-                    .addField("KillAura", toggleStr(MODULE.get(KillAura.class).isEnabled()), true)
-                    .addField("AutoTotem", toggleStr(MODULE.get(AutoTotem.class).isEnabled()), true)
-                    .addField("AutoEat", toggleStr(MODULE.get(AutoEat.class).isEnabled()), true)
-                    .addField("AntiAFK", toggleStr(MODULE.get(AntiAFK.class).isEnabled()), true)
-                    .addField("AutoRespawn", toggleStr(MODULE.get(AutoRespawn.class).isEnabled()), true)
-                    .addField("ViaVersion", "Z->S: " + toggleStr(CONFIG.client.viaversion.enabled)
+                    .addField(Lang.t("Plugins", "Plugins"), ImageInfo.inImageCode() ? "N/A (`java` required)" : toggleStr(CONFIG.plugins.enabled), true)
+                    .addField(Lang.t("AutoDesconexión", "AutoDisconnect"), toggleStr(MODULE.get(AutoDisconnect.class).isEnabled()), true)
+                    .addField(Lang.t("AutoReconexión", "AutoReconnect"), toggleStr(MODULE.get(AutoReconnect.class).isEnabled()), true)
+                    .addField(Lang.t("KillAura", "KillAura"), toggleStr(MODULE.get(KillAura.class).isEnabled()), true)
+                    .addField(Lang.t("AutoTotem", "AutoTotem"), toggleStr(MODULE.get(AutoTotem.class).isEnabled()), true)
+                    .addField(Lang.t("AutoComer", "AutoEat"), toggleStr(MODULE.get(AutoEat.class).isEnabled()), true)
+                    .addField(Lang.t("AntiAFK", "AntiAFK"), toggleStr(MODULE.get(AntiAFK.class).isEnabled()), true)
+                    .addField(Lang.t("AutoReaparición", "AutoRespawn"), toggleStr(MODULE.get(AutoRespawn.class).isEnabled()), true)
+                    .addField(Lang.t("ViaVersion", "ViaVersion"), "Z->S: " + toggleStr(CONFIG.client.viaversion.enabled)
                         + "\nP->Z: " + toggleStr(CONFIG.server.viaversion.enabled), true)
-                    .addField("VisualRange", toggleStr(MODULE.get(VisualRange.class).isEnabled()), true)
-                    .addField("AntiLeak", toggleStr(MODULE.get(AntiLeak.class).isEnabled()), true)
-                    .addField("AntiKick", toggleStr(MODULE.get(AntiKick.class).isEnabled()), true)
-                    .addField("AutoFish", toggleStr(MODULE.get(AutoFish.class).isEnabled()), true)
-                    .addField("Spook", toggleStr(MODULE.get(Spook.class).isEnabled()), true)
-                    .addField("Active Hours", toggleStr(MODULE.get(ActiveHours.class).isEnabled()), true)
-                    .addField("AutoReply", toggleStr(MODULE.get(AutoReply.class).isEnabled()), true)
-                    .addField("ActionLimiter", toggleStr(MODULE.get(ActionLimiter.class).isEnabled()), true)
-                    .addField("Spammer", toggleStr(MODULE.get(Spammer.class).isEnabled()), true)
-                    .addField("Replay Recording", toggleStr(MODULE.get(ReplayMod.class).isEnabled()), true)
-                    .addField("AutoArmor", toggleStr(MODULE.get(AutoArmor.class).isEnabled()), true)
-                    .addField("ChatHistory", toggleStr(MODULE.get(ChatHistory.class).isEnabled()), true);
+                    .addField(Lang.t("RangoVisual", "VisualRange"), toggleStr(MODULE.get(VisualRange.class).isEnabled()), true)
+                    .addField(Lang.t("AntiFugas", "AntiLeak"), toggleStr(MODULE.get(AntiLeak.class).isEnabled()), true)
+                    .addField(Lang.t("AntiKick", "AntiKick"), toggleStr(MODULE.get(AntiKick.class).isEnabled()), true)
+                    .addField(Lang.t("AutoPesca", "AutoFish"), toggleStr(MODULE.get(AutoFish.class).isEnabled()), true)
+                    .addField(Lang.t("Spook", "Spook"), toggleStr(MODULE.get(Spook.class).isEnabled()), true)
+                    .addField(Lang.t("Horas Activas", "Active Hours"), toggleStr(MODULE.get(ActiveHours.class).isEnabled()), true)
+                    .addField(Lang.t("AutoRespuesta", "AutoReply"), toggleStr(MODULE.get(AutoReply.class).isEnabled()), true)
+                    .addField(Lang.t("LimitadorDeAcciones", "ActionLimiter"), toggleStr(MODULE.get(ActionLimiter.class).isEnabled()), true)
+                    .addField(Lang.t("Spammer", "Spammer"), toggleStr(MODULE.get(Spammer.class).isEnabled()), true)
+                    .addField(Lang.t("Grabación de Replay", "Replay Recording"), toggleStr(MODULE.get(ReplayMod.class).isEnabled()), true)
+                    .addField(Lang.t("AutoArmadura", "AutoArmor"), toggleStr(MODULE.get(AutoArmor.class).isEnabled()), true)
+                    .addField(Lang.t("HistorialDeChat", "ChatHistory"), toggleStr(MODULE.get(ChatHistory.class).isEnabled()), true);
             }))
             .executes(c -> {
                 final var embed = c.getSource().getEmbed();
                 embed
-                    .title("gangsproxy " + VERSION + " - " + CONFIG.authentication.username)
+                    .title(Lang.t("gangsproxy ", "gangsproxy ") + VERSION + " - " + CONFIG.authentication.username)
                     .color(Proxy.getInstance().isConnected()
                                ? (Proxy.getInstance().isInQueue()
                         ? CONFIG.theme.inQueue.discord()
@@ -145,23 +145,23 @@ public class StatusCommand extends Command {
                     .thumbnail(getThumbnailImage())
                     .addField(Lang.t("Estado", "Status"), getStatus(), true)
                     .addField(Lang.t("Tiempo Activo", "Uptime"), MathHelper.formatDuration(Duration.ofMillis(System.currentTimeMillis() - Proxy.getInstance().getStartTime())))
-                    .addField("Online Duration", getOnlineTime(), true)
+                    .addField(Lang.t("Duración en Línea", "Online Duration"), getOnlineTime(), true)
                     // end row 1
                     .addField(Lang.t("Salud", "Health"),  (CACHE.getPlayerCache().getThePlayer().getHealth()), true)
                     .addField(Lang.t("Dimension", "Dimension"),
                               (nonNull(CACHE.getChunkCache().getCurrentDimension()) ? CACHE.getChunkCache().getCurrentDimension().name(): "None"),
                               true)
-                    .addField("Ping", (Proxy.getInstance().isConnected() ? Proxy.getInstance().getClient().getPing() : 0) + "ms", true)
+                    .addField(Lang.t("Ping", "Ping"), (Proxy.getInstance().isConnected() ? Proxy.getInstance().getClient().getPing() : 0) + "ms", true)
                     // end row 2
                     .addField(Lang.t("IP del Proxy", "Proxy IP"), CONFIG.server.getProxyAddress(), true)
                     .addField(Lang.t("Servidor", "Server"), CONFIG.client.server.address + ':' + CONFIG.client.server.port, true)
-                    .addField("Connected Player", getCurrentClientUserName(), true);
+                    .addField(Lang.t("Jugador Conectado", "Connected Player"), getCurrentClientUserName(), true);
                     // end row 3
                 if (Proxy.getInstance().isOn2b2t()) {
-                    embed.addField("Priority Queue", (CONFIG.authentication.prio ? "yes" : "no"), true);
+                    embed.addField(Lang.t("Cola Prioritaria", "Priority Queue"), (CONFIG.authentication.prio ? "yes" : "no"), true);
                 }
                 if (!getSpectatorUserNames().isEmpty())
-                    embed.addField("Online Spectators", String.join(", ", getSpectatorUserNames()), true);
+                    embed.addField(Lang.t("Espectadores en Línea", "Online Spectators"), String.join(", ", getSpectatorUserNames()), true);
                 if (CONFIG.server.queueStatusRefreshWhileNotOn2b2t || Proxy.getInstance().isOn2b2t()) {
                     embed
                         .addField("2b2t Queue", getQueueStatus(), true);

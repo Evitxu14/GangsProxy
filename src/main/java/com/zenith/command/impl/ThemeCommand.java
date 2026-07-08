@@ -10,6 +10,7 @@ import com.zenith.util.config.ConfigColor;
 
 import java.util.Arrays;
 
+import com.zenith.Lang;
 import static com.zenith.Globals.CONFIG;
 import static com.zenith.command.brigadier.CustomStringArgumentType.getString;
 
@@ -49,7 +50,7 @@ public class ThemeCommand extends Command {
                     .map(color -> color.name().toLowerCase())
                     .toList();
                 c.getSource().getEmbed()
-                    .title("Available Colors")
+                    .title(Lang.t("Colores Disponibles", "Available Colors"))
                     .description(String.join("\n", allColors));
             }))
             .then(literal("primary").then(argument("color", enumStrings(ConfigColor.values())).executes(c -> {
@@ -57,12 +58,12 @@ public class ThemeCommand extends Command {
                 try {
                     CONFIG.theme.primary = ConfigColor.valueOf(colorStr);
                     c.getSource().getEmbed()
-                        .title("Primary Color Set!");
+                        .title(Lang.t("¡Color Primario Establecido!", "Primary Color Set!"));
                     return OK;
                 } catch (final Throwable e) {
                     c.getSource().getEmbed()
-                        .title("Invalid Color!")
-                        .addField("Help", "Use `theme list` to see available colors", false);
+                        .title(Lang.t("¡Color Inválido!", "Invalid Color!"))
+                        .addField(Lang.t("Ayuda", "Help"), Lang.t("Usa `theme list` para ver los colores disponibles", "Use `theme list` to see available colors"), false);
                     return ERROR;
                 }
             })))
@@ -71,12 +72,12 @@ public class ThemeCommand extends Command {
                 try {
                     CONFIG.theme.success = ConfigColor.valueOf(colorStr);
                     c.getSource().getEmbed()
-                        .title("Success Color Set!");
+                        .title(Lang.t("¡Color de Éxito Establecido!", "Success Color Set!"));
                     return OK;
                 } catch (final Throwable e) {
                     c.getSource().getEmbed()
-                        .title("Invalid Color!")
-                        .addField("Help", "Use `theme list` to see available colors", false);
+                        .title(Lang.t("¡Color Inválido!", "Invalid Color!"))
+                        .addField(Lang.t("Ayuda", "Help"), Lang.t("Usa `theme list` para ver los colores disponibles", "Use `theme list` to see available colors"), false);
                     return ERROR;
                 }
             })))
@@ -85,12 +86,12 @@ public class ThemeCommand extends Command {
                 try {
                     CONFIG.theme.error = ConfigColor.valueOf(colorStr);
                     c.getSource().getEmbed()
-                        .title("Error Color Set!");
+                        .title(Lang.t("¡Color de Error Establecido!", "Error Color Set!"));
                     return OK;
                 } catch (final Throwable e) {
                     c.getSource().getEmbed()
-                        .title("Invalid Color!")
-                        .addField("Help", "Use `theme list` to see available colors", false);
+                        .title(Lang.t("¡Color Inválido!", "Invalid Color!"))
+                        .addField(Lang.t("Ayuda", "Help"), Lang.t("Usa `theme list` para ver los colores disponibles", "Use `theme list` to see available colors"), false);
                     return ERROR;
                 }
             })))
@@ -99,12 +100,12 @@ public class ThemeCommand extends Command {
                 try {
                     CONFIG.theme.inQueue = ConfigColor.valueOf(colorStr);
                     c.getSource().getEmbed()
-                        .title("In Queue Color Set!");
+                        .title(Lang.t("¡Color en Cola Establecido!", "In Queue Color Set!"));
                     return OK;
                 } catch (final Throwable e) {
                     c.getSource().getEmbed()
-                        .title("Invalid Color!")
-                        .addField("Help", "Use `theme list` to see available colors", false);
+                        .title(Lang.t("¡Color Inválido!", "Invalid Color!"))
+                        .addField(Lang.t("Ayuda", "Help"), Lang.t("Usa `theme list` para ver los colores disponibles", "Use `theme list` to see available colors"), false);
                     return ERROR;
                 }
             })));
@@ -114,9 +115,9 @@ public class ThemeCommand extends Command {
     public void defaultEmbed(Embed embed) {
         embed
             .primaryColor()
-            .addField("Primary", CONFIG.theme.primary.name().toLowerCase(), false)
-            .addField("Success", CONFIG.theme.success.name().toLowerCase(), false)
-            .addField("Error", CONFIG.theme.error.name().toLowerCase(), false)
-            .addField("In Queue", CONFIG.theme.inQueue.name().toLowerCase(), false);
+            .addField(Lang.t("Primario", "Primary"), CONFIG.theme.primary.name().toLowerCase(), false)
+            .addField(Lang.t("Éxito", "Success"), CONFIG.theme.success.name().toLowerCase(), false)
+            .addField(Lang.t("Error", "Error"), CONFIG.theme.error.name().toLowerCase(), false)
+            .addField(Lang.t("En Cola", "In Queue"), CONFIG.theme.inQueue.name().toLowerCase(), false);
     }
 }

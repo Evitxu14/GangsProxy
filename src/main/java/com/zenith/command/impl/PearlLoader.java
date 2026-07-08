@@ -1,6 +1,7 @@
 package com.zenith.command.impl;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.command.api.Command;
 import com.zenith.command.api.CommandCategory;
@@ -55,7 +56,7 @@ public class PearlLoader extends Command {
                 if (World.isChunkLoadedBlockPos(x, z)) {
                     var block = World.getBlock(x, y, z);
                     c.getSource().getEmbed()
-                        .addField("Block At Position", block.name());
+                        .addField(Lang.t("Bloque en la Posicion", "Block At Position"), block.name());
                 }
                 Pearl pearl = new Pearl(id, x, y, z);
                 var pearls = CONFIG.client.extra.pearlLoader.pearls;
@@ -67,7 +68,7 @@ public class PearlLoader extends Command {
                 }
                 pearls.add(pearl);
                 c.getSource().getEmbed()
-                    .title("Pearl Added")
+                    .title(Lang.t("Perla Anadida", "Pearl Added"))
                     .successColor();
             }))))
             .then(literal("del").then(argument("id", wordWithChars()).executes(c -> {
@@ -77,35 +78,35 @@ public class PearlLoader extends Command {
                     if (pearl.id().equals(id)) {
                         pearls.remove(pearl);
                         c.getSource().getEmbed()
-                            .title("Pearl Removed")
+                            .title(Lang.t("Perla Eliminada", "Pearl Removed"))
                             .successColor();
                         return OK;
                     }
                 }
                 c.getSource().getEmbed()
-                    .title("Pearl Not Found")
-                    .addField("Error", "Pearl with id: " + id + " not found.", false)
+                    .title(Lang.t("Perla No Encontrada", "Pearl Not Found"))
+                    .addField(Lang.t("Error", "Error"), Lang.t("Perla con id: ", "Pearl with id: ") + id + Lang.t(" no encontrada.", " not found."), false)
                     .errorColor();
                 return OK;
             })))
             .then(literal("list").executes(c -> {
                 c.getSource().getEmbed()
-                    .title("Pearls List")
+                    .title(Lang.t("Lista de Perlas", "Pearls List"))
                     .primaryColor();
                 return OK;
             }))
             .then(literal("load").then(argument("id", wordWithChars()).executes(c -> {
                 if (!Proxy.getInstance().isConnected() || Proxy.getInstance().isInQueue()) {
                     c.getSource().getEmbed()
-                        .title("Can't Load Pearl")
-                        .description("Bot is not online")
+                        .title(Lang.t("No se Puede Cargar la Perla", "Can't Load Pearl"))
+                        .description(Lang.t("El bot no esta en linea", "Bot is not online"))
                         .errorColor();
                     return ERROR;
                 }
                 if (Proxy.getInstance().hasActivePlayer()) {
                     c.getSource().getEmbed()
-                        .title("Can't Load Pearl")
-                        .description("Player is controlling")
+                        .title(Lang.t("No se Puede Cargar la Perla", "Can't Load Pearl"))
+                        .description(Lang.t("El jugador esta controlando", "Player is controlling"))
                         .errorColor();
                     return ERROR;
                 }
@@ -117,35 +118,35 @@ public class PearlLoader extends Command {
                         BARITONE.rightClickBlock(pearl.x(), pearl.y(), pearl.z())
                             .addExecutedListener(f -> {
                                 c.getSource().getSource().logEmbed(c.getSource(), Embed.builder()
-                                    .title("Pearl Loaded!")
-                                    .addField("Pearl ID", pearl.id(), false)
+                                    .title(Lang.t("Perla Cargada!", "Pearl Loaded!"))
+                                    .addField(Lang.t("ID de Perla", "Pearl ID"), pearl.id(), false)
                                     .successColor());
                                 if (CONFIG.client.extra.pearlLoader.returnToStartPos) {
                                     BARITONE.pathTo(current.x(), current.z())
                                         .addExecutedListener(f2 -> {
                                             c.getSource().getSource().logEmbed(c.getSource(), Embed.builder()
-                                                .description("Returned to start pos")
+                                                .description(Lang.t("Volviendo a la posicion de inicio", "Returned to start pos"))
                                                 .successColor());
                                         });
                                 }
 
                             });
                         c.getSource().getEmbed()
-                            .title("Loading Pearl")
+                            .title(Lang.t("Cargando Perla", "Loading Pearl"))
                             .successColor();
                         return OK;
                     }
                 }
                 c.getSource().getEmbed()
-                    .title("Pearl Not Found")
-                    .addField("Error", "Pearl with id: " + id + " not found.", false)
+                    .title(Lang.t("Perla No Encontrada", "Pearl Not Found"))
+                    .addField(Lang.t("Error", "Error"), Lang.t("Perla con id: ", "Pearl with id: ") + id + Lang.t(" no encontrada.", " not found."), false)
                     .errorColor();
                 return OK;
             })))
             .then(literal("returnToStartPos").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.pearlLoader.returnToStartPos = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Return to Start Pos Set")
+                    .title(Lang.t("Volver a la Posicion de Inicio Establecido", "Return to Start Pos Set"))
                     .primaryColor();
             })));
     }
@@ -156,12 +157,12 @@ public class PearlLoader extends Command {
             embed.description(pearlsList());
         }
         embed
-            .addField("Return To Start Pos", toggleStr(CONFIG.client.extra.pearlLoader.returnToStartPos));
+            .addField(Lang.t("Volver a la Posicion de Inicio", "Return To Start Pos"), toggleStr(CONFIG.client.extra.pearlLoader.returnToStartPos));
     }
 
     private String pearlsList() {
         var pearls = CONFIG.client.extra.pearlLoader.pearls;
-        if (pearls.isEmpty()) return "None";
+        if (pearls.isEmpty()) return Lang.t("Ninguna", "None");
         StringBuilder sb = new StringBuilder();
         for (var pearl : pearls) {
             sb.append("**")
@@ -172,11 +173,11 @@ public class PearlLoader extends Command {
                     .append(pearl.x()).append(", ").append(pearl.y()).append(", ").append(pearl.z())
                     .append("]||\n");
             } else {
-                sb.append("coords disabled\n");
+                sb.append(Lang.t("coordenadas deshabilitadas\n", "coords disabled\n"));
             }
         }
         String s = sb.toString();
-        if (s.isEmpty()) return "None";
+        if (s.isEmpty()) return Lang.t("Ninguna", "None");
         return s.substring(0, s.length() - 1);
     }
 }

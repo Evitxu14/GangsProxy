@@ -43,7 +43,7 @@ public class PlaytimeCommand extends Command {
                                 .thumbnail(Proxy.getInstance().getPlayerHeadURL(playerName).toString())
                                 .primaryColor(),
                         () -> c.getSource().getEmbed()
-                            .title(playerName + " not found")
+                            .title(playerName + Lang.t(" no encontrado", " not found"))
                             .errorColor());
                 return OK;
             }));

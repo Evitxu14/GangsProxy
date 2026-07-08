@@ -1,5 +1,6 @@
 package com.zenith.network.server;
 
+import com.zenith.Lang;
 import com.zenith.event.player.PlayerConnectionAddedEvent;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,17 +14,17 @@ import static com.zenith.Globals.*;
 public class ProxyServerListener implements ServerListener {
     @Override
     public void serverBound(ServerBoundEvent event) {
-        SERVER_LOG.info("Server started.");
+        SERVER_LOG.info(Lang.t("Servidor iniciado.", "Server started."));
     }
 
     @Override
     public void serverClosing(ServerClosingEvent event) {
-        SERVER_LOG.info("Closing server...");
+        SERVER_LOG.info(Lang.t("Cerrando servidor...", "Closing server..."));
     }
 
     @Override
     public void serverClosed(ServerClosedEvent event) {
-        SERVER_LOG.info("Server closed.");
+        SERVER_LOG.info(Lang.t("Servidor cerrado.", "Server closed."));
     }
 
     @Override

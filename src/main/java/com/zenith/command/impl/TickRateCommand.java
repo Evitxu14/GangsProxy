@@ -6,6 +6,7 @@ import com.zenith.command.api.CommandCategory;
 import com.zenith.command.api.CommandContext;
 import com.zenith.command.api.CommandUsage;
 
+import com.zenith.Lang;
 import static com.mojang.brigadier.arguments.DoubleArgumentType.doubleArg;
 import static com.mojang.brigadier.arguments.DoubleArgumentType.getDouble;
 import static com.zenith.Globals.CONFIG;
@@ -37,14 +38,14 @@ public class TickRateCommand extends Command {
             .then(argument("rate", doubleArg(0)).executes(c -> {
                 CONFIG.client.tickRate = getDouble(c, "rate");;
                 c.getSource().getEmbed()
-                    .title("Tick Rate Set");
+                    .title(Lang.t("Tasa de Ticks Establecida", "Tick Rate Set"));
             }));
     }
 
     @Override
     public void defaultHandler(final CommandContext c) {
         c.getEmbed()
-            .addField("Tick Rate", CONFIG.client.tickRate)
+            .addField(Lang.t("Tasa de Ticks", "Tick Rate"), CONFIG.client.tickRate)
             .primaryColor();
     }
 }

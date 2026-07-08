@@ -26,6 +26,7 @@ import java.nio.file.Path;
 import static com.mojang.brigadier.arguments.IntegerArgumentType.getInteger;
 import static com.mojang.brigadier.arguments.IntegerArgumentType.integer;
 import static com.zenith.Globals.*;
+import com.zenith.Lang;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
 import static com.zenith.util.DisconnectMessages.MANUAL_DISCONNECT;
@@ -89,7 +90,7 @@ public class DebugCommand extends Command {
             .then(literal("kickDisconnect").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.debug.kickDisconnect = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Kick Disconnect " + toggleStrCaps(CONFIG.debug.kickDisconnect));
+                    .title(Lang.t("Desconexión por Patada ", "Kick Disconnect ") + toggleStrCaps(CONFIG.debug.kickDisconnect));
             })))
             // insta disconnect
             .then(literal("dc").executes(c -> {
@@ -99,22 +100,22 @@ public class DebugCommand extends Command {
             .then(literal("debugLogs").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.debug.debugLogs = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Debug Logs " + toggleStrCaps(CONFIG.debug.debugLogs));
+                    .title(Lang.t("Registros de Depuración ", "Debug Logs ") + toggleStrCaps(CONFIG.debug.debugLogs));
             })))
             .then(literal("terminalDebugLogs").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.debug.terminalDebugLogs = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Terminal Debug Logs " + toggleStrCaps(CONFIG.debug.terminalDebugLogs));
+                    .title(Lang.t("Registros de Depuración de Terminal ", "Terminal Debug Logs ") + toggleStrCaps(CONFIG.debug.terminalDebugLogs));
             })))
             .then(literal("chunkCacheFullbright").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.debug.server.cache.fullbrightChunkBlocklight = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Chunk Cache Fullbright " + toggleStrCaps(CONFIG.debug.server.cache.fullbrightChunkBlocklight));
+                    .title(Lang.t("Caché de Chunks Fullbright ", "Chunk Cache Fullbright ") + toggleStrCaps(CONFIG.debug.server.cache.fullbrightChunkBlocklight));
             })))
             .then(literal("maxCachedMaps").then(argument("count", integer(0)).executes(c -> {
                 CONFIG.debug.server.cache.maxCachedMaps = getInteger(c, "count");
                 c.getSource().getEmbed()
-                    .title("Max Cached Maps Set");
+                    .title(Lang.t("Máximo de Mapas en Caché Establecido", "Max Cached Maps Set"));
             })))
             .then(literal("binaryNbtComponentSerializer").then(argument("toggle", toggle()).executes(c -> {
                 MinecraftTypes.useBinaryNbtComponentSerializer = getToggle(c, "toggle");
@@ -124,7 +125,7 @@ public class DebugCommand extends Command {
             .then(literal("defaultClientRenderDistance").then(argument("dist", integer(1, 256)).executes(c -> {
                 CONFIG.client.defaultClientRenderDistance = getInteger(c, "dist");
                 c.getSource().getEmbed()
-                    .title("Default Client Render Distance Set");
+                    .title(Lang.t("Distancia de Renderizado del Cliente por Defecto Establecida", "Default Client Render Distance Set"));
             })))
             .then(literal("inventorySyncOnLogin").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.debug.inventorySyncOnLogin = getToggle(c, "toggle");
@@ -196,7 +197,7 @@ public class DebugCommand extends Command {
             .then(literal("lockFile").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.debug.lockFile = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Lock File " + toggleStrCaps(CONFIG.debug.lockFile));
+                    .title(Lang.t("Archivo de Bloqueo ", "Lock File ") + toggleStrCaps(CONFIG.debug.lockFile));
             })))
             .then(literal("uploadLog").executes(c -> {
                 uploadLog(c.getSource(), "log/latest.log");
@@ -210,7 +211,7 @@ public class DebugCommand extends Command {
             .then(literal("passthroughResourcePacks").then(argument("toggle", toggle()).executes(c -> {;
                 CONFIG.debug.passthroughResourcePacks = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Passthrough Resource Packs " + toggleStrCaps(CONFIG.debug.passthroughResourcePacks));
+                    .title(Lang.t("Pases de Paquetes de Recursos ", "Passthrough Resource Packs ") + toggleStrCaps(CONFIG.debug.passthroughResourcePacks));
             })))
             .then(literal("inputManagerDebugLogs").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.debug.inputManagerDebugLogs = getToggle(c, "toggle");
@@ -252,7 +253,7 @@ public class DebugCommand extends Command {
                     c.getEmbed()
                         .title("Log Uploaded")
                         .description("**Link**: " + response.url())
-                        .addField("Warning", "May contain sensitive information like coords, be careful who you share the link with");
+                        .addField(Lang.t("Advertencia", "Warning"), Lang.t("Puede contener información sensible como coordenadas, ten cuidado con quién compartes el enlace", "May contain sensitive information like coords, be careful who you share the link with"));
                 } else {
                     c.getEmbed()
                         .title("Error Uploading Log")
@@ -271,14 +272,14 @@ public class DebugCommand extends Command {
     public void defaultHandler(final CommandContext ctx) {
         if (!ctx.getData().containsKey("noDefaultEmbed")) {
             ctx.getEmbed()
-                .addField("Kick Disconnect", toggleStr(CONFIG.debug.kickDisconnect))
-                .addField("Debug Logs", toggleStr(CONFIG.debug.debugLogs))
-                .addField("Terminal Debug Logs", toggleStr(CONFIG.debug.terminalDebugLogs))
-                .addField("Chunk Cache Fullbright", toggleStr(CONFIG.debug.server.cache.fullbrightChunkBlocklight))
-                .addField("Max Cached Maps", CONFIG.debug.server.cache.maxCachedMaps)
-                .addField("Default Client Render Distance", CONFIG.client.defaultClientRenderDistance)
-                .addField("Lock File", toggleStr(CONFIG.debug.lockFile))
-                .addField("Passthrough Resource Packs", toggleStr(CONFIG.debug.passthroughResourcePacks));
+                .addField(Lang.t("Desconexión por Patada", "Kick Disconnect"), toggleStr(CONFIG.debug.kickDisconnect))
+                .addField(Lang.t("Registros de Depuración", "Debug Logs"), toggleStr(CONFIG.debug.debugLogs))
+                .addField(Lang.t("Registros de Depuración de Terminal", "Terminal Debug Logs"), toggleStr(CONFIG.debug.terminalDebugLogs))
+                .addField(Lang.t("Caché de Chunks Fullbright", "Chunk Cache Fullbright"), toggleStr(CONFIG.debug.server.cache.fullbrightChunkBlocklight))
+                .addField(Lang.t("Máximo de Mapas en Caché", "Max Cached Maps"), CONFIG.debug.server.cache.maxCachedMaps)
+                .addField(Lang.t("Distancia de Renderizado del Cliente por Defecto", "Default Client Render Distance"), CONFIG.client.defaultClientRenderDistance)
+                .addField(Lang.t("Archivo de Bloqueo", "Lock File"), toggleStr(CONFIG.debug.lockFile))
+                .addField(Lang.t("Pases de Paquetes de Recursos", "Passthrough Resource Packs"), toggleStr(CONFIG.debug.passthroughResourcePacks));
         }
         ctx.getEmbed()
             .primaryColor();

@@ -78,8 +78,8 @@ public class InventoryCommand extends Command {
                 int hotbarIndex = slot - hotbarSlot;
                 if (hotbarIndex < 0 || hotbarIndex > 8) {
                     c.getSource().getEmbed()
-                        .title("Error")
-                        .description("Slot: " + slot + " is not a hotbar slot")
+                        .title(Lang.t("Error", "Error"))
+                        .description(Lang.t("Slot: ", "Slot: ") + slot + Lang.t(" no es un slot de la barra de acceso rapido", " is not a hotbar slot"))
                         .errorColor();
                     return OK;
                 }
@@ -94,8 +94,8 @@ public class InventoryCommand extends Command {
                     c.getSource().setNoOutput(true);
                 } else {
                     c.getSource().getEmbed()
-                        .title("Failed")
-                        .description("Another inventory action has taken priority this tick, try again")
+                        .title(Lang.t("Fallido", "Failed"))
+                        .description(Lang.t("Otra accion de inventario ha tomado prioridad este tick, intenta de nuevo", "Another inventory action has taken priority this tick, try again"))
                         .errorColor();
                 }
                 return OK;
@@ -107,17 +107,17 @@ public class InventoryCommand extends Command {
                     var to = getInteger(c, "to");
                     var containerSize = CACHE.getPlayerCache().getInventoryCache().getOpenContainer().getSize();
                     if (from >= containerSize) {
-                        c.getSource().getEmbed()
-                            .title("Error")
-                            .description("From slot: " + from + " is out of bounds")
-                            .errorColor();
-                        return OK;
-                    }
-                    if (to >= containerSize) {
-                        c.getSource().getEmbed()
-                            .title("Error")
-                            .description("To slot: " + to + " is out of bounds")
-                            .errorColor();
+                    c.getSource().getEmbed()
+                        .title(Lang.t("Error", "Error"))
+                        .description(Lang.t("Slot de origen: ", "From slot: ") + from + Lang.t(" esta fuera de los limites", " is out of bounds"))
+                        .errorColor();
+                    return OK;
+                }
+                if (to >= containerSize) {
+                    c.getSource().getEmbed()
+                        .title(Lang.t("Error", "Error"))
+                        .description(Lang.t("Slot de destino: ", "To slot: ") + to + Lang.t(" esta fuera de los limites", " is out of bounds"))
+                        .errorColor();
                         return OK;
                     }
                     var accepted = INVENTORY.submit(InventoryActionRequest.builder()
@@ -131,8 +131,8 @@ public class InventoryCommand extends Command {
                         c.getSource().setNoOutput(true);
                     } else {
                         c.getSource().getEmbed()
-                            .title("Failed")
-                            .description("Another inventory action has taken priority this tick, try again")
+                            .title(Lang.t("Fallido", "Failed"))
+                            .description(Lang.t("Otra accion de inventario ha tomado prioridad este tick, intenta de nuevo", "Another inventory action has taken priority this tick, try again"))
                             .errorColor();
                     }
                     return OK;
@@ -145,18 +145,18 @@ public class InventoryCommand extends Command {
                         Container container = CACHE.getPlayerCache().getInventoryCache().getOpenContainer();
                         var containerSize = container.getSize();
                         if (slot >= containerSize) {
-                            c.getSource().getEmbed()
-                                .title("Error")
-                                .description("Slot: " + slot + " is out of bounds")
-                                .errorColor();
-                            return OK;
-                        }
-                        var stack = container.getItemStack(slot);
-                        if (stack == Container.EMPTY_STACK) {
-                            c.getSource().getEmbed()
-                                .title("Error")
-                                .description("Slot: " + slot + " is empty")
-                                .errorColor();
+                    c.getSource().getEmbed()
+                        .title(Lang.t("Error", "Error"))
+                        .description(Lang.t("Slot: ", "Slot: ") + slot + Lang.t(" esta fuera de los limites", " is out of bounds"))
+                        .errorColor();
+                    return OK;
+                }
+                var stack = container.getItemStack(slot);
+                if (stack == Container.EMPTY_STACK) {
+                    c.getSource().getEmbed()
+                        .title(Lang.t("Error", "Error"))
+                        .description(Lang.t("Slot: ", "Slot: ") + slot + Lang.t(" esta vacio", " is empty"))
+                        .errorColor();
                             return OK;
                         }
                         var accepted = drop(slot, true).get();
@@ -165,8 +165,8 @@ public class InventoryCommand extends Command {
                             c.getSource().setNoOutput(true);
                         } else {
                             c.getSource().getEmbed()
-                                .title("Failed")
-                                .description("Another inventory action has taken priority this tick, try again")
+                                .title(Lang.t("Fallido", "Failed"))
+                                .description(Lang.t("Otra accion de inventario ha tomado prioridad este tick, intenta de nuevo", "Another inventory action has taken priority this tick, try again"))
                                 .errorColor();
                         }
                         return OK;
@@ -177,28 +177,28 @@ public class InventoryCommand extends Command {
                     Container container = CACHE.getPlayerCache().getInventoryCache().getOpenContainer();
                     var containerSize = container.getSize();
                     if (slot >= containerSize) {
-                        c.getSource().getEmbed()
-                            .title("Error")
-                            .description("Slot: " + slot + " is out of bounds")
-                            .errorColor();
-                        return OK;
-                    }
-                    var stack = container.getItemStack(slot);
-                    if (stack == Container.EMPTY_STACK) {
-                        c.getSource().getEmbed()
-                            .title("Error")
-                            .description("Slot: " + slot + " is empty")
-                            .errorColor();
-                        return OK;
-                    }
-                    var accepted = drop(slot, false).get();
-                    if (accepted) {
-                        logInv();
-                        c.getSource().setNoOutput(true);
-                    } else {
-                        c.getSource().getEmbed()
-                            .title("Failed")
-                            .description("Another inventory action has taken priority this tick, try again")
+                    c.getSource().getEmbed()
+                        .title(Lang.t("Error", "Error"))
+                        .description(Lang.t("Slot: ", "Slot: ") + slot + Lang.t(" esta fuera de los limites", " is out of bounds"))
+                        .errorColor();
+                    return OK;
+                }
+                var stack = container.getItemStack(slot);
+                if (stack == Container.EMPTY_STACK) {
+                    c.getSource().getEmbed()
+                        .title(Lang.t("Error", "Error"))
+                        .description(Lang.t("Slot: ", "Slot: ") + slot + Lang.t(" esta vacio", " is empty"))
+                        .errorColor();
+                    return OK;
+                }
+                var accepted = drop(slot, false).get();
+                if (accepted) {
+                    logInv();
+                    c.getSource().setNoOutput(true);
+                } else {
+                    c.getSource().getEmbed()
+                        .title(Lang.t("Fallido", "Failed"))
+                            .description(Lang.t("Otra accion de inventario ha tomado prioridad este tick, intenta de nuevo", "Another inventory action has taken priority this tick, try again"))
                             .errorColor();
                     }
                     return OK;
@@ -208,8 +208,8 @@ public class InventoryCommand extends Command {
                 var openContainerId = getOpenContainerId();
                 if (openContainerId == 0) {
                     c.getSource().getEmbed()
-                        .title("Error")
-                        .description("No open container to close")
+                        .title(Lang.t("Error", "Error"))
+                        .description(Lang.t("No hay un contenedor abierto para cerrar", "No open container to close"))
                         .errorColor();
                     return OK;
                 }
@@ -224,8 +224,8 @@ public class InventoryCommand extends Command {
                     c.getSource().setNoOutput(true);
                 } else {
                     c.getSource().getEmbed()
-                        .title("Failed")
-                        .description("Another inventory action has taken priority this tick, try again")
+                        .title(Lang.t("Fallido", "Failed"))
+                        .description(Lang.t("Otra accion de inventario ha tomado prioridad este tick, intenta de nuevo", "Another inventory action has taken priority this tick, try again"))
                         .errorColor();
                 }
                 return OK;
@@ -234,8 +234,8 @@ public class InventoryCommand extends Command {
                 if (!verifyAbleToDoInvActions(c.getSource().getEmbed())) return OK;
                 if (getOpenContainerId() == 0) {
                     c.getSource().getEmbed()
-                        .title("Error")
-                        .description("No open container to withdraw from. Use `b click right <x> <y> <z>` to open a container")
+                        .title(Lang.t("Error", "Error"))
+                        .description(Lang.t("No hay un contenedor abierto para retirar. Usa `b click right <x> <y> <z>` para abrir un contenedor", "No open container to withdraw from. Use `b click right <x> <y> <z>` to open a container"))
                         .errorColor();
                     return OK;
                 }
@@ -250,8 +250,8 @@ public class InventoryCommand extends Command {
                     c.getSource().setNoOutput(true);
                 } else {
                     c.getSource().getEmbed()
-                        .title("Failed")
-                        .description("Another inventory action has taken priority this tick, try again")
+                        .title(Lang.t("Fallido", "Failed"))
+                        .description(Lang.t("Otra accion de inventario ha tomado prioridad este tick, intenta de nuevo", "Another inventory action has taken priority this tick, try again"))
                         .errorColor();
                 }
                 return OK;
@@ -260,8 +260,8 @@ public class InventoryCommand extends Command {
                 if (!verifyAbleToDoInvActions(c.getSource().getEmbed())) return OK;
                 if (getOpenContainerId() == 0) {
                     c.getSource().getEmbed()
-                        .title("Error")
-                        .description("No open container to deposit to. Use `b click right <x> <y> <z>` to open a container")
+                        .title(Lang.t("Error", "Error"))
+                        .description(Lang.t("No hay un contenedor abierto para depositar. Usa `b click right <x> <y> <z>` para abrir un contenedor", "No open container to deposit to. Use `b click right <x> <y> <z>` to open a container"))
                         .errorColor();
                     return OK;
                 }
@@ -276,8 +276,8 @@ public class InventoryCommand extends Command {
                     c.getSource().setNoOutput(true);
                 } else {
                     c.getSource().getEmbed()
-                        .title("Failed")
-                        .description("Another inventory action has taken priority this tick, try again")
+                        .title(Lang.t("Fallido", "Failed"))
+                        .description(Lang.t("Otra accion de inventario ha tomado prioridad este tick, intenta de nuevo", "Another inventory action has taken priority this tick, try again"))
                         .errorColor();
                 }
                 return OK;
@@ -298,8 +298,8 @@ public class InventoryCommand extends Command {
                         c.getSource().setNoOutput(true);
                     } else {
                         c.getSource().getEmbed()
-                            .title("Failed")
-                            .description("Another inventory action has taken priority this tick, try again")
+                            .title(Lang.t("Fallido", "Failed"))
+                            .description(Lang.t("Otra accion de inventario ha tomado prioridad este tick, intenta de nuevo", "Another inventory action has taken priority this tick, try again"))
                             .errorColor();
                     }
                     return OK;
@@ -319,8 +319,8 @@ public class InventoryCommand extends Command {
                         c.getSource().setNoOutput(true);
                     } else {
                         c.getSource().getEmbed()
-                            .title("Failed")
-                            .description("Another inventory action has taken priority this tick, try again")
+                            .title(Lang.t("Fallido", "Failed"))
+                            .description(Lang.t("Otra accion de inventario ha tomado prioridad este tick, intenta de nuevo", "Another inventory action has taken priority this tick, try again"))
                             .errorColor();
                     }
                     return OK;
@@ -329,8 +329,8 @@ public class InventoryCommand extends Command {
                 if (!verifyAbleToDoInvActions(c.getSource().getEmbed())) return OK;
                 if (getOpenContainerId() == 0) {
                     c.getSource().getEmbed()
-                        .title("Error")
-                        .description("No open container to click button in. Use `b click right <x> <y> <z>` to open a container")
+                        .title(Lang.t("Error", "Error"))
+                        .description(Lang.t("No hay un contenedor abierto para hacer clic en un boton. Usa `b click right <x> <y> <z>` para abrir un contenedor", "No open container to click button in. Use `b click right <x> <y> <z>` to open a container"))
                         .errorColor();
                     return OK;
                 }
@@ -347,8 +347,8 @@ public class InventoryCommand extends Command {
                     c.getSource().setNoOutput(true);
                 } else {
                     c.getSource().getEmbed()
-                        .title("Failed")
-                        .description("Another inventory action has taken priority this tick, try again")
+                        .title(Lang.t("Fallido", "Failed"))
+                        .description(Lang.t("Otra accion de inventario ha tomado prioridad este tick, intenta de nuevo", "Another inventory action has taken priority this tick, try again"))
                         .errorColor();
                 }
                 return OK;
@@ -507,8 +507,8 @@ public class InventoryCommand extends Command {
     private boolean verifyAbleToDoInvActions(final Embed embed) {
         if (Proxy.getInstance().isConnected() && !Proxy.getInstance().hasActivePlayer()) return true;
         embed
-            .title("Error")
-            .description("Unable to perform inventory actions while not logged in or while a player is controlling")
+            .title(Lang.t("Error", "Error"))
+            .description(Lang.t("No se pueden realizar acciones de inventario mientras no se esta conectado o mientras un jugador esta controlando", "Unable to perform inventory actions while not logged in or while a player is controlling"))
             .errorColor();
         return false;
     }
@@ -517,8 +517,8 @@ public class InventoryCommand extends Command {
         var client = Proxy.getInstance().getClient();
         if (client == null || !Proxy.getInstance().isConnected()) {
             embed
-                .title("Error")
-                .description("Not logged in!")
+                .title(Lang.t("Error", "Error"))
+                .description(Lang.t("No has iniciado sesion!", "Not logged in!"))
                 .errorColor();
             return false;
         }
@@ -527,10 +527,10 @@ public class InventoryCommand extends Command {
 
     private void settingsEmbed(Embed embed) {
         embed
-            .addField("Action Delay Ticks", CONFIG.client.inventory.actionDelayTicks)
-            .addField("NCP Strict", CONFIG.client.inventory.ncpStrict)
-            .addField("Auto Close Open Containers", CONFIG.client.inventory.autoCloseOpenContainers)
-            .addField("Auto Close Open Containers Delay", CONFIG.client.inventory.autoCloseOpenContainerAfterSeconds + "s")
+            .addField(Lang.t("Tics de Retraso de Accion", "Action Delay Ticks"), CONFIG.client.inventory.actionDelayTicks)
+            .addField(Lang.t("NCP Estricto", "NCP Strict"), CONFIG.client.inventory.ncpStrict)
+            .addField(Lang.t("Cerrar Contenedores Abiertos Automaticamente", "Auto Close Open Containers"), CONFIG.client.inventory.autoCloseOpenContainers)
+            .addField(Lang.t("Retraso de Cierre Automatico de Contenedores Abiertos", "Auto Close Open Containers Delay"), CONFIG.client.inventory.autoCloseOpenContainerAfterSeconds + "s")
             .primaryColor();
     }
 }

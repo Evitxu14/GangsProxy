@@ -48,7 +48,7 @@ public class UpdateCommand extends Command {
                 CONFIG.discord.isUpdating = false;
                 CONFIG.autoUpdater.shouldReconnectAfterAutoUpdate = false;
                 c.getSource().getEmbed()
-                        .title("Failed updating")
+                        .title(Lang.t("Error al actualizar", "Failed updating"))
                         .errorColor();
             }
             return OK;

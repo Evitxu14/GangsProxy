@@ -59,9 +59,9 @@ public class ReplayCommand extends Command {
                 var module = MODULE.get(ReplayMod.class);
                 if (module.isEnabled()) {
                     c.getSource().getEmbed()
-                        .title("Error")
+                        .title(Lang.t("Error", "Error"))
                         .errorColor()
-                        .description("ReplayMod is already recording");
+                        .description(Lang.t("ReplayMod ya esta grabando", "ReplayMod is already recording"));
                     return OK;
                 }
                 module.enable();
@@ -72,9 +72,9 @@ public class ReplayCommand extends Command {
                 var module = MODULE.get(ReplayMod.class);
                 if (!module.isEnabled()) {
                     c.getSource().getEmbed()
-                        .title("Error")
+                        .title(Lang.t("Error", "Error"))
                         .errorColor()
-                        .description("ReplayMod is not recording");
+                        .description(Lang.t("ReplayMod no esta grabando", "ReplayMod is not recording"));
                     return OK;
                 }
                 module.disable();
@@ -107,8 +107,8 @@ public class ReplayCommand extends Command {
                               .findFirst();
                           if (foundMode.isEmpty()) {
                               c.getSource().getEmbed()
-                                  .title("Invalid Mode")
-                                  .description("Available Modes: " + Arrays.toString(AutoRecordMode.names()));
+                                  .title(Lang.t("Modo Invalido", "Invalid Mode"))
+                                  .description(Lang.t("Modos Disponibles: ", "Available Modes: ") + Arrays.toString(AutoRecordMode.names()));
                               return OK;
                           } else {
                               MODULE.get(ReplayMod.class).disable();
@@ -144,7 +144,7 @@ public class ReplayCommand extends Command {
 
     private String getMaxRecordingTimeStr() {
         if (CONFIG.client.extra.replayMod.maxRecordingTimeMins <= 0) {
-            return "No Limit";
+            return Lang.t("Sin Limite", "No Limit");
         } else {
             return CONFIG.client.extra.replayMod.maxRecordingTimeMins + " minutes";
         }

@@ -42,7 +42,7 @@ public class TablistCommand extends Command {
         return command("tablist").executes(c -> {
             if (!Proxy.getInstance().isConnected()) {
                 c.getSource().getEmbed()
-                    .title("Not online!")
+                    .title(Lang.t("¡No conectado!", "Not online!"))
                     .errorColor();
                 return ERROR;
             }
@@ -107,12 +107,12 @@ public class TablistCommand extends Command {
             .then(literal("header").executes(c -> {
                 if (!Proxy.getInstance().isConnected()) {
                     c.getSource().getEmbed()
-                        .title("Not online!");
+                        .title(Lang.t("¡No conectado!", "Not online!"));
                     return ERROR;
                 }
                 Component header = CACHE.getTabListCache().getHeader();
                 c.getSource().getEmbed()
-                    .title("Tablist Title")
+                    .title(Lang.t("Título de Tablist", "Tablist Title"))
                     .description(ComponentSerializer.serializePlain(header))
                     .primaryColor();
                 return OK;
@@ -126,7 +126,7 @@ public class TablistCommand extends Command {
                 }
                 Component footer = CACHE.getTabListCache().getFooter();
                 c.getSource().getEmbed()
-                    .title("Tablist Footer")
+                    .title(Lang.t("Pie de Tablist", "Tablist Footer"))
                     .description(ComponentSerializer.serializePlain(footer))
                     .primaryColor();
                 return OK;

@@ -67,7 +67,7 @@ public class SpectatorCommand extends Command {
                     Proxy.getInstance().getSpectatorConnections()
                         .forEach(connection -> connection.disconnect(CONFIG.server.extra.whitelist.kickmsg));
                 c.getSource().getEmbed()
-                    .title("Spectators " + toggleStrCaps(CONFIG.server.spectator.allowSpectator))
+                    .title(Lang.t("Espectadores " + toggleStrCaps(CONFIG.server.spectator.allowSpectator), "Spectators " + toggleStrCaps(CONFIG.server.spectator.allowSpectator)))
                     .primaryColor()
                     .description(spectatorWhitelist());
             }))
@@ -77,11 +77,11 @@ public class SpectatorCommand extends Command {
                     PLAYER_LISTS.getSpectatorWhitelist().add(playerName)
                         .ifPresentOrElse(e ->
                                 c.getSource().getEmbed()
-                                    .title("Added user: " + escape(e.getUsername()) + " To Spectator Whitelist")
+                                    .title(Lang.t("Usuario añadido: " + escape(e.getUsername()) + " a la lista blanca de espectadores", "Added user: " + escape(e.getUsername()) + " To Spectator Whitelist"))
                                     .primaryColor()
                                     .description(spectatorWhitelist()),
                             () -> c.getSource().getEmbed()
-                                .title("Failed to add user: " + escape(playerName) + " to whitelist. Unable to lookup profile.")
+                                .title(Lang.t("Error al añadir usuario: " + escape(playerName) + " a la lista blanca. No se pudo buscar el perfil.", "Failed to add user: " + escape(playerName) + " to whitelist. Unable to lookup profile."))
                                 .errorColor()
                                 .description(spectatorWhitelist()));
                 })))
@@ -90,8 +90,8 @@ public class SpectatorCommand extends Command {
                     String[] split = playerList.split(",");
                     if (split.length == 0) {
                         c.getSource().getEmbed()
-                            .title("Invalid Input")
-                            .description("Each player name must be delimited by `,`");
+                            .title(Lang.t("Entrada inválida", "Invalid Input"))
+                            .description(Lang.t("Cada nombre de jugador debe estar delimitado por `,`", "Each player name must be delimited by `,`"));
                         return ERROR;
                     }
                     List<String> addErrors = new ArrayList<>();
@@ -101,11 +101,11 @@ public class SpectatorCommand extends Command {
                         }
                     }
                     c.getSource().getEmbed()
-                        .title("Added Players")
-                        .addField("Added Player Count", split.length - addErrors.size());
+                        .title(Lang.t("Jugadores añadidos", "Added Players"))
+                        .addField(Lang.t("Número de jugadores añadidos", "Added Player Count"), split.length - addErrors.size());
                     if (!addErrors.isEmpty()) {
                         c.getSource().getEmbed()
-                            .description("Failed adding " + addErrors.size() + " players: " + String.join(", ", addErrors));
+                            .description(Lang.t("Error al añadir " + addErrors.size() + " jugadores: " + String.join(", ", addErrors), "Failed adding " + addErrors.size() + " players: " + String.join(", ", addErrors)));
                     }
                     return OK;
                 })))
@@ -113,7 +113,7 @@ public class SpectatorCommand extends Command {
                     final String playerName = StringArgumentType.getString(c, "player");
                     PLAYER_LISTS.getSpectatorWhitelist().remove(playerName);
                     c.getSource().getEmbed()
-                        .title("Removed user: " + escape(playerName) + " From Spectator Whitelist")
+                        .title(Lang.t("Usuario eliminado: " + escape(playerName) + " de la lista blanca de espectadores", "Removed user: " + escape(playerName) + " From Spectator Whitelist"))
                         .primaryColor()
                         .description(spectatorWhitelist());
                     Proxy.getInstance().kickNonWhitelistedPlayers();
@@ -121,21 +121,21 @@ public class SpectatorCommand extends Command {
                 .then(literal("clear").executes(c -> {
                     PLAYER_LISTS.getSpectatorWhitelist().clear();
                     c.getSource().getEmbed()
-                        .title("Spectator Whitelist Cleared")
+                        .title(Lang.t("Lista blanca de espectadores limpiada", "Spectator Whitelist Cleared"))
                         .errorColor()
                         .description(spectatorWhitelist());
                     Proxy.getInstance().kickNonWhitelistedPlayers();
                 }))
                 .then(literal("list").executes(c -> {
                     c.getSource().getEmbed()
-                        .title("Spectator Whitelist")
+                        .title(Lang.t("Lista blanca de espectadores", "Spectator Whitelist"))
                         .primaryColor()
                         .description(spectatorWhitelist());
                 })))
             .then(literal("entity")
                 .then(literal("list").executes(c -> {
                     c.getSource().getEmbed()
-                        .title("Entity List")
+                        .title(Lang.t("Lista de entidades", "Entity List"))
                         .description(entityList())
                         .primaryColor();
                 }))
@@ -145,11 +145,11 @@ public class SpectatorCommand extends Command {
                     if (spectatorEntity.isPresent()) {
                         CONFIG.server.spectator.spectatorEntity = entityInput;
                         c.getSource().getEmbed()
-                            .title("Set Entity")
+                            .title(Lang.t("Entidad establecida", "Set Entity"))
                             .primaryColor();
                     } else {
                         c.getSource().getEmbed()
-                            .title("Invalid Entity")
+                            .title(Lang.t("Entidad inválida", "Invalid Entity"))
                             .description(entityList())
                             .errorColor();
                     }
@@ -158,33 +158,33 @@ public class SpectatorCommand extends Command {
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.server.spectator.spectatorPublicChatEnabled = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Spectator Chat " + toggleStrCaps(CONFIG.server.spectator.spectatorPublicChatEnabled))
+                        .title(Lang.t("Chat de espectadores " + toggleStrCaps(CONFIG.server.spectator.spectatorPublicChatEnabled), "Spectator Chat " + toggleStrCaps(CONFIG.server.spectator.spectatorPublicChatEnabled)))
                         .primaryColor()
                         .description(spectatorWhitelist());
                 })))
             .then(literal("playerCamOnJoin").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.server.spectator.playerCamOnJoin = getToggle(c, "toggle");
                 c.getSource().getEmbed()
-                    .title("Player Cam On Join " + toggleStrCaps(CONFIG.server.spectator.playerCamOnJoin))
+                    .title(Lang.t("Cámara del jugador al unirse " + toggleStrCaps(CONFIG.server.spectator.playerCamOnJoin), "Player Cam On Join " + toggleStrCaps(CONFIG.server.spectator.playerCamOnJoin)))
                     .primaryColor();
             })))
             .then(literal("fullCommands").requires(Command::validateAccountOwner)
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.server.spectator.fullCommandsEnabled = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Full Spectator Commands " + toggleStrCaps(CONFIG.server.spectator.fullCommandsEnabled))
+                        .title(Lang.t("Comandos completos de espectador " + toggleStrCaps(CONFIG.server.spectator.fullCommandsEnabled), "Full Spectator Commands " + toggleStrCaps(CONFIG.server.spectator.fullCommandsEnabled)))
                         .primaryColor();
                 }))
                 .then(literal("slashCommands").then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.server.spectator.fullCommandsAcceptSlashCommands = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Full Spectator Commands Accept Slash Commands " + toggleStrCaps(CONFIG.server.spectator.fullCommandsAcceptSlashCommands))
+                        .title(Lang.t("Comandos completos de espectador aceptar comandos con barra " + toggleStrCaps(CONFIG.server.spectator.fullCommandsAcceptSlashCommands), "Full Spectator Commands Accept Slash Commands " + toggleStrCaps(CONFIG.server.spectator.fullCommandsAcceptSlashCommands)))
                         .primaryColor();
                 })))
                 .then(literal("requireRegularWhitelist").then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.server.spectator.fullCommandsRequireRegularWhitelist = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Full Spectator Commands Require Regular Whitelist " + toggleStrCaps(CONFIG.server.spectator.fullCommandsRequireRegularWhitelist))
+                        .title(Lang.t("Comandos completos de espectador requieren lista blanca regular " + toggleStrCaps(CONFIG.server.spectator.fullCommandsRequireRegularWhitelist), "Full Spectator Commands Require Regular Whitelist " + toggleStrCaps(CONFIG.server.spectator.fullCommandsRequireRegularWhitelist)))
                         .primaryColor();
                 }))));
     }
@@ -200,12 +200,12 @@ public class SpectatorCommand extends Command {
     @Override
     public void defaultEmbed(final Embed builder) {
         builder
-            .addField("Spectators", toggleStr(CONFIG.server.spectator.allowSpectator))
-            .addField("Chat", toggleStr(CONFIG.server.spectator.spectatorPublicChatEnabled))
-            .addField("Entity", CONFIG.server.spectator.spectatorEntity)
-            .addField("PlayerCam On Join", toggleStr(CONFIG.server.spectator.playerCamOnJoin))
-            .addField("Full Commands", toggleStr(CONFIG.server.spectator.fullCommandsEnabled))
-            .addField("Full Commands Slash Commands", toggleStr(CONFIG.server.spectator.fullCommandsAcceptSlashCommands))
-            .addField("Full Commands Require Regular Whitelist", toggleStr(CONFIG.server.spectator.fullCommandsRequireRegularWhitelist));
+            .addField(Lang.t("Espectadores", "Spectators"), toggleStr(CONFIG.server.spectator.allowSpectator))
+            .addField(Lang.t("Chat", "Chat"), toggleStr(CONFIG.server.spectator.spectatorPublicChatEnabled))
+            .addField(Lang.t("Entidad", "Entity"), CONFIG.server.spectator.spectatorEntity)
+            .addField(Lang.t("Cámara al unirse", "PlayerCam On Join"), toggleStr(CONFIG.server.spectator.playerCamOnJoin))
+            .addField(Lang.t("Comandos completos", "Full Commands"), toggleStr(CONFIG.server.spectator.fullCommandsEnabled))
+            .addField(Lang.t("Comandos completos con barra", "Full Commands Slash Commands"), toggleStr(CONFIG.server.spectator.fullCommandsAcceptSlashCommands))
+            .addField(Lang.t("Comandos completos requieren lista blanca regular", "Full Commands Require Regular Whitelist"), toggleStr(CONFIG.server.spectator.fullCommandsRequireRegularWhitelist));
     }
 }

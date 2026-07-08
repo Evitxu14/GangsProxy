@@ -47,21 +47,21 @@ public class AutoUpdateCommand extends Command {
                 LAUNCH_CONFIG.auto_update = toggle;
                 saveLaunchConfig();
                 c.getSource().getEmbed()
-                    .title("AutoUpdate " + toggleStrCaps(toggle));
+                    .title(Lang.t("AutoActualizar ", "AutoUpdate ") + toggleStrCaps(toggle));
             }))
             .then(literal("launcher").then(argument("launcherToggle", toggle()).executes(c -> {
                 LAUNCH_CONFIG.auto_update_launcher = getToggle(c, "launcherToggle");
                 saveLaunchConfig();
                 c.getSource().getEmbed()
-                    .title("Launcher AutoUpdate " + toggleStrCaps(LAUNCH_CONFIG.auto_update_launcher));
+                    .title(Lang.t("AutoActualización del Lanzador ", "Launcher AutoUpdate ") + toggleStrCaps(LAUNCH_CONFIG.auto_update_launcher));
             })));
     }
 
     @Override
     public void defaultEmbed(final Embed builder) {
         builder
-            .addField("AutoUpdate", toggleStr(LAUNCH_CONFIG.auto_update))
-            .addField("Launcher AutoUpdate", toggleStr(LAUNCH_CONFIG.auto_update_launcher))
+            .addField(Lang.t("AutoActualizar", "AutoUpdate"), toggleStr(LAUNCH_CONFIG.auto_update))
+            .addField(Lang.t("AutoActualización del Lanzador", "Launcher AutoUpdate"), toggleStr(LAUNCH_CONFIG.auto_update_launcher))
             .primaryColor();
     }
 }

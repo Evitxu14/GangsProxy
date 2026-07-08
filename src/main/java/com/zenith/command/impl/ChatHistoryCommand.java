@@ -42,14 +42,14 @@ public class ChatHistoryCommand extends Command {
                 CONFIG.server.extra.chatHistory.enable = getToggle(c, "toggle");
                 MODULE.get(ChatHistory.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
-                    .title("Chat History " + toggleStrCaps(CONFIG.server.extra.chatHistory.enable));
+                    .title(Lang.t("Historial de Chat ", "Chat History ") + toggleStrCaps(CONFIG.server.extra.chatHistory.enable));
                 return OK;
             }))
             .then(literal("seconds")
                       .then(argument("seconds", integer(5, 300)).executes(c -> {
                           CONFIG.server.extra.chatHistory.seconds = getInteger(c, "seconds");
                           c.getSource().getEmbed()
-                              .title("Chat History Seconds Set");
+                              .title(Lang.t("Segundos de Historial de Chat Establecidos", "Chat History Seconds Set"));
                           return OK;
                       })))
             .then(literal("maxCount")
@@ -57,14 +57,14 @@ public class ChatHistoryCommand extends Command {
                           CONFIG.server.extra.chatHistory.maxCount = getInteger(c, "maxCount");
                           MODULE.get(ChatHistory.class).syncMaxCountFromConfig();
                           c.getSource().getEmbed()
-                              .title("Chat History Max Count Set");
+                              .title(Lang.t("Recuento Máximo de Historial de Chat Establecido", "Chat History Max Count Set"));
                           return OK;
                       })))
             .then(literal("spectators")
                       .then(argument("toggle", toggle()).executes(c -> {
                           CONFIG.server.extra.chatHistory.spectators = getToggle(c, "toggle");
                           c.getSource().getEmbed()
-                              .title("Chat History Spectators " + toggleStrCaps(CONFIG.server.extra.chatHistory.spectators));
+                              .title(Lang.t("Espectadores de Historial de Chat ", "Chat History Spectators ") + toggleStrCaps(CONFIG.server.extra.chatHistory.spectators));
                           return OK;
                       })));
     }
@@ -72,10 +72,10 @@ public class ChatHistoryCommand extends Command {
     @Override
     public void defaultEmbed(final Embed embed) {
         embed
-            .addField("Chat History", toggleStr(CONFIG.server.extra.chatHistory.enable), false)
-            .addField("Seconds", CONFIG.server.extra.chatHistory.seconds, false)
-            .addField("Max Count", CONFIG.server.extra.chatHistory.maxCount, false)
-            .addField("Spectators", toggleStr(CONFIG.server.extra.chatHistory.spectators), false)
+            .addField(Lang.t("Historial de Chat", "Chat History"), toggleStr(CONFIG.server.extra.chatHistory.enable), false)
+            .addField(Lang.t("Segundos", "Seconds"), CONFIG.server.extra.chatHistory.seconds, false)
+            .addField(Lang.t("Recuento Máximo", "Max Count"), CONFIG.server.extra.chatHistory.maxCount, false)
+            .addField(Lang.t("Espectadores", "Spectators"), toggleStr(CONFIG.server.extra.chatHistory.spectators), false)
             .primaryColor();
     }
 }

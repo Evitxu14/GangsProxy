@@ -2,6 +2,7 @@ package com.zenith.feature.player;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.cache.data.entity.EntityLiving;
 import com.zenith.cache.data.entity.EntityPlayer;
@@ -664,10 +665,10 @@ public final class Bot extends ModuleUtils {
 
     public void handlePlayerPosRotate(final int teleportId) {
         syncFromCache(true);
-        CLIENT_LOG.info("Server teleport {} to: {}, {}, {}d", teleportId, this.x, this.y, this.z);
+        CLIENT_LOG.info(Lang.t("Teletransporte del servidor {} a: {}, {}, {}d", "Server teleport {} to: {}, {}, {}d"), teleportId, this.x, this.y, this.z);
         sendClientPacketAwait(new ServerboundAcceptTeleportationPacket(teleportId));
         sendClientPacketAwait(new ServerboundMovePlayerPosRotPacket(false, false, this.x, this.y, this.z, this.yaw, this.pitch));
-        CLIENT_LOG.debug("Accepted teleport: {}", teleportId);
+        CLIENT_LOG.debug(Lang.t("Teletransporte aceptado: {}", "Accepted teleport: {}"), teleportId);
     }
 
     public void handlePlayerRotate() {
@@ -1525,7 +1526,7 @@ public final class Bot extends ModuleUtils {
     private boolean resyncTeleport() {
         // can occur when a connected player disconnects in an unusual way like crashing
         if (!CACHE.getPlayerCache().getTeleportQueue().isEmpty()) {
-            warn("Detected teleport desync, resyncing. queueSize: {}", CACHE.getPlayerCache().getTeleportQueue().size());
+            warn(Lang.t("Detectada desincronización de teletransporte, resincronizando. queueSize: {}", "Detected teleport desync, resyncing. queueSize: {}"), CACHE.getPlayerCache().getTeleportQueue().size());
             int count = 0;
             while (!CACHE.getPlayerCache().getTeleportQueue().isEmpty() && count++ < 25) {
                 var packet = CACHE.getPlayerCache().getTeleportQueue().poll();

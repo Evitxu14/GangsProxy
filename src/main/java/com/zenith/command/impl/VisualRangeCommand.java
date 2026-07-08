@@ -72,7 +72,7 @@ public class VisualRangeCommand extends Command {
                 CONFIG.client.extra.visualRange.enabled = getToggle(c, "toggle");
                 MODULE.get(VisualRange.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
-                    .title("VisualRange " + toggleStrCaps(CONFIG.client.extra.visualRange.enabled));
+                    .title(Lang.t("RangoVisual " + toggleStrCaps(CONFIG.client.extra.visualRange.enabled), "VisualRange " + toggleStrCaps(CONFIG.client.extra.visualRange.enabled)));
                 return OK;
             }))
             .then(literal("list").executes(c -> {
@@ -94,17 +94,17 @@ public class VisualRangeCommand extends Command {
                 }
                 if (friends.isEmpty() && nonFriends.isEmpty()) {
                     c.getSource().getEmbed()
-                        .title("VisualRange Players")
-                        .description("No players in visual range")
+                        .title(Lang.t("Jugadores en RangoVisual", "VisualRange Players"))
+                        .description(Lang.t("No hay jugadores en el rango visual", "No players in visual range"))
                         .primaryColor();
                     return;
                 }
                 c.getSource().getEmbed()
-                    .title("VisualRange Players")
-                    .description("**Friends/Whitelisted Players**\n"
+                    .title(Lang.t("Jugadores en RangoVisual", "VisualRange Players"))
+                    .description(Lang.t("**Jugadores Amigos/Lista Blanca**\n", "**Friends/Whitelisted Players**\n")
                         + friends.stream().map(GameProfile::getName).collect(Collectors.joining("\n"))
                         + "\n\n"
-                        + "**Non-Friends/Non-Whitelisted Players**\n"
+                        + Lang.t("**Jugadores No Amigos/No Lista Blanca**\n", "**Non-Friends/Non-Whitelisted Players**\n")
                         + nonFriends.stream().map(GameProfile::getName).collect(Collectors.joining("\n"))
                     )
                     .primaryColor();
@@ -113,66 +113,66 @@ public class VisualRangeCommand extends Command {
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.visualRange.enterAlert = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("VisualRange Enter Alerts " + toggleStrCaps(CONFIG.client.extra.visualRange.enterAlert));
+                        .title(Lang.t("Alertas de Entrada de RangoVisual " + toggleStrCaps(CONFIG.client.extra.visualRange.enterAlert), "VisualRange Enter Alerts " + toggleStrCaps(CONFIG.client.extra.visualRange.enterAlert)));
                     return OK;
                 }))
                 .then(literal("mention").then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.visualRange.enterAlertMention = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("VisualRange Enter Mentions " + toggleStrCaps(CONFIG.client.extra.visualRange.enterAlertMention));
+                        .title(Lang.t("Menciones de Entrada de RangoVisual " + toggleStrCaps(CONFIG.client.extra.visualRange.enterAlertMention), "VisualRange Enter Mentions " + toggleStrCaps(CONFIG.client.extra.visualRange.enterAlertMention)));
                     return OK;
                 })))
                 .then(literal("whisper")
                     .then(argument("toggle", toggle()).executes(c -> {
                         CONFIG.client.extra.visualRange.enterWhisper = getToggle(c, "toggle");
                         c.getSource().getEmbed()
-                            .title("VisualRange Enter Whisper " + toggleStrCaps(CONFIG.client.extra.visualRange.enterWhisper));
+                            .title(Lang.t("Susurro de Entrada de RangoVisual " + toggleStrCaps(CONFIG.client.extra.visualRange.enterWhisper), "VisualRange Enter Whisper " + toggleStrCaps(CONFIG.client.extra.visualRange.enterWhisper)));
                         return OK;
                     }))
                     .then(literal("message").then(argument("message", greedyString()).executes(c -> {
                         var msg = getString(c, "message");
                         CONFIG.client.extra.visualRange.enterWhisperMessage = ChatUtil.sanitizeChatMessage(msg.substring(0, Math.min(msg.length(), 236)));
                         c.getSource().getEmbed()
-                            .title("VisualRange Enter Whisper Message Set");
+                            .title(Lang.t("Mensaje de Susurro de Entrada de RangoVisual Establecido", "VisualRange Enter Whisper Message Set"));
                         return OK;
                     })))
                     .then(literal("cooldown").then(argument("seconds", integer(0)).executes(c -> {
                         CONFIG.client.extra.visualRange.enterWhisperCooldownSeconds = getInteger(c, "seconds");
                         c.getSource().getEmbed()
-                            .title("VisualRange Enter Whisper Cooldown Set");
+                            .title(Lang.t("Tiempo de Reutilizacion de Susurro de Entrada de RangoVisual Establecido", "VisualRange Enter Whisper Cooldown Set"));
                         return OK;
                     })))
                     .then(literal("whilePlayerConnected").then(argument("toggle", toggle()).executes(c -> {
                         CONFIG.client.extra.visualRange.enterWhisperWhilePlayerConnected = getToggle(c, "toggle");
                         c.getSource().getEmbed()
-                            .title("VisualRange Enter Whisper While Player Connected " + toggleStrCaps(CONFIG.client.extra.visualRange.enterWhisperWhilePlayerConnected));
+                            .title(Lang.t("Susurro de Entrada de RangoVisual Mientras el Jugador Esta Conectado " + toggleStrCaps(CONFIG.client.extra.visualRange.enterWhisperWhilePlayerConnected), "VisualRange Enter Whisper While Player Connected " + toggleStrCaps(CONFIG.client.extra.visualRange.enterWhisperWhilePlayerConnected)));
                     })))))
             .then(literal("ignoreFriends")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.visualRange.ignoreFriends = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Ignore Friends " + toggleStrCaps(CONFIG.client.extra.visualRange.ignoreFriends));
+                        .title(Lang.t("Ignorar Amigos " + toggleStrCaps(CONFIG.client.extra.visualRange.ignoreFriends), "Ignore Friends " + toggleStrCaps(CONFIG.client.extra.visualRange.ignoreFriends)));
                     return OK;
                 })))
             .then(literal("leave")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.visualRange.leaveAlert = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Leave Alerts " + toggleStrCaps(CONFIG.client.extra.visualRange.leaveAlert));
+                        .title(Lang.t("Alertas de Salida " + toggleStrCaps(CONFIG.client.extra.visualRange.leaveAlert), "Leave Alerts " + toggleStrCaps(CONFIG.client.extra.visualRange.leaveAlert)));
                     return OK;
                 })))
             .then(literal("logout")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.visualRange.logoutAlert = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Logout Alerts " + toggleStrCaps(CONFIG.client.extra.visualRange.logoutAlert));
+                        .title(Lang.t("Alertas de Cierre de Sesion " + toggleStrCaps(CONFIG.client.extra.visualRange.logoutAlert), "Logout Alerts " + toggleStrCaps(CONFIG.client.extra.visualRange.logoutAlert)));
                     return OK;
                 })))
             .then(literal("replayRecording")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.visualRange.replayRecording = getToggle(c, "toggle");
                     c.getSource().getEmbed()
-                        .title("Replay Recording " + toggleStrCaps(CONFIG.client.extra.visualRange.replayRecording));
+                        .title(Lang.t("Grabacion de Reproduccion " + toggleStrCaps(CONFIG.client.extra.visualRange.replayRecording), "Replay Recording " + toggleStrCaps(CONFIG.client.extra.visualRange.replayRecording)));
                     return OK;
                 }))
                 .then(literal("mode").then(argument("modeArg", enumStrings("enemy", "all")).executes(c -> {
@@ -184,19 +184,19 @@ public class VisualRangeCommand extends Command {
                     };
                     if (mode == null) {
                         c.getSource().getEmbed()
-                            .title("Invalid Replay Recording Mode");
+                            .title(Lang.t("Modo de Grabacion de Reproduccion Invalido", "Invalid Replay Recording Mode"));
                         return ERROR;
                     } else {
                         CONFIG.client.extra.visualRange.replayRecordingMode = mode;
                         c.getSource().getEmbed()
-                            .title("Replay Recording Mode Set");
+                            .title(Lang.t("Modo de Grabacion de Reproduccion Establecido", "Replay Recording Mode Set"));
                         return OK;
                     }
                 })))
                 .then(literal("cooldown").then(argument("minutes", integer(0)).executes(c -> {
                     CONFIG.client.extra.visualRange.replayRecordingCooldownMins = getInteger(c, "minutes");
                     c.getSource().getEmbed()
-                        .title("Enemy Replay Recording Cooldown Set");
+                        .title(Lang.t("Tiempo de Reutilizacion de Grabacion de Enemigos Establecido", "Enemy Replay Recording Cooldown Set"));
                     return OK;
                 }))));
     }
@@ -204,19 +204,19 @@ public class VisualRangeCommand extends Command {
     @Override
     public void defaultEmbed(final Embed builder) {
         builder
-            .addField("VisualRange", toggleStr(CONFIG.client.extra.visualRange.enabled))
-            .addField("Enter Alerts", toggleStr(CONFIG.client.extra.visualRange.enterAlert))
-            .addField("Enter Mentions", toggleStr(CONFIG.client.extra.visualRange.enterAlertMention))
-            .addField("Enter Whisper", toggleStr(CONFIG.client.extra.visualRange.enterWhisper))
-            .addField("Enter Whisper Message", escape(CONFIG.client.extra.visualRange.enterWhisperMessage))
-            .addField("Enter Whisper Cooldown", CONFIG.client.extra.visualRange.enterWhisperCooldownSeconds + "s")
-            .addField("Enter Whisper While Player Connected", toggleStr(CONFIG.client.extra.visualRange.enterWhisperWhilePlayerConnected))
-            .addField("Ignore Friends", toggleStr(CONFIG.client.extra.visualRange.ignoreFriends))
-            .addField("Leave Alerts", toggleStr(CONFIG.client.extra.visualRange.leaveAlert))
-            .addField("Logout Alerts", toggleStr(CONFIG.client.extra.visualRange.logoutAlert))
-            .addField("Replay Recording", toggleStr(CONFIG.client.extra.visualRange.replayRecording))
-            .addField("Replay Recording Mode", CONFIG.client.extra.visualRange.replayRecordingMode.toString().toLowerCase())
-            .addField("Replay Recording Cooldown", CONFIG.client.extra.visualRange.replayRecordingCooldownMins)
+            .addField(Lang.t("RangoVisual", "VisualRange"), toggleStr(CONFIG.client.extra.visualRange.enabled))
+            .addField(Lang.t("Alertas de Entrada", "Enter Alerts"), toggleStr(CONFIG.client.extra.visualRange.enterAlert))
+            .addField(Lang.t("Menciones de Entrada", "Enter Mentions"), toggleStr(CONFIG.client.extra.visualRange.enterAlertMention))
+            .addField(Lang.t("Susurro de Entrada", "Enter Whisper"), toggleStr(CONFIG.client.extra.visualRange.enterWhisper))
+            .addField(Lang.t("Mensaje de Susurro de Entrada", "Enter Whisper Message"), escape(CONFIG.client.extra.visualRange.enterWhisperMessage))
+            .addField(Lang.t("Tiempo de Reutilizacion de Susurro de Entrada", "Enter Whisper Cooldown"), CONFIG.client.extra.visualRange.enterWhisperCooldownSeconds + "s")
+            .addField(Lang.t("Susurro de Entrada Mientras el Jugador Esta Conectado", "Enter Whisper While Player Connected"), toggleStr(CONFIG.client.extra.visualRange.enterWhisperWhilePlayerConnected))
+            .addField(Lang.t("Ignorar Amigos", "Ignore Friends"), toggleStr(CONFIG.client.extra.visualRange.ignoreFriends))
+            .addField(Lang.t("Alertas de Salida", "Leave Alerts"), toggleStr(CONFIG.client.extra.visualRange.leaveAlert))
+            .addField(Lang.t("Alertas de Cierre de Sesion", "Logout Alerts"), toggleStr(CONFIG.client.extra.visualRange.logoutAlert))
+            .addField(Lang.t("Grabacion de Reproduccion", "Replay Recording"), toggleStr(CONFIG.client.extra.visualRange.replayRecording))
+            .addField(Lang.t("Modo de Grabacion de Reproduccion", "Replay Recording Mode"), CONFIG.client.extra.visualRange.replayRecordingMode.toString().toLowerCase())
+            .addField(Lang.t("Tiempo de Reutilizacion de Grabacion de Reproduccion", "Replay Recording Cooldown"), CONFIG.client.extra.visualRange.replayRecordingCooldownMins)
             .primaryColor();
     }
 }

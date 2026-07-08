@@ -1,6 +1,7 @@
 package com.zenith.module.impl;
 
 import com.github.rfresh2.EventConsumer;
+import com.zenith.Lang;
 import com.zenith.Proxy;
 import com.zenith.event.queue.QueuePositionUpdateEvent;
 import com.zenith.event.server.ServerPlayerConnectedEvent;
@@ -78,19 +79,19 @@ public class ExtraChat extends Module {
         if (!CONFIG.client.extra.chat.showConnectionMessages) return;
         var serverConnection = Proxy.getInstance().getCurrentPlayer().get();
         if (nonNull(serverConnection) && serverConnection.isLoggedIn())
-            serverConnection.sendAsyncMessage(minimessage("<aqua>" + event.playerEntry().getName() + "<yellow> disconnected"));
+            serverConnection.sendAsyncMessage(minimessage("<aqua>" + event.playerEntry().getName() + "<yellow> " + Lang.t("desconectado", "disconnected")));
     }
 
     private void handleServerPlayerConnected(ServerPlayerConnectedEvent event) {
         if (!CONFIG.client.extra.chat.showConnectionMessages) return;
         var serverConnection = Proxy.getInstance().getCurrentPlayer().get();
         if (nonNull(serverConnection) && serverConnection.isLoggedIn())
-            serverConnection.sendAsyncMessage(minimessage("<aqua>" + event.playerEntry().getName() + "<yellow> connected"));
+            serverConnection.sendAsyncMessage(minimessage("<aqua>" + event.playerEntry().getName() + "<yellow> " + Lang.t("conectado", "connected")));
     }
 
     private void handleQueuePositionUpdate(QueuePositionUpdateEvent event) {
         if (!CONFIG.client.extra.logChatMessages || !CONFIG.client.extra.logOnlyQueuePositionUpdates) return;
-        CHAT_LOG.info(Component.text("Position in queue: " + event.position()).color(NamedTextColor.GOLD));
+        CHAT_LOG.info(Component.text(Lang.t("Posicion en cola: ", "Position in queue: ") + event.position()).color(NamedTextColor.GOLD));
     }
 
     private static final Pattern urlPattern = Pattern.compile("(?i)(?<link>[a-z0-9:/]+(www\\.)?[-a-z0-9@:%._+~#=]+\\.[a-z0-9()]{1,6}\\b([-a-z0-9()@:%_+.~#?&/=]*))");

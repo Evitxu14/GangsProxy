@@ -70,7 +70,7 @@ public class JvmArgsCommand extends Command {
                 saveLaunchConfig();
                 c.getSource().getEmbed()
                     .title("JVM Args Set")
-                    .description("**JVM Args:**\n" + escape(LAUNCH_CONFIG.custom_jvm_args) + "\nRestart gangsproxy for changes to take effect: `restart`")
+                    .description(Lang.t("**Argumentos JVM:**\n", "**JVM Args:**\n") + escape(LAUNCH_CONFIG.custom_jvm_args) + Lang.t("\nReinicia gangsproxy para que los cambios surtan efecto: `restart`", "\nRestart gangsproxy for changes to take effect: `restart`"))
                     .primaryColor();
                 return OK;
             })))
@@ -78,8 +78,8 @@ public class JvmArgsCommand extends Command {
                 LAUNCH_CONFIG.custom_jvm_args = getString(c, "args");
                 saveLaunchConfig();
                 c.getSource().getEmbed()
-                    .title("JVM Args Set")
-                    .description("**JVM Args:**\n" + escape(LAUNCH_CONFIG.custom_jvm_args) + "\nRestart gangsproxy for changes to take effect: `restart`");
+                    .title(Lang.t("Argumentos JVM Establecidos", "JVM Args Set"))
+                    .description(Lang.t("**Argumentos JVM:**\n", "**JVM Args:**\n") + escape(LAUNCH_CONFIG.custom_jvm_args) + Lang.t("\nReinicia gangsproxy para que los cambios surtan efecto: `restart`", "\nRestart gangsproxy for changes to take effect: `restart`"));
                 return OK;
             })));
     }

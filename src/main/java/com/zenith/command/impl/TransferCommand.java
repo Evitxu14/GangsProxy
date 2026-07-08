@@ -88,9 +88,9 @@ public class TransferCommand extends Command {
     private void transfer(CommandContext ctx, String address, int port, ServerSession... connections) {
         if (connections.length == 0) {
             ctx.getEmbed()
-                .title("Error")
+                .title(Lang.t("Error", "Error"))
                 .errorColor()
-                .description("No players to transfer.");
+                .description(Lang.t("No hay jugadores para transferir.", "No players to transfer."));
             return;
         }
         for (int i = 0; i < connections.length; i++) {
@@ -98,11 +98,11 @@ public class TransferCommand extends Command {
             connection.transfer(address, port);
         }
         ctx.getEmbed()
-            .title("Transferred " + connections.length + " player(s)")
+            .title(Lang.t("Transferido(s) ", "Transferred ") + connections.length + Lang.t(" jugador(es)", " player(s)"))
             .primaryColor()
-            .addField("Address", address)
-            .addField("Port", port)
-            .addField("Players", String.join(", ", Stream.of(connections).map(ServerSession::getName).toList()));
+            .addField(Lang.t("Dirección", "Address"), address)
+            .addField(Lang.t("Puerto", "Port"), port)
+            .addField(Lang.t("Jugadores", "Players"), String.join(", ", Stream.of(connections).map(ServerSession::getName).toList()));
     }
 
     private int resolvePort(String address) {

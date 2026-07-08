@@ -158,13 +158,13 @@ public class Globals {
                     ? KotlinUtil.getKotlinObject(configClass)
                     : configClass.getDeclaredConstructor().newInstance();
             }
-            DEFAULT_LOG.info("{} loaded.", file.getName());
+            DEFAULT_LOG.info(Lang.t("{} cargado.", "{} loaded."), file.getName());
             return config;
         } catch (final Throwable e) {
             e.printStackTrace();
-            DEFAULT_LOG.error("Unable to load config: {}", file.getName(), e);
-            DEFAULT_LOG.error("{} must be manually fixed or deleted", file.getName());
-            DEFAULT_LOG.error("Shutting down in 10s");
+            DEFAULT_LOG.error(Lang.t("No se pudo cargar config: {}", "Unable to load config: {}"), file.getName(), e);
+            DEFAULT_LOG.error(Lang.t("{} debe arreglarse o eliminarse manualmente", "{} must be manually fixed or deleted"), file.getName());
+            DEFAULT_LOG.error(Lang.t("Apagando en 10s", "Shutting down in 10s"));
             Wait.wait(10);
             System.exit(1);
             return null;
@@ -248,7 +248,7 @@ public class Globals {
             BARITONE = new Baritone();
             GUI = new InGameGuiManager();
         } catch (final Throwable e) {
-            DEFAULT_LOG.error("Unable to initialize!", e);
+            DEFAULT_LOG.error(Lang.t("No se pudo inicializar!", "Unable to initialize!"), e);
             throw e;
         }
     }
