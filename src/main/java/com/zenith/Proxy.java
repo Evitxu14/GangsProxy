@@ -328,8 +328,8 @@ public class Proxy {
         if (server == null || !server.isListening()) return;
         if (!CONFIG.server.ping.enabled) return;
         var address = CONFIG.server.getProxyAddress();
-        if (address.startsWith("localhost")) {
-            SERVER_LOG.debug("Proxy IP is set to localhost, skipping connection test");
+        if (address.startsWith("localhost") || address.startsWith("127.") || address.startsWith("192.168.") || address.startsWith("10.") || address.startsWith("172.")) {
+            SERVER_LOG.debug("Proxy IP is set to local/private IP, skipping connection test");
             return;
         }
         MCSrvStatusApi.INSTANCE.getMCSrvStatus(CONFIG.server.getProxyAddress())

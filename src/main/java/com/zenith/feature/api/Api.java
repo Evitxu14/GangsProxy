@@ -31,7 +31,7 @@ public abstract class Api {
             var response = client
                 .send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() >= 400) {
-                DEFAULT_LOG.error("Request failed to: {}{} - {}", baseUrl, uri, response.statusCode());
+                DEFAULT_LOG.warn("Request failed to: {}{} - {}", baseUrl, uri, response.statusCode());
                 return Optional.empty();
             }
             var body = response.body();
@@ -42,7 +42,7 @@ public abstract class Api {
                 return Optional.empty();
             }
         } catch (Exception e) {
-            DEFAULT_LOG.error("Request failed to: {}{}", baseUrl, uri, e);
+            DEFAULT_LOG.warn("Request failed to: {}{} - {}", baseUrl, uri, e.toString());
             return Optional.empty();
         }
     }
@@ -65,6 +65,6 @@ public abstract class Api {
         return HttpRequest.newBuilder()
             .uri(URI.create(baseUrl + uri))
             .headers("User-Agent", "gangsproxy/" + VERSION)
-            .timeout(Duration.ofSeconds(15));
+            .timeout(Duration.ofSeconds(5));
     }
 }
