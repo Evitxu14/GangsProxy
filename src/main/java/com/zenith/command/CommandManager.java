@@ -9,6 +9,7 @@ import com.mojang.brigadier.context.ParsedCommandNode;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.tree.LiteralCommandNode;
+import com.zenith.Lang;
 import com.zenith.command.api.*;
 import com.zenith.command.brigadier.CaseInsensitiveLiteralCommandNode;
 import com.zenith.command.brigadier.McplBrigadierConverter;
@@ -28,6 +29,101 @@ import static java.util.Arrays.asList;
 
 @Getter
 public class CommandManager {
+    private static final java.util.Map<String, String> SPANISH_ALIASES = java.util.Map.ofEntries(
+        java.util.Map.entry("actionLimiter", "limitadorAccion"),
+        java.util.Map.entry("activeHours", "horasActivas"),
+        java.util.Map.entry("antiAFK", "antiAfk"),
+        java.util.Map.entry("antiKick", "antiKick"),
+        java.util.Map.entry("antiLeak", "antiFuga"),
+        java.util.Map.entry("auth", "autenticar"),
+        java.util.Map.entry("autoArmor", "autoArmadura"),
+        java.util.Map.entry("autoDisconnect", "autoDesconectar"),
+        java.util.Map.entry("autoDrop", "autoSoltar"),
+        java.util.Map.entry("autoEat", "autoComer"),
+        java.util.Map.entry("autoFish", "autoPescar"),
+        java.util.Map.entry("autoMend", "autoReparar"),
+        java.util.Map.entry("autoOmen", "autoAugurio"),
+        java.util.Map.entry("autoReconnect", "autoReconectar"),
+        java.util.Map.entry("autoReply", "autoResponder"),
+        java.util.Map.entry("autoRespawn", "autoReaparecer"),
+        java.util.Map.entry("autoTotem", "autoTotem"),
+        java.util.Map.entry("autoUpdate", "autoActualizar"),
+        java.util.Map.entry("channel", "canal"),
+        java.util.Map.entry("chatHistory", "historialChat"),
+        java.util.Map.entry("chatRelay", "retransmisionChat"),
+        java.util.Map.entry("chatSchema", "esquemaChat"),
+        java.util.Map.entry("click", "clic"),
+        java.util.Map.entry("clientConnection", "conexionCliente"),
+        java.util.Map.entry("commandConfig", "configComando"),
+        java.util.Map.entry("connect", "conectar"),
+        java.util.Map.entry("connectionTest", "pruebaConexion"),
+        java.util.Map.entry("coordobf", "ofuscarCoord"),
+        java.util.Map.entry("database", "baseDatos"),
+        java.util.Map.entry("debug", "depurar"),
+        java.util.Map.entry("disconnect", "desconectar"),
+        java.util.Map.entry("discord", "discord"),
+        java.util.Map.entry("discordNotifications", "notificacionesDiscord"),
+        java.util.Map.entry("displayCoords", "mostrarCoord"),
+        java.util.Map.entry("extraChat", "chatExtra"),
+        java.util.Map.entry("friend", "amigo"),
+        java.util.Map.entry("help", "ayuda"),
+        java.util.Map.entry("ignore", "ignorar"),
+        java.util.Map.entry("inventory", "inventario"),
+        java.util.Map.entry("jvmArgs", "argumentosJvm"),
+        java.util.Map.entry("kick", "expulsar"),
+        java.util.Map.entry("killAura", "killAura"),
+        java.util.Map.entry("license", "licencia"),
+        java.util.Map.entry("map", "mapa"),
+        java.util.Map.entry("modulePriority", "prioridadModulo"),
+        java.util.Map.entry("multi", "multi"),
+        java.util.Map.entry("packetLog", "registroPaquetes"),
+        java.util.Map.entry("pathfinder", "buscadorRuta"),
+        java.util.Map.entry("pearlLoader", "cargadorPerla"),
+        java.util.Map.entry("playtime", "tiempoJuego"),
+        java.util.Map.entry("plugins", "plugins"),
+        java.util.Map.entry("prio", "prio"),
+        java.util.Map.entry("queueStatus", "estadoCola"),
+        java.util.Map.entry("queueWarning", "avisoCola"),
+        java.util.Map.entry("rateLimiter", "limitadorTasa"),
+        java.util.Map.entry("raycast", "raycast"),
+        java.util.Map.entry("reconnect", "reconectar"),
+        java.util.Map.entry("replay", "repeticion"),
+        java.util.Map.entry("requeue", "recolocar"),
+        java.util.Map.entry("respawn", "reaparecer"),
+        java.util.Map.entry("rotate", "rotar"),
+        java.util.Map.entry("seen", "visto"),
+        java.util.Map.entry("sendMessage", "enviarMensaje"),
+        java.util.Map.entry("server", "servidor"),
+        java.util.Map.entry("serverConnection", "conexionServidor"),
+        java.util.Map.entry("sessionTimeLimit", "limiteTiempoSesion"),
+        java.util.Map.entry("shutdown", "apagar"),
+        java.util.Map.entry("skin", "piel"),
+        java.util.Map.entry("spammer", "spammer"),
+        java.util.Map.entry("spawnPatrol", "patrullaAparicion"),
+        java.util.Map.entry("spectator", "espectador"),
+        java.util.Map.entry("spectatorEntity", "entidadEspectador"),
+        java.util.Map.entry("entityToggle", "alternarEntidad"),
+        java.util.Map.entry("playerCam", "camJugador"),
+        java.util.Map.entry("swap", "intercambiar"),
+        java.util.Map.entry("spook", "spook"),
+        java.util.Map.entry("stalk", "acechar"),
+        java.util.Map.entry("stats", "estadisticas"),
+        java.util.Map.entry("status", "estado"),
+        java.util.Map.entry("switch", "cambiar"),
+        java.util.Map.entry("tablist", "listaPestanas"),
+        java.util.Map.entry("tasks", "tareas"),
+        java.util.Map.entry("terminal", "terminal"),
+        java.util.Map.entry("theme", "tema"),
+        java.util.Map.entry("tickRate", "tasaTicks"),
+        java.util.Map.entry("transfer", "transferir"),
+        java.util.Map.entry("unsupported", "noSoportado"),
+        java.util.Map.entry("update", "actualizar"),
+        java.util.Map.entry("via", "via"),
+        java.util.Map.entry("visualRange", "rangoVisual"),
+        java.util.Map.entry("waypoints", "puntosRuta"),
+        java.util.Map.entry("whitelist", "listaBlanca")
+    );
+
     private final List<Command> commandsList = Lists.newArrayList(
         new ActionLimiterCommand(),
         new ActiveHoursCommand(),
@@ -158,11 +254,32 @@ public class CommandManager {
 
     void registerCommand(final Command command) {
         LiteralArgumentBuilder<CommandContext> cmdBuilder = command.register();
-        if (dispatcher.getRoot().getChild(cmdBuilder.getLiteral()) != null) {
-            DEFAULT_LOG.warn("Duplicate command being registered: {}", cmdBuilder.getLiteral(), new RuntimeException());
+        String englishLiteral = cmdBuilder.getLiteral();
+        if (dispatcher.getRoot().getChild(englishLiteral) != null) {
+            DEFAULT_LOG.warn("Duplicate command being registered: {}", englishLiteral, new RuntimeException());
+        }
+        if (Lang.isEs()) {
+            String spanishLiteral = SPANISH_ALIASES.get(englishLiteral);
+            if (spanishLiteral != null) {
+                LiteralCommandNode<CommandContext> englishNode = cmdBuilder.build();
+                var root = dispatcher.getRoot();
+                if (root.getChild(spanishLiteral) == null) {
+                    dispatcher.register(command.redirect(spanishLiteral, englishNode));
+                }
+                command.commandUsage().getAliases().forEach(alias -> {
+                    if (root.getChild(alias) == null) {
+                        dispatcher.register(command.redirect(alias, englishNode));
+                    }
+                });
+                return;
+            }
         }
         final LiteralCommandNode<CommandContext> node = dispatcher.register(cmdBuilder);
-        command.commandUsage().getAliases().forEach(alias -> dispatcher.register(command.redirect(alias, node)));
+        command.commandUsage().getAliases().forEach(alias -> {
+            if (dispatcher.getRoot().getChild(alias) == null) {
+                dispatcher.register(command.redirect(alias, node));
+            }
+        });
     }
 
     @Locked
