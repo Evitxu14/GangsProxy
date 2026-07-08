@@ -145,7 +145,7 @@ tasks {
 		)
         jvmArgs = args
         standardInput = System.`in`
-        environment("ZENITH_DEV", "true")
+        environment("GANGS_DEV", "true")
         outputs.upToDateWhen { false }
     }
     val javaPathTask = register<JavaPathTask>("javaPath") {
@@ -160,7 +160,7 @@ tasks {
         mainClass.set("com.zenith.util.CommandDocsGenerator")
         val outputFile = project.layout.buildDirectory.file("Commands.md")
         args = listOf(outputFile.get().asFile.absolutePath)
-        environment("ZENITH_DEV", "true")
+        environment("GANGS_DEV", "true")
         jvmArgs = listOf("-Xmx300m", "--enable-native-access=ALL-UNNAMED", "--sun-misc-unsafe-memory-access=allow")
         outputs.file(outputFile)
     }
@@ -219,7 +219,7 @@ tasks {
 
         manifest {
             attributes(mapOf(
-                "Implementation-Title" to "ZenithProxy",
+                "Implementation-Title" to "GangsProxy",
                 "Implementation-Version" to project.version,
                 "Main-Class" to "com.zenith.Proxy",
                 "Multi-Release" to "true",
@@ -245,7 +245,7 @@ graalvmNative {
     binaries {
         named("main") {
             javaLauncher = graalVMJavaLauncher
-            imageName = "ZenithProxy"
+            imageName = "GangsProxy"
             mainClass = "com.zenith.Proxy"
             quickBuild = false
             verbose = true
@@ -344,14 +344,14 @@ publishing {
     publications {
         create<MavenPublication>("snapshot") {
             groupId = "com.zenith"
-            artifactId = "ZenithProxy"
+            artifactId = "GangsProxy"
             version = "${project.version}-SNAPSHOT"
             from(components["java"])
         }
         create<MavenPublication>("release") {
             groupId = "com.zenith"
-            artifactId = "ZenithProxy"
-            version = providers.environmentVariable("ZENITH_RELEASE_TAG").orElse("0.0.0+${project.version}").get()
+            artifactId = "GangsProxy"
+            version = providers.environmentVariable("GANGS_RELEASE_TAG").orElse("0.0.0+${project.version}").get()
             from(components["java"])
         }
     }

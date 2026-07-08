@@ -33,7 +33,7 @@ public class ReplayMetadata {
      * Minecraft protocol version. Mandatory for `fileFormatVersion >= 13`.
      */
     private int protocol;
-    private final String generator = "ZenithProxy " + VERSION;
+    private final String generator = "gangsproxy " + VERSION;
     /**
      * The entity id of the player manually added to this replay which represents the recording player.
      * Must be a valid entity id (e.g. must not be -1). May not be set.

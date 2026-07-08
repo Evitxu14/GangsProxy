@@ -21,7 +21,7 @@ public class JvmArgsCommand extends Command {
             .name("jvmArgs")
             .category(CommandCategory.MANAGE)
             .description("""
-              Configures ZenithProxy's JVM arguments used by the launcher.
+              Configures gangsproxy's JVM arguments used by the launcher.
               
               By default, this is empty and a set of default JVM arguments are used.
               
@@ -33,7 +33,7 @@ public class JvmArgsCommand extends Command {
               
               You should only need to increase this if the server view distance is > 15.
               
-              Be warned, changing this setting can cause ZenithProxy to be unable to restart. You will need to manually
+              Be warned, changing this setting can cause gangsproxy to be unable to restart. You will need to manually
               edit the `launch_config.json` to fix this if that happens.
               """)
             .usageLines(
@@ -53,7 +53,7 @@ public class JvmArgsCommand extends Command {
                 saveLaunchConfig();
                 c.getSource().getEmbed()
                     .title("JVM Args Reset")
-                    .description("Restart ZenithProxy for changes to take effect: `restart`")
+                    .description("Restart gangsproxy for changes to take effect: `restart`")
                     .primaryColor();
             }))
             .then(literal("get").executes(c -> {
@@ -69,7 +69,7 @@ public class JvmArgsCommand extends Command {
                 saveLaunchConfig();
                 c.getSource().getEmbed()
                     .title("JVM Args Set")
-                    .description("**JVM Args:**\n" + escape(LAUNCH_CONFIG.custom_jvm_args) + "\nRestart ZenithProxy for changes to take effect: `restart`")
+                    .description("**JVM Args:**\n" + escape(LAUNCH_CONFIG.custom_jvm_args) + "\nRestart gangsproxy for changes to take effect: `restart`")
                     .primaryColor();
                 return OK;
             })))
@@ -78,7 +78,7 @@ public class JvmArgsCommand extends Command {
                 saveLaunchConfig();
                 c.getSource().getEmbed()
                     .title("JVM Args Set")
-                    .description("**JVM Args:**\n" + escape(LAUNCH_CONFIG.custom_jvm_args) + "\nRestart ZenithProxy for changes to take effect: `restart`");
+                    .description("**JVM Args:**\n" + escape(LAUNCH_CONFIG.custom_jvm_args) + "\nRestart gangsproxy for changes to take effect: `restart`");
                 return OK;
             })));
     }

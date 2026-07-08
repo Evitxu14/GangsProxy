@@ -16,7 +16,7 @@ if sys.version_info[1] < 10:
 
 from log import info, critical_error
 
-info("ZenithProxy Launcher Initializing...")
+info("GangsProxy Launcher Initializing...")
 info(f"Python Version: {sys.version_info[0]}.{sys.version_info[1]}.{sys.version_info[2]}")
 
 import certifi
@@ -26,7 +26,7 @@ from launch_config import LaunchConfig, read_launch_config_file
 from launcher import launcher_exec
 from setup import setup_execute, rescue_invalid_system, setup_unattended
 from update_launcher import update_launcher_exec
-from update_zenith import update_zenith_exec
+from update_zenith import update_GANGS_exec
 
 ssl._create_default_https_context = lambda: ssl.create_default_context(cafile=certifi.where())
 
@@ -97,7 +97,7 @@ try:
             no_launcher_update = False
         else:
             update_launcher_exec(config, api)
-        update_zenith_exec(config, api)
+        update_GANGS_exec(config, api)
         launcher_exec(config)
         info("Restarting...")
         time.sleep(3)

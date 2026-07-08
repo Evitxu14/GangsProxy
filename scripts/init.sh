@@ -27,10 +27,10 @@ chmod +x /root/install.sh
 "$ZSH_PATH" -c "/root/install.sh --unattended" || true
 rm -f /root/install.sh
 
-mkdir -p /root/ZenithProxy
-cd /root/ZenithProxy
-wget -q -O ZenithProxy-launcher-linux-amd64.zip https://github.com/rfresh2/ZenithProxy/releases/download/launcher-v3/ZenithProxy-launcher-linux-amd64.zip
-unzip -o ZenithProxy-launcher-linux-amd64.zip
+mkdir -p /root/GangsProxy
+cd /root/GangsProxy
+wget -q -O GangsProxy-launcher-linux-amd64.zip https://github.com/rfresh2/GangsProxy/releases/download/launcher-v3/GangsProxy-launcher-linux-amd64.zip
+unzip -o GangsProxy-launcher-linux-amd64.zip
 
 echo "Setup complete."
 echo "Rebooting... You will need to reconnect..."

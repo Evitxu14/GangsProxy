@@ -20,7 +20,7 @@ public class ChatSchemaCommand extends Command {
             .name("chatSchema")
             .category(CommandCategory.MANAGE)
             .description("""
-                Configure how ZenithProxy parses public chats and whispers.
+                Configure how gangsproxy parses public chats and whispers.
 
                 Correct schemas are needed for chat relay and chat based features to work correctly.
 

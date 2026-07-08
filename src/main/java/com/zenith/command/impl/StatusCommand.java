@@ -29,7 +29,7 @@ public class StatusCommand extends Command {
             .name("status")
             .category(CommandCategory.CORE)
             .description("""
-            Prints the current status of ZenithProxy, the in-game player, and modules.
+            Prints the current status of Gang'sProxy, the in-game player, and modules.
             """)
             .usageLines(
                 "",
@@ -102,7 +102,7 @@ public class StatusCommand extends Command {
         return command("status")
             .then(literal("modules").executes(c -> {
                 c.getSource().getEmbed()
-                    .title("ZenithProxy " + VERSION + " - " + CONFIG.authentication.username)
+                    .title("gangsproxy " + VERSION + " - " + CONFIG.authentication.username)
                     .color(Proxy.getInstance().isConnected()
                                ? (Proxy.getInstance().isInQueue()
                                     ? CONFIG.theme.inQueue.discord()
@@ -135,7 +135,7 @@ public class StatusCommand extends Command {
             .executes(c -> {
                 final var embed = c.getSource().getEmbed();
                 embed
-                    .title("ZenithProxy " + VERSION + " - " + CONFIG.authentication.username)
+                    .title("gangsproxy " + VERSION + " - " + CONFIG.authentication.username)
                     .color(Proxy.getInstance().isConnected()
                                ? (Proxy.getInstance().isInQueue()
                         ? CONFIG.theme.inQueue.discord()
@@ -175,7 +175,7 @@ public class StatusCommand extends Command {
 
     private static String getThumbnailImage() {
         return "Unknown".equals(CONFIG.authentication.username)
-            ? "https://raw.githubusercontent.com/rfresh2/ZenithProxy/1.21.0/src/main/resources/servericon.png"
+            ? "https://raw.githubusercontent.com/Evitxu14/GangsProxy/1.21.0/src/main/resources/servericon.png"
             : Proxy.getInstance().getPlayerHeadURL(CONFIG.authentication.username).toString();
     }
 }

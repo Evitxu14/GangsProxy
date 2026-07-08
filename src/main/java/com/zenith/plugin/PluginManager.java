@@ -149,7 +149,7 @@ public class PluginManager {
     private void preLoadPluginsFromSystemClasspath() {
         try {
             // must be called before plugin jar discovery where classloaders are opened
-            var resources = ClassLoader.getSystemClassLoader().getResources("zenithproxy.plugin.json");
+            var resources = ClassLoader.getSystemClassLoader().getResources("gangsproxy.plugin.json");
             while (resources.hasMoreElements()) {
                 var resourceUrl = resources.nextElement();
                 try (var in = resourceUrl.openStream()) {
@@ -286,18 +286,18 @@ public class PluginManager {
     @SneakyThrows
     private PluginInfo readPluginInfo(URLClassLoader classLoader, Path path) {
         try {
-            return readPluginInfo(classLoader, "zenithproxy.plugin.json");
+            return readPluginInfo(classLoader, "gangsproxy.plugin.json");
         } catch (Throwable e) {
             if (e.getMessage().contains("not found in jar")) {
                 // fall through
             } else {
-                PLUGIN_LOG.error("Error reading zenithproxy.plugin.json: {}", path, e);
+                PLUGIN_LOG.error("Error reading gangsproxy.plugin.json: {}", path, e);
                 throw e;
             }
         }
         try {
             var plugin = readPluginInfo(classLoader, "plugin.json");
-            PLUGIN_LOG.warn("{} using deprecated plugin.json. Rebuild to migrate to zenithproxy.plugin.json", path);
+            PLUGIN_LOG.warn("{} using deprecated plugin.json. Rebuild to migrate to gangsproxy.plugin.json", path);
             return plugin;
         } catch (Throwable e) {
             if (e.getMessage().endsWith("not found in jar")) {
@@ -307,7 +307,7 @@ public class PluginManager {
                 throw e;
             }
         }
-        throw new RuntimeException("No zenithproxy.plugin.json found in: " + path);
+        throw new RuntimeException("No gangsproxy.plugin.json found in: " + path);
     }
 
     @SneakyThrows

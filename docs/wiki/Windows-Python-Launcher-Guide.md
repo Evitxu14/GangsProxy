@@ -1,4 +1,4 @@
-# ZenithProxy Launcher for Windows
+# GangsProxy Launcher for Windows
 
 ## Prerequisites
 
@@ -8,7 +8,7 @@
 ## Steps
 
 ### Download
-Download `ZenithProxy-launcher-windows-python-amd64.zip` here: https://github.com/rfresh2/ZenithProxy/releases/download/launcher-v3/ZenithProxy-launcher-windows-python-amd64.zip
+Download `GangsProxy-launcher-windows-python-amd64.zip` here: https://github.com/Evitxu14/GangsProxy/releases/download/launcher-v3/GangsProxy-launcher-windows-python-amd64.zip
 
 ![](./_assets/img/windows-setup/Windows-Python-Launcher-1.png)
 

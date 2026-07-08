@@ -1,7 +1,7 @@
 # Disconnect Reasons Wiki
 
 ### What is this?
-Users constantly send me screenshots and messages of ZenithProxy's disconnect messages asking "why?".
+Users constantly send me screenshots and messages of GangsProxy's disconnect messages asking "why?".
 
 Instead of spending many hours repeating myself, this wiki is meant to document this for each kind of disconnect reason.
 
@@ -27,23 +27,23 @@ You can be kicked by 2b2t for:
 ## Manual Disconnect
 > Manual Disconnect
 
-Generic disconnect reason sent by ZenithProxy when a user runs the `disconnect` command.
+Generic disconnect reason sent by GangsProxy when a user runs the `disconnect` command.
 
-Can also be sent by other ZenithProxy modules performing disconnects like `autoDisconnect autoClientDisconnect`
+Can also be sent by other GangsProxy modules performing disconnects like `autoDisconnect autoClientDisconnect`
 
-## ZenithProxy Modules
+## GangsProxy Modules
 > System disconnect
 
 > AutoDisconnect
 
-Generic disconnect reason sent by various ZenithProxy modules like ActiveHours
+Generic disconnect reason sent by various GangsProxy modules like ActiveHours
 
 ## Connection Issue
 > Read timed out.
 
-ZenithProxy will trigger a disconnect if it has not received any packets from the destination server (i.e. 2b2t) for a configurable time length (default 60 seconds). This will occur due to internet connection issues on either your side or 2b2t's.
+GangsProxy will trigger a disconnect if it has not received any packets from the destination server (i.e. 2b2t) for a configurable time length (default 60 seconds). This will occur due to internet connection issues on either your side or 2b2t's.
 
-You can configure ZenithProxy's behavior with commands, see `help clientConnection`
+You can configure GangsProxy's behavior with commands, see `help clientConnection`
 
 > Connection closed
 
@@ -84,7 +84,7 @@ Can occur if you have bad credentials for the proxy, or can occur because proxy 
 ## Authentication Failure
 > Login Failed
 
-ZenithProxy was unable to login to your Minecraft account. Could occur if you enter bad credentials, or those credentials expire, or Microsoft requires you to do some action to unlock your account.
+GangsProxy was unable to login to your Minecraft account. Could occur if you enter bad credentials, or those credentials expire, or Microsoft requires you to do some action to unlock your account.
 
 Often, logging into the account in the vanilla MC launcher and joining a server will resolve authentication issues.
 
@@ -93,7 +93,7 @@ Often, logging into the account in the vanilla MC launcher and joining a server 
 
 > You are logging in too fast
 
-ZenithProxy is either unable to login to your MC account or join a server because Microsoft has rate limited the login. Try waiting a few minutes before trying to login again.
+GangsProxy is either unable to login to your MC account or join a server because Microsoft has rate limited the login. Try waiting a few minutes before trying to login again.
 
 ## Already Connected
 > You are already connected to this proxy

@@ -55,7 +55,7 @@ public class RateLimiterCommand extends Command {
                           CONFIG.server.loginRateLimiter.rateLimitSeconds = getInteger( c, "seconds");
                           c.getSource().getEmbed()
                               .title("Login Rate Limit Set")
-                              .description("Changes will take effect on next ZenithProxy restart.");
+                              .description("Changes will take effect on next gangsproxy restart.");
                           return OK;
                       }))))
             .then(literal("packet")
@@ -69,7 +69,7 @@ public class RateLimiterCommand extends Command {
                           CONFIG.server.packetRateLimiter.intervalSeconds = getDouble(c, "packetInterval");
                           c.getSource().getEmbed()
                               .title("Packet Interval Set")
-                              .description("Changes will take effect on next ZenithProxy restart.");
+                              .description("Changes will take effect on next gangsproxy restart.");
                           return OK;
                       })))
                       .then(literal("rateLimit").then(argument("rateLimitSeconds", integer(1, 1_000_000)).executes(c -> {

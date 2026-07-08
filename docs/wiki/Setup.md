@@ -21,14 +21,14 @@
 
 ### Downloads
 
-* [Windows x64](https://github.com/rfresh2/ZenithProxy/releases/download/launcher-v3/ZenithProxy-launcher-windows-python-amd64.zip)
-* Linux: [x64](https://github.com/rfresh2/ZenithProxy/releases/download/launcher-v3/ZenithProxy-launcher-linux-amd64.zip) or [aarch64 (ARM)](https://github.com/rfresh2/ZenithProxy/releases/download/launcher-v3/ZenithProxy-launcher-linux-aarch64.zip)
-* Mac: [M-series CPU](https://github.com/rfresh2/ZenithProxy/releases/download/launcher-v3/ZenithProxy-launcher-macos-aarch64.zip) or [x64 (Intel)](https://github.com/rfresh2/ZenithProxy/releases/download/launcher-v3/ZenithProxy-launcher-macos-amd64.zip)
-* Alpine Linux (musl): [x64](https://github.com/rfresh2/ZenithProxy/releases/download/launcher-v3/ZenithProxy-launcher-alpine-amd64.zip) or [aarch64](https://github.com/rfresh2/ZenithProxy/releases/download/launcher-v3/ZenithProxy-launcher-alpine-aarch64.zip)
-* Other: [Python (Universal)](https://github.com/rfresh2/ZenithProxy/releases/download/launcher-v3/ZenithProxy-launcher-python.zip)
+* [Windows x64](https://github.com/Evitxu14/GangsProxy/releases/download/launcher-v3/GangsProxy-launcher-windows-python-amd64.zip)
+* Linux: [x64](https://github.com/Evitxu14/GangsProxy/releases/download/launcher-v3/GangsProxy-launcher-linux-amd64.zip) or [aarch64 (ARM)](https://github.com/Evitxu14/GangsProxy/releases/download/launcher-v3/GangsProxy-launcher-linux-aarch64.zip)
+* Mac: [M-series CPU](https://github.com/Evitxu14/GangsProxy/releases/download/launcher-v3/GangsProxy-launcher-macos-aarch64.zip) or [x64 (Intel)](https://github.com/Evitxu14/GangsProxy/releases/download/launcher-v3/GangsProxy-launcher-macos-amd64.zip)
+* Alpine Linux (musl): [x64](https://github.com/Evitxu14/GangsProxy/releases/download/launcher-v3/GangsProxy-launcher-alpine-amd64.zip) or [aarch64](https://github.com/Evitxu14/GangsProxy/releases/download/launcher-v3/GangsProxy-launcher-alpine-aarch64.zip)
+* Other: [Python (Universal)](https://github.com/Evitxu14/GangsProxy/releases/download/launcher-v3/GangsProxy-launcher-python.zip)
     * Recommended with: [install uv](https://docs.astral.sh/uv/getting-started/installation/#installing-uv)
 
-Source: https://github.com/rfresh2/ZenithProxy/releases/tag/launcher-v3
+Source: https://github.com/Evitxu14/GangsProxy/releases/tag/launcher-v3
 
 #### Instructions
 
@@ -42,7 +42,7 @@ Source: https://github.com/rfresh2/ZenithProxy/releases/tag/launcher-v3
 
     Use [wget](https://linuxize.com/post/wget-command-examples/#how-to-download-a-file-with-wget):
 
-    `wget https://github.com/rfresh2/ZenithProxy/releases/download/launcher-v3/ZenithProxy-launcher-linux-amd64.zip`
+    `wget https://github.com/Evitxu14/GangsProxy/releases/download/launcher-v3/GangsProxy-launcher-linux-amd64.zip`
 
 ??? tip "Recommended unzip tools"
 
@@ -83,7 +83,7 @@ Command Prefixes:
 
 ### Release Channels
 
-ZenithProxy releases for multiple MC versions and OS/hardware platforms, known as "release channels"
+GangsProxy releases for multiple MC versions and OS/hardware platforms, known as "release channels"
 
 **Platforms**
 
@@ -95,9 +95,9 @@ ZenithProxy releases for multiple MC versions and OS/hardware platforms, known a
 * (Default) `1.21.4` - Matches current 2b2t server version
 * Latest MC version is also usually supported. Other MC versions may exist but are deprecated.
 
-??? note "Connecting to or from other MC versions with ZenithProxy's built-in ViaVersion"
+??? note "Connecting to or from other MC versions with GangsProxy's built-in ViaVersion"
 
-    ZenithProxy's built-in ViaVersion is configured by default to work with any MC version.
+    GangsProxy's built-in ViaVersion is configured by default to work with any MC version.
 
     It can be configured with the [`via`](Commands.md#via) command
 
@@ -117,7 +117,7 @@ See the [Linux Guide](Linux-Guide.md)
 
 I highly recommend using a terminal multiplexer - a program that manages terminal sessions.
 
-If you do not use one, **ZenithProxy will be killed after you exit your SSH session.**
+If you do not use one, **GangsProxy will be killed after you exit your SSH session.**
 
 * (Recommended) [tmux](https://tmuxcheatsheet.com/how-to-install-tmux/)
 * [screen](https://linuxize.com/post/how-to-use-linux-screen/)

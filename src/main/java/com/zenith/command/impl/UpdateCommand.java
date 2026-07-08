@@ -16,7 +16,7 @@ public class UpdateCommand extends Command {
         return CommandUsage.builder()
             .name("update")
             .category(CommandCategory.CORE)
-            .description("Restarts and updates ZenithProxy if `autoUpdate` is enabled")
+            .description("Restarts and updates gangsproxy if `autoUpdate` is enabled")
             .aliases(
                 "restart",
                 "reboot"

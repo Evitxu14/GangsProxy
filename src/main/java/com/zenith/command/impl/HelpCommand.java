@@ -17,7 +17,7 @@ public class HelpCommand extends Command {
         return CommandUsage.builder()
             .name("help")
             .category(CommandCategory.CORE)
-            .description("ZenithProxy command list")
+            .description("gangsproxy command list")
             .usageLines(
                 "",
                 "<category>",

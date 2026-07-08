@@ -29,7 +29,7 @@ public class ClientConnectionCommand extends Command {
             .name("clientConnection")
             .category(CommandCategory.MANAGE)
             .description("""
-            Manages the connection configuration from ZenithProxy to the destination MC server.
+            Manages the connection configuration from gangsproxy to the destination MC server.
             """)
             .usageLines(
                 "autoConnect on/off",

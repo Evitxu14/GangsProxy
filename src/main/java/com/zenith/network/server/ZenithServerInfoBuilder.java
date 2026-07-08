@@ -95,7 +95,7 @@ public class ZenithServerInfoBuilder {
         int protocolId = CONFIG.server.viaversion.enabled && session instanceof ServerSession
             ? ((ServerSession) session).getProtocolVersionId()
             : MinecraftCodec.CODEC.getProtocolVersion();
-        return new VersionInfo("ZenithProxy", protocolId);
+        return new VersionInfo("Gang'sProxy", protocolId);
     }
 
     private PlayerInfo getPlayerInfo() {

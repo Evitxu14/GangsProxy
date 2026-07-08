@@ -40,7 +40,7 @@ public class PluginsCommand extends Command {
             .description("""
              [BETA]
 
-             Configures the ZenithProxy plugin manager.
+             Configures the gangsproxy plugin manager.
 
              Plugins are user-created add-ons that add modules and commands.
 
@@ -67,7 +67,7 @@ public class PluginsCommand extends Command {
                 c.getSource().getEmbed()
                     .title("Plugins " + toggleStrCaps(CONFIG.plugins.enabled))
                     .addField("Plugins", toggleStr(CONFIG.plugins.enabled), false)
-                    .description(appendWarningToDescription("Restart ZenithProxy for changes to take effect: `restart`"))
+                    .description(appendWarningToDescription("Restart gangsproxy for changes to take effect: `restart`"))
                     .primaryColor();
             }))
             .then(literal("list").executes(c -> {
@@ -137,7 +137,7 @@ public class PluginsCommand extends Command {
                 }
                 var pluginId = readResult.pluginInfo().id();
                 var existingPlugin = PLUGIN_MANAGER.getPluginInstance(pluginId);
-                String desc = "Restart ZenithProxy to reload plugins: `restart`";
+                String desc = "Restart gangsproxy to reload plugins: `restart`";
                 if (existingPlugin != null) {
                     existingPlugin.getJarPath().toFile().deleteOnExit();
                     desc += "\n\nExisting plugin with ID: `%s` found. It will be replaced/updated on next restart.".formatted(pluginId);
@@ -189,13 +189,13 @@ public class PluginsCommand extends Command {
         var zipUri = URI.create("jar:file:" + jarFile.toURI().getPath());
         try (var fs = FileSystems.newFileSystem(zipUri, Collections.emptyMap())) {
             var root = fs.getPath("/");
-            var pluginJson = root.resolve("zenithproxy.plugin.json");
+            var pluginJson = root.resolve("gangsproxy.plugin.json");
             if (!Files.exists(pluginJson)) {
-                return new PluginInfoReadResult(false, "No zenithproxy.plugin.json found in jar", null);
+                return new PluginInfoReadResult(false, "No gangsproxy.plugin.json found in jar", null);
             }
             // should never be larger than a few kb
             if (Files.size(pluginJson) > 100 * 1024) {
-                return new PluginInfoReadResult(false, "zenithproxy.plugin.json is too large", null);
+                return new PluginInfoReadResult(false, "gangsproxy.plugin.json is too large", null);
             }
             var jsonString = Files.readString(pluginJson);
             var pluginInfo = OBJECT_MAPPER.readValue(jsonString, PluginInfo.class);

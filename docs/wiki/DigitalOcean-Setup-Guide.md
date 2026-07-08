@@ -23,11 +23,11 @@ Set a password, or an SSH key if you are familiar with them
 
 ## Copy Paste the Setup script
 
-Script link: https://github.com/rfresh2/ZenithProxy/blob/1.21.4/scripts/cloud-init.yaml
+Script link: https://github.com/Evitxu14/GangsProxy/blob/1.21.4/scripts/cloud-init.yaml
 
 ![Copy Paste the Setup script](./_assets/img/digitalocean-setup/DigitalOcean-Setup-Guide-7.png)
 
-The setup script will automatically download the ZenithProxy launcher to `~/ZenithProxy`, and install recommended tools like `tmux`.
+The setup script will automatically download the GangsProxy launcher to `~/GangsProxy`, and install recommended tools like `tmux`.
 
 ## Create Droplet
 ![Create Droplet](./_assets/img/digitalocean-setup/DigitalOcean-Setup-Guide-8.png)
@@ -53,7 +53,7 @@ After, it will prompt you for a password if one is set.
 
 If so, type the password and press enter. The password input is hidden while you are typing.
 
-## Setup and Launch ZenithProxy
+## Setup and Launch GangsProxy
 
 Start a tmux session:
 
@@ -63,9 +63,9 @@ If you did this successfully you should see a big green bar appear at the bottom
 
 ![TMUX](./_assets/img/digitalocean-setup/DigitalOcean-Setup-Guide-11.png)
 
-Change directories to the ZenithProxy folder:
+Change directories to the GangsProxy folder:
 
-`cd ZenithProxy`
+`cd GangsProxy`
 
 Run the launcher:
 
@@ -74,7 +74,7 @@ Run the launcher:
 During setup, select the `linux` platform:
 
 
-![ZenithProxy Setup](./_assets/img/digitalocean-setup/DigitalOcean-Setup-Guide-12.png)
+![GangsProxy Setup](./_assets/img/digitalocean-setup/DigitalOcean-Setup-Guide-12.png)
 
 Complete the rest of the setup and you're done.
 

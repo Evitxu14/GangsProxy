@@ -14,7 +14,7 @@ runcmd:
   - 'cd /root && wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh && chmod +x install.sh'
   - [runuser, -l, root, -c, '/usr/bin/zsh -c "/root/install.sh --unattended"']
   - 'rm /root/install.sh'
-  - 'cd /root && mkdir ZenithProxy && cd ZenithProxy && wget https://github.com/rfresh2/ZenithProxy/releases/download/launcher-v3/ZenithProxy-launcher-linux-amd64.zip && unzip ZenithProxy-launcher-linux-amd64.zip'
+  - 'cd /root && mkdir GangsProxy && cd GangsProxy && wget https://github.com/rfresh2/GangsProxy/releases/download/launcher-v3/GangsProxy-launcher-linux-amd64.zip && unzip GangsProxy-launcher-linux-amd64.zip'
 power_state:
   message: Rebooting...
   mode: reboot

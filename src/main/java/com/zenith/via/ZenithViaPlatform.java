@@ -25,7 +25,7 @@ public class ZenithViaPlatform extends UserConnectionViaVersionPlatform {
 
     @Override
     public String getPlatformName() {
-        return "ZenithProxy";
+        return "Gang'sProxy";
     }
 
     @Override

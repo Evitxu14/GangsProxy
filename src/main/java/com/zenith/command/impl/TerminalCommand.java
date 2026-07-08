@@ -14,7 +14,7 @@ public class TerminalCommand extends Command {
             .name("terminal")
             .category(CommandCategory.MANAGE)
             .description("""
-                Configures the ZenithProxy interactive terminal.
+                Configures the gangsproxy interactive terminal.
 
                 All subcommands only usable from the terminal.
                 """)

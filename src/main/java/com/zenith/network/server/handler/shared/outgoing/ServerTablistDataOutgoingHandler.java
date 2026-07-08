@@ -15,7 +15,7 @@ public class ServerTablistDataOutgoingHandler implements PacketHandler<Clientbou
     // todo: allow users to configure the contents of this
     private static final String footerMinimessage = """
 
-        <aqua><bold>ZenithProxy
+        <aqua><bold>Gang'sProxy
         <session_profile_name> </bold><gray>[<dark_aqua><session_ping>ms<gray>] <gray>-> <aqua><bold><client_profile_name> </bold><gray>[<dark_aqua><client_ping>ms<gray>]
         <blue>Online: <aqua><bold><online_time></bold> <gray>- <blue>TPS: <aqua><bold><tps>
         """;

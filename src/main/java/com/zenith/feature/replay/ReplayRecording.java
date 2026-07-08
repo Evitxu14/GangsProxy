@@ -51,7 +51,7 @@ public class ReplayRecording implements Closeable {
     private final ExecutorService executor = Executors.newFixedThreadPool(
         1,
         new ThreadFactoryBuilder()
-            .setNameFormat("ZenithProxy ReplayMod PacketHandler #%d")
+            .setNameFormat("gangsproxy ReplayMod PacketHandler #%d")
             .setDaemon(true)
             .setUncaughtExceptionHandler((t, e) -> MODULE.get(ReplayMod.class).error("Uncaught exception in thread {}", t.getName(), e))
             .build());

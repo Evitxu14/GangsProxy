@@ -32,7 +32,7 @@ public class ActiveHoursCommand extends Command {
             .name("activeHours")
             .category(CommandCategory.MODULE)
             .description("""
-            Set times for ZenithProxy to automatically connect at.
+            Set times for gangsproxy to automatically connect at.
 
             By default, 2b2t's queue wait ETA is used to determine when to log in.
             The connect will occur when the current time plus the ETA is equal to a time set.

@@ -26,8 +26,8 @@ public class ViaVersionCommand extends Command {
             .description("""
              Configure the integrated ViaVersion module.
 
-             `zenithToServer` -> ZenithProxy connecting to the MC server
-             `playerToZenith` -> players connecting to ZenithProxy
+             `zenithToServer` -> gangsproxy connecting to the MC server
+             `playerToZenith` -> players connecting to Gang'sProxy
              """)
             .usageLines(
                 "zenithToServer on/off",

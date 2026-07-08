@@ -128,8 +128,8 @@ public class ServerSession extends TcpServerSession {
      * Team data
      */
     protected List<String> currentTeamMembers = new ArrayList<>();
-    private static final String teamName = "ZenithProxy";
-    private static final Component displayName = Component.text("ZenithProxy");
+    private static final String teamName = "Gang'sProxy";
+    private static final Component displayName = Component.text("Gang'sProxy");
     private static final Component prefix = Component.text("");
     private static final Component suffix = Component.text("");
     private static final boolean friendlyFire = false;
@@ -158,7 +158,7 @@ public class ServerSession extends TcpServerSession {
             if (CONFIG.server.packetRateLimiter.enabled) {
                 if (getPacketRateLimiter().countPacket()) {
                     getPacketRateLimiter().setActive(false); // avoid spam from subsequent queued packets
-                    disconnect(Component.text("[ZenithProxy] Packet rate limit exceeded"));
+                    disconnect(Component.text("[Gang'sProxy] Packet rate limit exceeded"));
                     return;
                 }
             }
@@ -296,7 +296,7 @@ public class ServerSession extends TcpServerSession {
 
     public void sendAsyncAlert(final String minimessage) {
         this.sendAsync(new ClientboundSystemChatPacket(
-            ComponentSerializer.minimessage("<gray>[<aqua>ZenithProxy<gray>] <reset>" + minimessage), false));
+            ComponentSerializer.minimessage("<gray>[<aqua>Gang'sProxy<gray>] <reset>" + minimessage), false));
     }
 
     public void sendAsyncMessage(final Component message) {

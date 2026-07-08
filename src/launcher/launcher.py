@@ -36,8 +36,8 @@ def git_build():
 
 
 def launch_linux(config):
-    if not os.path.isfile(config.launch_dir + "ZenithProxy"):
-        critical_error("ZenithProxy executable not found")
+    if not os.path.isfile(config.launch_dir + "GangsProxy"):
+        critical_error("GangsProxy executable not found")
     if config.custom_jvm_args is not None and config.custom_jvm_args != "":
         jvm_args = config.custom_jvm_args
         # no default args to set yet
@@ -47,7 +47,7 @@ def launch_linux(config):
         jvm_args = default_linux_args
     if "-Xmx" not in jvm_args:
         jvm_args += f" -Xmx{default_linux_xmx}M"
-    run_script = f"./{config.launch_dir}ZenithProxy {jvm_args}"
+    run_script = f"./{config.launch_dir}GangsProxy {jvm_args}"
     info(f"> {run_script}")
     _record_launch()
     before = time.time()
@@ -72,8 +72,8 @@ def launch_java(config):
     java_version = int(get_java_version_from_subprocess(java_executable))
     if platform.system() == "Windows":
         java_executable = '"' + java_executable.replace("/", "\\") + '"'
-    if not os.path.isfile(config.launch_dir + "ZenithProxy.jar"):
-        critical_error("ZenithProxy.jar not found")
+    if not os.path.isfile(config.launch_dir + "GangsProxy.jar"):
+        critical_error("GangsProxy.jar not found")
     if config.custom_jvm_args is not None and config.custom_jvm_args != "":
         jvm_args = config.custom_jvm_args
         # if jvm args only contain -Xmx<int><unit>, add default args
@@ -92,9 +92,9 @@ def launch_java(config):
     if "-Xmx" not in jvm_args:
         jvm_args += f" -Xmx{default_java_xmx}M"
     if platform.system() == "Windows":
-        jar_command = "-jar " + config.launch_dir.replace("/", "\\") + "ZenithProxy.jar"
+        jar_command = "-jar " + config.launch_dir.replace("/", "\\") + "GangsProxy.jar"
     else:
-        jar_command = "-jar " + config.launch_dir + "ZenithProxy.jar"
+        jar_command = "-jar " + config.launch_dir + "GangsProxy.jar"
     run_script = f"{java_executable} {jvm_args} {jar_command}"
     info(f"> {run_script}")
     _record_launch()
@@ -126,10 +126,10 @@ def launch_git(config):
         jvm_args += f" -Xmx{default_java_xmx}M"
     if platform.system() == "Windows":
         toolchain_command = ".\\build\\java_toolchain.bat"
-        jar_command = "-jar build\\libs\\ZenithProxy.jar"
+        jar_command = "-jar build\\libs\\GangsProxy.jar"
     else:
         toolchain_command = "./build/java_toolchain"
-        jar_command = "-jar build/libs/ZenithProxy.jar"
+        jar_command = "-jar build/libs/GangsProxy.jar"
     run_script = f"{toolchain_command} {jvm_args} {jar_command}"
     info(f"> {run_script}")
     _record_launch()
@@ -150,7 +150,7 @@ def launch_git(config):
 
 
 def launcher_exec(config):
-    info("Launching ZenithProxy...")
+    info("Launching GangsProxy...")
     check_bootloop()
     if config.release_channel == "git":
         launch_git(config)

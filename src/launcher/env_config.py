@@ -4,7 +4,7 @@ import time
 
 from log import error, info
 
-env_prefix = "ZENITH_CONFIG_"
+env_prefix = "GANGS_CONFIG_"
 
 def apply():
     info("Applying environment variables to config.json...")
