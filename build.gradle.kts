@@ -1,7 +1,7 @@
 plugins {
     `java-library`
-    id("org.graalvm.buildtools.native") version "1.1.3"
-    id("com.gradleup.shadow") version "9.4.3"
+    id("org.graalvm.buildtools.native") version "1.1.6"
+    id("com.gradleup.shadow") version "9.6.1"
     id("io.freefair.lombok") version "9.5.0"
     `maven-publish`
 }
@@ -32,9 +32,9 @@ repositories {
     mavenLocal()
 }
 
-val mcplVersion = "26.2.0.3"
+val mcplVersion = "26.2.0.8"
 dependencies {
-    api("com.github.rfresh2:JDA:6.4.32") {
+    api("com.github.rfresh2:JDA:6.5.35") {
         exclude(group = "club.minnced")
         exclude(group = "net.java.dev.jna")
         exclude(group = "com.google.crypto.tink")
@@ -64,7 +64,7 @@ dependencies {
         exclude(group = "io.netty")
     }
     api("com.github.rfresh2:SimpleEventBus:1.6")
-    val fastutilVersion = "8.5.16"
+    val fastutilVersion = "8.5.19"
     api("com.github.rfresh2.fastutil.maps:object-object-maps:$fastutilVersion")
     api("com.github.rfresh2.fastutil.maps:int-object-maps:$fastutilVersion")
     api("com.github.rfresh2.fastutil.maps:object-int-maps:$fastutilVersion")
@@ -77,30 +77,30 @@ dependencies {
     api("com.viaversion:viaversion-common:5.10.0")
     api("com.viaversion:viabackwards-common:5.10.0")
     api("com.viaversion:viarewind-common:4.1.2")
-    api("org.jline:jline:4.2.1")
+    api("org.jline:jline:4.3.1")
     api("ar.com.hjg:pngj:2.1.0")
     api("com.zaxxer:HikariCP:7.1.0")
-    api("org.postgresql:postgresql:42.7.12")
-    api("org.jdbi:jdbi3-postgres:3.53.0")
+    api("org.postgresql:postgresql:42.7.13")
+    api("org.jdbi:jdbi3-postgres:3.54.0")
     api("com.google.guava:guava:33.6.0-jre")
-    api("ch.qos.logback:logback-classic:1.5.37")
+    api("ch.qos.logback:logback-classic:1.6.1")
     api("org.slf4j:slf4j-api:2.0.18")
     api("org.slf4j:jul-to-slf4j:2.0.18")
     api("com.mojang:brigadier:1.3.10")
     api("net.kyori:adventure-text-logger-slf4j")
     api("dev.omega24:upnp4j:1.0")
-    api(platform("tools.jackson:jackson-bom:3.2.0"))
+    api(platform("tools.jackson:jackson-bom:3.2.1"))
     api("tools.jackson.core:jackson-databind")
     api("tools.jackson.dataformat:jackson-dataformat-smile")
 
-    testImplementation(platform("org.junit:junit-bom:6.1.1"))
+    testImplementation(platform("org.junit:junit-bom:6.1.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.testcontainers:testcontainers:2.0.5")
     testImplementation("org.testcontainers:testcontainers-junit-jupiter:2.0.5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     compileOnly("com.google.auto.service:auto-service-annotations:1.1.1")
     annotationProcessor("com.google.auto.service:auto-service:1.1.1")
-    compileOnly("org.graalvm.sdk:nativeimage:25.0.3")
+    compileOnly("org.graalvm.sdk:nativeimage:25.2.4")
 }
 
 lombok {
